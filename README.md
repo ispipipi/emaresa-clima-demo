@@ -17,10 +17,19 @@ npm install
 npm run dev
 ```
 
-## Build
+## Validaciones
 
 ```bash
+npm run lint
 npm run build
 ```
 
-El deploy de GitHub Pages sirve el sitio desde `/emaresa-clima-demo/`, configurado en `vite.config.ts`.
+## Deploy
+
+GitHub Pages sirve el sitio desde:
+
+```text
+https://ispipipi.github.io/emaresa-clima-demo/
+```
+
+La base publica esta configurada en `vite.config.ts` como `/emaresa-clima-demo/`.
