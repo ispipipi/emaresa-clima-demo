@@ -23,6 +23,11 @@ export function formatPlain(value: number | string) {
   }).format(value)
 }
 
+export function formatParticipation(respondidas: number | string, enviadas: number) {
+  if (typeof respondidas !== 'number' || enviadas === 0) return '-'
+  return formatPercent((respondidas / enviadas) * 100)
+}
+
 export function toneLabel(tone: Tone) {
   if (tone === 'green') return 'Favorable'
   if (tone === 'yellow') return 'Atención'

@@ -7,8 +7,20 @@ export function unitPath(unidad: string) {
   return `/unidad/${encodeURIComponent(unidad)}`
 }
 
+export function divisionPath(unidad: string, division: string) {
+  return `${unitPath(unidad)}/division/${encodeURIComponent(division)}`
+}
+
 export function findUnit(nombre: string | undefined): UnidadNegocio | undefined {
   if (!nombre) return undefined
   const decodedName = decodeURIComponent(nombre)
   return clima.unidades.find((unidad) => unidad.unidad === decodedName)
+}
+
+export function findDivision(unidadName: string | undefined, divisionName: string | undefined) {
+  const unidad = findUnit(unidadName)
+  if (!unidad || !divisionName) return undefined
+
+  const decodedName = decodeURIComponent(divisionName)
+  return unidad.divisiones.find((division) => division.nombre === decodedName)
 }

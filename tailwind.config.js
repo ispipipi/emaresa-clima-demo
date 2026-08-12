@@ -5,10 +5,12 @@ export default {
     extend: {
       colors: {
         emaresa: {
-          bg: '#FAF8FF',
+          bg: '#F2F4F5',
           card: '#FFFFFF',
           text: '#14151A',
-          blue: '#0055FF',
+          blue: '#0D4F88',
+          navy: '#0A3D6B',
+          gold: '#F6B51B',
           green: '#16A34A',
           greenBg: '#EAFBF1',
           yellow: '#CA8A04',

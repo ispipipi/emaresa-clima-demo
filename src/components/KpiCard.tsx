@@ -1,4 +1,4 @@
-import { formatPercent, resultTone, toneClasses } from '../lib/format'
+import { formatPercent, resultTone, toneClasses, toneLabel } from '../lib/format'
 
 interface KpiCardProps {
   label: string
@@ -23,7 +23,7 @@ export function KpiCard({
       <div className="flex items-start justify-between gap-4">
         <p className="text-sm font-medium text-slate-500">{label}</p>
         <span className={`rounded-full px-2 py-1 text-xs font-semibold ring-1 ${toneClasses(tone)}`}>
-          {neutral ? 'Demo' : '80/60'}
+          {neutral ? 'Conteo' : toneLabel(tone)}
         </span>
       </div>
       <p className="mt-4 font-display text-3xl font-extrabold text-emaresa-text">
