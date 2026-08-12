@@ -1,0 +1,2336 @@
+{
+  "global": {
+    "enviadas": 688,
+    "respondidas": 586,
+    "participacion": 85.17,
+    "resultado_global": 78.82,
+    "resultado_gestion_corporativa": 79.35,
+    "categorias": [
+      {
+        "categoria": "Orgullo y propósito",
+        "resultado": 90.78
+      },
+      {
+        "categoria": "Bienestar y equilibrio",
+        "resultado": 80.21
+      },
+      {
+        "categoria": "Colaboración",
+        "resultado": 78.04
+      },
+      {
+        "categoria": "Liderazgo y comunicación",
+        "resultado": 77.6
+      },
+      {
+        "categoria": "Equidad y reconocimiento",
+        "resultado": 70.48
+      }
+    ],
+    "top5": [
+      {
+        "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+        "categoria": "Orgullo y propósito",
+        "resultado": 90.6
+      },
+      {
+        "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+        "categoria": "Orgullo y propósito",
+        "resultado": 90.08
+      },
+      {
+        "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+        "categoria": "Equidad y reconocimiento",
+        "resultado": 88.78
+      },
+      {
+        "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+        "categoria": "Bienestar y equilibrio",
+        "resultado": 88.37
+      },
+      {
+        "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+        "categoria": "Colaboración",
+        "resultado": 82.37
+      }
+    ],
+    "bottom5": [
+      {
+        "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+        "categoria": "Equidad y reconocimiento",
+        "resultado": 51.02
+      },
+      {
+        "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+        "categoria": "Colaboración",
+        "resultado": 70.43
+      },
+      {
+        "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+        "categoria": "Liderazgo y comunicación",
+        "resultado": 71.49
+      },
+      {
+        "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+        "categoria": "Equidad y reconocimiento",
+        "resultado": 72.38
+      },
+      {
+        "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+        "categoria": "Bienestar y equilibrio",
+        "resultado": 76.79
+      }
+    ],
+    "ranking_unidades": [
+      {
+        "unidad": "Construcción",
+        "resultado": 88.83,
+        "participacion": 77.27,
+        "enviadas": 44,
+        "respondidas": 34
+      },
+      {
+        "unidad": "A&J",
+        "resultado": 87.08,
+        "participacion": 87.91,
+        "enviadas": 91,
+        "respondidas": 80
+      },
+      {
+        "unidad": "I&F",
+        "resultado": 84.73,
+        "participacion": 81.58,
+        "enviadas": 38,
+        "respondidas": 31
+      },
+      {
+        "unidad": "TI",
+        "resultado": 83.08,
+        "participacion": 81.25,
+        "enviadas": 16,
+        "respondidas": 13
+      },
+      {
+        "unidad": "Vapor",
+        "resultado": 82.19,
+        "participacion": 87.23,
+        "enviadas": 94,
+        "respondidas": 82
+      },
+      {
+        "unidad": "Finanzas",
+        "resultado": 81.33,
+        "participacion": 89.29,
+        "enviadas": 28,
+        "respondidas": 25
+      },
+      {
+        "unidad": "GGPP",
+        "resultado": 79.67,
+        "participacion": 90.91,
+        "enviadas": 22,
+        "respondidas": 20
+      },
+      {
+        "unidad": "CD",
+        "resultado": 78.69,
+        "participacion": 87.93,
+        "enviadas": 58,
+        "respondidas": 51
+      },
+      {
+        "unidad": "Ferretek",
+        "resultado": 77.33,
+        "participacion": 83.33,
+        "enviadas": 12,
+        "respondidas": 10
+      },
+      {
+        "unidad": "Contabilidad",
+        "resultado": 74.67,
+        "participacion": 100.0,
+        "enviadas": 10,
+        "respondidas": 10
+      },
+      {
+        "unidad": "Marketing",
+        "resultado": 74.29,
+        "participacion": 100.0,
+        "enviadas": 14,
+        "respondidas": 14
+      },
+      {
+        "unidad": "Fabricación",
+        "resultado": 74.14,
+        "participacion": 94.29,
+        "enviadas": 35,
+        "respondidas": 33
+      },
+      {
+        "unidad": "Control de Gestión",
+        "resultado": 72.22,
+        "participacion": 100.0,
+        "enviadas": 6,
+        "respondidas": 6
+      },
+      {
+        "unidad": "Rental",
+        "resultado": 71.59,
+        "participacion": 82.28,
+        "enviadas": 158,
+        "respondidas": 130
+      },
+      {
+        "unidad": "Izaje",
+        "resultado": 68.23,
+        "participacion": 75.81,
+        "enviadas": 62,
+        "respondidas": 47
+      }
+    ]
+  },
+  "unidades": [
+    {
+      "unidad": "A&J",
+      "enviadas": 91,
+      "respondidas": 80,
+      "participacion": 87.91,
+      "resultado_global": 87.08,
+      "resultado_gestion_corporativa": 90.5,
+      "divisiones": [
+        {
+          "nombre": "COMERCIALIZADORA E INMOBILIARIA SUR SPA",
+          "enviados": 6,
+          "respondidos": 4,
+          "resultado": 65
+        },
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 85,
+          "respondidos": 76,
+          "resultado": 88.25
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 95.0
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 90.0
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88.12
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 85.42
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 79.17
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 95
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 95
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 93.75
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 93.75
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 93.75
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 87.5
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 81.25
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 83.75
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 86.25
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 87.5
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 88.75
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90
+        }
+      ]
+    },
+    {
+      "unidad": "CD",
+      "enviadas": 58,
+      "respondidas": 51,
+      "participacion": 87.93,
+      "resultado_global": 78.69,
+      "resultado_gestion_corporativa": 78.43,
+      "divisiones": [
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 58,
+          "respondidos": 51,
+          "resultado": 78.69
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 91.18
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 82.35
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 78.43
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.96
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 69.28
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 92.16
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 90.2
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 88.24
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 88.24
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84.31
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 82.35
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 82.35
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 82.35
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.39
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80.39
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 39.22
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 68.63
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 70.59
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 74.51
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 76.47
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.39
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80.39
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 82.35
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 82.35
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 82.35
+        }
+      ]
+    },
+    {
+      "unidad": "Construcción",
+      "enviadas": 44,
+      "respondidas": 34,
+      "participacion": 77.27,
+      "resultado_global": 88.83,
+      "resultado_gestion_corporativa": 90.0,
+      "divisiones": [
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 44,
+          "respondidos": 34,
+          "resultado": 88.82
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 94.12
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 93.14
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88.97
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 85.3
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 84.32
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 97.06
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 94.12
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 94.12
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 94.12
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 94.12
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 94.12
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 91.18
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 70.59
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 70.59
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 79.41
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88.24
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 91.18
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 94.12
+        }
+      ]
+    },
+    {
+      "unidad": "Contabilidad",
+      "enviadas": 10,
+      "respondidas": 10,
+      "participacion": 100.0,
+      "resultado_global": 74.67,
+      "resultado_gestion_corporativa": 94.0,
+      "divisiones": [
+        {
+          "nombre": "EMARESA GESTION Y SERVICIOS",
+          "enviados": 10,
+          "respondidos": 10,
+          "resultado": 74.67
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 100.0
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 77.5
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 70.0
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 66.67
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100.0
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100.0
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90.0
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 90.0
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 70.0
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 60.0
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 50.0
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 70.0
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.0
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80.0
+        }
+      ]
+    },
+    {
+      "unidad": "Control de Gestión",
+      "enviadas": 6,
+      "respondidas": 6,
+      "participacion": 100.0,
+      "resultado_global": 72.22,
+      "resultado_gestion_corporativa": 56.67,
+      "divisiones": [
+        {
+          "nombre": "EMARESA GESTION Y SERVICIOS",
+          "enviados": 6,
+          "respondidos": 6,
+          "resultado": 72.22
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 100.0
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 77.78
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 72.22
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 70.84
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 50.0
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 33.33
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 50
+        },
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 50
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 50
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 66.67
+        }
+      ]
+    },
+    {
+      "unidad": "Fabricación",
+      "enviadas": 35,
+      "respondidas": 33,
+      "participacion": 94.29,
+      "resultado_global": 74.14,
+      "resultado_gestion_corporativa": 85.46,
+      "divisiones": [
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 35,
+          "respondidos": 33,
+          "resultado": 74.14
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 95.45
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 83.84
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 70.46
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 69.7
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 59.59
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 90.91
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 90.91
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 84.85
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 84.85
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 81.82
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 75.76
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 72.73
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 69.7
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 69.7
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 45.45
+        },
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 48.48
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 63.64
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 69.7
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 69.7
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 72.73
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 75.76
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 81.82
+        }
+      ]
+    },
+    {
+      "unidad": "Ferretek",
+      "enviadas": 12,
+      "respondidas": 10,
+      "participacion": 83.33,
+      "resultado_global": 77.33,
+      "resultado_gestion_corporativa": 80.0,
+      "divisiones": [
+        {
+          "nombre": "FERRETEK PLUS SPA",
+          "enviados": 12,
+          "respondidos": 10,
+          "resultado": 77.33
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.0
+        },
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 80.0
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 80.0
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 76.67
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 70.0
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 80
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 80
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 70
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 70
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 80
+        }
+      ]
+    },
+    {
+      "unidad": "Finanzas",
+      "enviadas": 28,
+      "respondidas": 25,
+      "participacion": 89.29,
+      "resultado_global": 81.33,
+      "resultado_gestion_corporativa": 79.2,
+      "divisiones": [
+        {
+          "nombre": "FINANZAS",
+          "enviados": 28,
+          "respondidos": 25,
+          "resultado": 81.33
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 88.0
+        },
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 86.0
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84.0
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 77.33
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 72.0
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 96
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 96
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 92
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 88
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 88
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 84
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 84
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 48
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 68
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 72
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 72
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 84
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 84
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 88
+        }
+      ]
+    },
+    {
+      "unidad": "GGPP",
+      "enviadas": 22,
+      "respondidas": 20,
+      "participacion": 90.91,
+      "resultado_global": 79.67,
+      "resultado_gestion_corporativa": 74.0,
+      "divisiones": [
+        {
+          "nombre": "EMARESA GESTION Y SERVICIOS",
+          "enviados": 22,
+          "respondidos": 20,
+          "resultado": 79.67
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 97.5
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 83.33
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 82.5
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 71.67
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 68.33
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 95
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 95
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 95
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 90
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 50
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 50
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 60
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 70
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 80
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90
+        }
+      ]
+    },
+    {
+      "unidad": "I&F",
+      "enviadas": 38,
+      "respondidas": 31,
+      "participacion": 81.58,
+      "resultado_global": 84.73,
+      "resultado_gestion_corporativa": 89.68,
+      "divisiones": [
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 35,
+          "respondidos": 29,
+          "resultado": 84.83
+        },
+        {
+          "nombre": "MAKTOTAL SPA",
+          "enviados": 3,
+          "respondidos": "-",
+          "resultado": "-"
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 95.16
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 87.1
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 86.29
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 79.57
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 78.5
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 96.77
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 93.55
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 90.32
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 90.32
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 87.1
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 83.87
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 83.87
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.65
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 80.65
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 70.97
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 74.19
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 77.42
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 80.65
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 80.65
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 80.65
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 80.65
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 83.87
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 83.87
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 87.1
+        }
+      ]
+    },
+    {
+      "unidad": "Izaje",
+      "enviadas": 62,
+      "respondidas": 47,
+      "participacion": 75.81,
+      "resultado_global": 68.23,
+      "resultado_gestion_corporativa": 69.79,
+      "divisiones": [
+        {
+          "nombre": "INAMAR IZAJE SPA",
+          "enviados": 62,
+          "respondidos": 47,
+          "resultado": 68.23
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 81.91
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 70.21
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 66.67
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 65.25
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 63.3
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 85.11
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 85.11
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 78.72
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 78.72
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 74.47
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 74.47
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 70.21
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 68.09
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 65.96
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 63.83
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 46.81
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 51.06
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 57.45
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 59.57
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 63.83
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 63.83
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 65.96
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 68.09
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 70.21
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 74.47
+        }
+      ]
+    },
+    {
+      "unidad": "Marketing",
+      "enviadas": 14,
+      "respondidas": 14,
+      "participacion": 100.0,
+      "resultado_global": 74.29,
+      "resultado_gestion_corporativa": 68.57,
+      "divisiones": [
+        {
+          "nombre": "EMARESA GESTION Y SERVICIOS",
+          "enviados": 14,
+          "respondidos": 14,
+          "resultado": 74.29
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 82.14
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 78.57
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 75.0
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 73.81
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 64.29
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 92.86
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 92.86
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 92.86
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 85.71
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 85.71
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 71.43
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 35.71
+        },
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 42.86
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 64.29
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 64.29
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 71.43
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 71.43
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 78.57
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 78.57
+        }
+      ]
+    },
+    {
+      "unidad": "Rental",
+      "enviadas": 158,
+      "respondidas": 130,
+      "participacion": 82.28,
+      "resultado_global": 71.59,
+      "resultado_gestion_corporativa": 70.77,
+      "divisiones": [
+        {
+          "nombre": "EMARESA S.A.",
+          "enviados": 158,
+          "respondidos": 130,
+          "resultado": 71.59
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 88.46
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 74.36
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 72.31
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 68.84
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60.51
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 90.0
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 86.92
+        },
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 83.08
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 83.08
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 81.54
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 73.85
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 69.23
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 66.15
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 38.46
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 59.23
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 60.0
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 63.08
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 65.38
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 66.15
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 69.23
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 73.85
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 76.92
+        }
+      ]
+    },
+    {
+      "unidad": "TI",
+      "enviadas": 16,
+      "respondidas": 13,
+      "participacion": 81.25,
+      "resultado_global": 83.08,
+      "resultado_gestion_corporativa": 84.62,
+      "divisiones": [
+        {
+          "nombre": "EMARESA GESTION Y SERVICIOS",
+          "enviados": 16,
+          "respondidos": 13,
+          "resultado": 83.08
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 96.16
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 82.69
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 82.05
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 82.05
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 76.92
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 100
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 92.31
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 92.31
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 92.31
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84.62
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 84.62
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 53.85
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 69.23
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 69.23
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 76.92
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 84.62
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 84.62
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 92.31
+        }
+      ]
+    },
+    {
+      "unidad": "Vapor",
+      "enviadas": 94,
+      "respondidas": 82,
+      "participacion": 87.23,
+      "resultado_global": 82.19,
+      "resultado_gestion_corporativa": 79.51,
+      "divisiones": [
+        {
+          "nombre": "MAESTRANZA INAMAR VAPOR SPA",
+          "enviados": 94,
+          "respondidos": 82,
+          "resultado": 82.2
+        }
+      ],
+      "categorias": [
+        {
+          "categoria": "Orgullo y propósito",
+          "resultado": 90.24
+        },
+        {
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 87.81
+        },
+        {
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 81.4
+        },
+        {
+          "categoria": "Colaboración",
+          "resultado": 80.08
+        },
+        {
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 74.39
+        }
+      ],
+      "top10": [
+        {
+          "pregunta": "Soy tratado/a con respeto independientemente de mi cargo o función.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 92.68
+        },
+        {
+          "pregunta": "Cuento con flexibilidad razonable para responder a imprevistos personales.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 92.68
+        },
+        {
+          "pregunta": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 91.46
+        },
+        {
+          "pregunta": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 90.24
+        },
+        {
+          "pregunta": "Me identifico con los valores y el propósito de la empresa.",
+          "categoria": "Orgullo y propósito",
+          "resultado": 89.02
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 87.8
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 86.59
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 85.37
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 85.37
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 79.27
+        }
+      ],
+      "bottom10": [
+        {
+          "pregunta": "Considero que mi compensación es justa en relación con mis responsabilidades.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 57.32
+        },
+        {
+          "pregunta": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 69.51
+        },
+        {
+          "pregunta": "Mi jefatura reconoce el buen trabajo y el esfuerzo.",
+          "categoria": "Equidad y reconocimiento",
+          "resultado": 73.17
+        },
+        {
+          "pregunta": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.",
+          "categoria": "Colaboración",
+          "resultado": 74.39
+        },
+        {
+          "pregunta": "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 78.05
+        },
+        {
+          "pregunta": "En mi equipo existe colaboración y apoyo mutuo.",
+          "categoria": "Colaboración",
+          "resultado": 79.27
+        },
+        {
+          "pregunta": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 85.37
+        },
+        {
+          "pregunta": "Mi carga de trabajo es sostenible en el tiempo.",
+          "categoria": "Bienestar y equilibrio",
+          "resultado": 85.37
+        },
+        {
+          "pregunta": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.",
+          "categoria": "Colaboración",
+          "resultado": 86.59
+        },
+        {
+          "pregunta": "Confío en que los líderes de mi unidad de negocio actúan de manera ética.",
+          "categoria": "Liderazgo y comunicación",
+          "resultado": 87.8
+        }
+      ]
+    }
+  ]
+}
