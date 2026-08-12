@@ -14,3 +14,9 @@
 - Agrega la vista de Gestión Corporativa por mes y equipo.
 - Publica los PDF originales de A&J y Gestión Corporativa para descarga directa.
 - Documenta que la integración BUK aún requiere acceso técnico y credenciales de servidor.
+
+## 0.3.0 - 2026-08-12
+
+- Conecta la sincronización de estructura organizacional con BUK durante el build.
+- Agrega drilldown de empresa, área y subárea con conteos agregados.
+- Excluye datos personales y contractuales del snapshot publicado.

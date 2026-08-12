@@ -30,7 +30,15 @@ La aplicación navega desde Grupo Emaresa hasta la unidad de negocio y la divisi
 
 ## Integración BUK
 
-Esta versión no está conectada a la API de BUK. El dashboard usa el dataset estático de `src/data/clima.json`. Para conectar BUK se necesitan el ambiente/base URL, endpoints de personas y estructura organizacional, método de autenticación y permisos; los secretos deberán resolverse del lado servidor y no exponerse en variables `VITE_*`.
+La organización se sincroniza durante el build desde `https://emaresa.buk.cl/api/v1/chile` usando `BUK_API_TOKEN` como secreto de GitHub Actions. El snapshot publicado contiene solo empresas, áreas, subáreas y conteos agregados de personas activas; no contiene nombres, RUT, correos ni fichas personales. La API Key no se guarda en el repositorio ni se expone como variable `VITE_*`.
+
+El workflow también corre una sincronización programada diariamente, además de ejecutarse con cada publicación manual o cambio en `main`.
+
+Para sincronizar localmente:
+
+```bash
+BUK_API_TOKEN=... npm run sync:buk
+```
 
 ## Deploy
 

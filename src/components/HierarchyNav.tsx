@@ -12,7 +12,9 @@ export function HierarchyNav({ activeUnit, activeDivision }: HierarchyNavProps) 
   const [mobileOpen, setMobileOpen] = useState(false)
   const activeLabel = activeDivision === 'corporativo'
     ? 'Gestión Corporativa'
-    : activeDivision ?? activeUnit ?? 'Grupo Emaresa'
+    : activeDivision === 'organizacion'
+      ? 'Organización BUK'
+      : activeDivision ?? activeUnit ?? 'Grupo Emaresa'
 
   return (
     <nav className="rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200/80" aria-label="Jerarquía organizacional">
@@ -100,6 +102,14 @@ export function HierarchyNav({ activeUnit, activeDivision }: HierarchyNavProps) 
             <span className="text-xs font-semibold text-slate-400">
               {formatPercent(clima.global.resultado_gestion_corporativa)}
             </span>
+          </Link>
+
+          <Link
+            to="/organizacion"
+            className={`mt-4 flex items-center justify-between rounded-md border-t border-slate-200 px-2 pt-4 text-sm font-bold ${activeDivision === 'organizacion' ? 'text-emaresa-blue' : 'text-slate-700 hover:text-emaresa-blue'}`}
+          >
+            <span>Organización BUK</span>
+            <span className="text-xs font-semibold text-slate-400">-&gt;</span>
           </Link>
         </div>
 

@@ -5,6 +5,8 @@ on:
     branches:
       - main
   workflow_dispatch:
+  schedule:
+    - cron: '15 6 * * *'
 
 permissions:
   contents: read
@@ -30,6 +32,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Sync BUK organization snapshot
+        env:
+          BUK_API_BASE_URL: https://emaresa.buk.cl/api/v1/chile
+          BUK_API_TOKEN: ${{ secrets.BUK_API_TOKEN }}
+        run: npm run sync:buk
 
       - name: Build
         run: npm run build

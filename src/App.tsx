@@ -4,6 +4,7 @@ import { HomePage } from './pages/HomePage'
 import { UnitDetailPage } from './pages/UnitDetailPage'
 import { DivisionDetailPage } from './pages/DivisionDetailPage'
 import { CorporatePage } from './pages/CorporatePage'
+import { OrganizationPage } from './pages/OrganizationPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/gestion-corporativa" element={<CorporatePage />} />
+        <Route path="/organizacion" element={<OrganizationPage />} />
         <Route path="/unidad/:nombre/division/:division" element={<DivisionDetailPage />} />
         <Route path="/unidad/:nombre" element={<UnitDetailPage />} />
         <Route path="*" element={<HomePage />} />

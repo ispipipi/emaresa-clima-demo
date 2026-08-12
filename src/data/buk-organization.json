@@ -1,0 +1,1572 @@
+{
+  "source": "buk",
+  "instance": "https://emaresa.buk.cl",
+  "generatedAt": "2026-08-12T13:34:19.444Z",
+  "companyCount": 7,
+  "employeeCount": 735,
+  "areaCount": 261,
+  "companies": [
+    {
+      "id": 1,
+      "name": "EMARESA S.A",
+      "employeeCount": 438,
+      "areas": [
+        {
+          "id": 409,
+          "name": "EMARESA S.A.",
+          "depth": 0,
+          "employeeCount": 438,
+          "children": [
+            {
+              "id": 417,
+              "name": "FABRICACION",
+              "depth": 1,
+              "employeeCount": 40,
+              "children": [
+                {
+                  "id": 47,
+                  "name": "ADMINISTRACIÓN",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": [
+                    {
+                      "id": 48,
+                      "name": "DISEÑO",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 49,
+                  "name": "PRODUCCION",
+                  "depth": 2,
+                  "employeeCount": 32,
+                  "children": [
+                    {
+                      "id": 50,
+                      "name": "PRODUCCION 1",
+                      "depth": 3,
+                      "employeeCount": 30,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 135,
+                  "name": "FABRICACION",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 418,
+              "name": "GERENCIA ADMINISTRACIÓN Y FINANZAS",
+              "depth": 1,
+              "employeeCount": 56,
+              "children": [
+                {
+                  "id": 51,
+                  "name": "SUBGERENCIA DE LOGISTICA",
+                  "depth": 2,
+                  "employeeCount": 56,
+                  "children": [
+                    {
+                      "id": 52,
+                      "name": "PRODUCCION REPUESTOS",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 53,
+                      "name": "PRODUCCION MAQUINAS",
+                      "depth": 3,
+                      "employeeCount": 6,
+                      "children": []
+                    },
+                    {
+                      "id": 54,
+                      "name": "ALMACENAMIENTO EXPORTACIONES",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 55,
+                      "name": "DESPACHO",
+                      "depth": 3,
+                      "employeeCount": 28,
+                      "children": []
+                    },
+                    {
+                      "id": 443,
+                      "name": "SUBGERENCIA DE LOGISTICA",
+                      "depth": 3,
+                      "employeeCount": 14,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 420,
+              "name": "GERENCIA GESTION DE PERSONAS",
+              "depth": 1,
+              "employeeCount": 3,
+              "children": [
+                {
+                  "id": 57,
+                  "name": "PREVENCION DE RIESGOS",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 421,
+              "name": "U.N. AGROFORESTAL Y JARDINES",
+              "depth": 1,
+              "employeeCount": 87,
+              "children": [
+                {
+                  "id": 58,
+                  "name": "LINEA FORESTAL",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 59,
+                  "name": "LINEA AGROFORESTAL",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                },
+                {
+                  "id": 60,
+                  "name": "ADMINISTRACIÓN",
+                  "depth": 2,
+                  "employeeCount": 11,
+                  "children": []
+                },
+                {
+                  "id": 61,
+                  "name": "LINEA AREAS VERDES",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 62,
+                  "name": "SERVICIO TECNICO",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                },
+                {
+                  "id": 63,
+                  "name": "CANAL DISTRIBUCION",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": [
+                    {
+                      "id": 64,
+                      "name": "DISTRIBUIDORES CENTRO NORTE",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 65,
+                      "name": "DISTRIBUIDORES SUR",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 66,
+                  "name": "CANAL FERRETERÍAS",
+                  "depth": 2,
+                  "employeeCount": 14,
+                  "children": []
+                },
+                {
+                  "id": 67,
+                  "name": "CANAL GRANDES SUPERFICIES",
+                  "depth": 2,
+                  "employeeCount": 47,
+                  "children": [
+                    {
+                      "id": 68,
+                      "name": "ZONA METROPOLITANA",
+                      "depth": 3,
+                      "employeeCount": 11,
+                      "children": []
+                    },
+                    {
+                      "id": 69,
+                      "name": "ZONA AUSTRAL",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 70,
+                      "name": "ZONA NORTE",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 71,
+                      "name": "ZONA SUR",
+                      "depth": 3,
+                      "employeeCount": 10,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 422,
+              "name": "U.N. CONSTRUCCION",
+              "depth": 1,
+              "employeeCount": 50,
+              "children": [
+                {
+                  "id": 72,
+                  "name": "LINEA FUERZA",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                },
+                {
+                  "id": 73,
+                  "name": "LINEA EQUIPOS",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                },
+                {
+                  "id": 74,
+                  "name": "FUERZA DE VENTAS",
+                  "depth": 2,
+                  "employeeCount": 11,
+                  "children": []
+                },
+                {
+                  "id": 75,
+                  "name": "LINEA GEOSINTETICOS",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": []
+                },
+                {
+                  "id": 76,
+                  "name": "SERVICIO TECNICO",
+                  "depth": 2,
+                  "employeeCount": 11,
+                  "children": []
+                },
+                {
+                  "id": 134,
+                  "name": "ADMINISTRACION",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                },
+                {
+                  "id": 1152,
+                  "name": "REPUESTOS",
+                  "depth": 2,
+                  "employeeCount": 6,
+                  "children": []
+                },
+                {
+                  "id": 1153,
+                  "name": "XCMG EQUIPOS",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                },
+                {
+                  "id": 1154,
+                  "name": "XCMG REPUESTOS",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                },
+                {
+                  "id": 1155,
+                  "name": "XCMG SERVICIO TECNICO",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 423,
+              "name": "U.N. INDUSTRIA Y FERRETERIA",
+              "depth": 1,
+              "employeeCount": 34,
+              "children": [
+                {
+                  "id": 77,
+                  "name": "ADMINISTRACIÓN",
+                  "depth": 2,
+                  "employeeCount": 15,
+                  "children": []
+                },
+                {
+                  "id": 78,
+                  "name": "FUERZA DE VENTAS",
+                  "depth": 2,
+                  "employeeCount": 14,
+                  "children": [
+                    {
+                      "id": 79,
+                      "name": "PROMOCIONES",
+                      "depth": 3,
+                      "employeeCount": 13,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 80,
+                  "name": "SERVICIO TECNICO",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 424,
+              "name": "UN. EMARESA RENTAL",
+              "depth": 1,
+              "employeeCount": 168,
+              "children": [
+                {
+                  "id": 81,
+                  "name": "SERVICIO TECNICO RENTAL",
+                  "depth": 2,
+                  "employeeCount": 100,
+                  "children": [
+                    {
+                      "id": 82,
+                      "name": "SERVICIO TECNICO ZONA CENTRO",
+                      "depth": 3,
+                      "employeeCount": 30,
+                      "children": []
+                    },
+                    {
+                      "id": 83,
+                      "name": "ADMINISTRACIÓN",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": [
+                        {
+                          "id": 84,
+                          "name": "SERVICIO TECNICO",
+                          "depth": 4,
+                          "employeeCount": 2,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 90,
+                      "name": "SUCURSAL COPIAPO",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 91,
+                      "name": "SUCURSAL IQUIQUE",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 95,
+                      "name": "SUCURSAL PUERTO MONTT",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 96,
+                      "name": "SUCURSAL RANCAGUA",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 97,
+                      "name": "SUCURSAL VIÑA DEL MAR",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 99,
+                      "name": "ADMINISTRACION RENTAL",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 100,
+                      "name": "SERVICIO TECNICO ZONA NORTE",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 104,
+                      "name": "SUCURSAL ANTOFAGASTA",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 105,
+                      "name": "SUCURSAL CALAMA",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 108,
+                      "name": "SUCURSAL CONCEPCION",
+                      "depth": 3,
+                      "employeeCount": 6,
+                      "children": []
+                    },
+                    {
+                      "id": 113,
+                      "name": "SUCURSAL LA SERENA",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 120,
+                      "name": "SUCURSAL SANTIAGO",
+                      "depth": 3,
+                      "employeeCount": 21,
+                      "children": []
+                    },
+                    {
+                      "id": 123,
+                      "name": "SUCURSAL SANTIAGO NORTE",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 126,
+                      "name": "SUCURSAL TALCA",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 129,
+                      "name": "SUCURSAL TEMUCO",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 591,
+                      "name": "SUCURSAL LOS ANGELES",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 85,
+                  "name": "ADMINISTRACIÓN",
+                  "depth": 2,
+                  "employeeCount": 20,
+                  "children": [
+                    {
+                      "id": 86,
+                      "name": "SUCURSAL CALAMA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 87,
+                      "name": "SUCURSAL COPIAPO",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 92,
+                      "name": "SUCURSAL IQUIQUE",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 102,
+                      "name": "SUCURSAL ANTOFAGASTA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 111,
+                      "name": "SUCURSAL LA SERENA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 114,
+                      "name": "SUCURSAL PUERTO MONTT",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 115,
+                      "name": "SUCURSAL RANCAGUA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 118,
+                      "name": "SUCURSAL SANTIAGO",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 121,
+                      "name": "SUCURSAL SANTIAGO NORTE",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 124,
+                      "name": "SUCURSAL TALCA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 127,
+                      "name": "SUCURSAL TEMUCO",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 130,
+                      "name": "SUCURSAL VIÑA DEL MAR",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 592,
+                      "name": "SUCURSAL LOS ANGELES",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 88,
+                  "name": "FUERZA VENTAS ZONA NORTE",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": [
+                    {
+                      "id": 89,
+                      "name": "SUCURSAL CALAMA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 103,
+                      "name": "SUCURSAL ANTOFAGASTA",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 109,
+                      "name": "SUCURSAL COPIAPO",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 110,
+                      "name": "SUCURSAL IQUIQUE",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 112,
+                      "name": "SUCURSAL LA SERENA",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 93,
+                  "name": "FUERZA VENTAS ZONA SUR",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": [
+                    {
+                      "id": 94,
+                      "name": "SUCURSAL PUERTO MONTT",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 107,
+                      "name": "SUCURSAL CONCEPCION",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    },
+                    {
+                      "id": 125,
+                      "name": "SUCURSAL TALCA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 128,
+                      "name": "SUCURSAL TEMUCO",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 558,
+                      "name": "SUCURSAL LOS ANGELES",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 116,
+                  "name": "FUERZA VENTAS ZONA CENTRO",
+                  "depth": 2,
+                  "employeeCount": 9,
+                  "children": [
+                    {
+                      "id": 117,
+                      "name": "SUCURSAL RANCAGUA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 119,
+                      "name": "SUCURSAL SANTIAGO",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 122,
+                      "name": "SUCURSAL SANTIAGO NORTE",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    },
+                    {
+                      "id": 131,
+                      "name": "SUCURSAL VIÑA DEL MAR",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 132,
+                  "name": "ADMINISTRACION RENTAL",
+                  "depth": 2,
+                  "employeeCount": 23,
+                  "children": []
+                },
+                {
+                  "id": 133,
+                  "name": "PARQUE ARRIENDO EQUIPOS",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "EMARESA GESTION Y SERVICIOS SPA",
+      "employeeCount": 108,
+      "areas": [
+        {
+          "id": 413,
+          "name": "EMARESA GESTION Y SERVICIOS",
+          "depth": 0,
+          "employeeCount": 108,
+          "children": [
+            {
+              "id": 414,
+              "name": "GERENCIA ADMINISTRACIÓN Y FINANZAS",
+              "depth": 1,
+              "employeeCount": 65,
+              "children": [
+                {
+                  "id": 18,
+                  "name": "SUBGERENCIA CONTABILIDAD E IMPUESTOS",
+                  "depth": 2,
+                  "employeeCount": 12,
+                  "children": [
+                    {
+                      "id": 459,
+                      "name": "SUBGERENCIA DE CONTABILIDAD E IMPUESTOS",
+                      "depth": 3,
+                      "employeeCount": 12,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 21,
+                  "name": "SUBGERENCIA CONTROL GESTION Y PROCESOS",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": []
+                },
+                {
+                  "id": 22,
+                  "name": "SUBGERENCIA DE LOGISTICA",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": [
+                    {
+                      "id": 23,
+                      "name": "BODEGA LA DIVISA",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 24,
+                      "name": "CENTRO DE DISTRIBUCION",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 25,
+                  "name": "SUBGERENCIA FINANZAS",
+                  "depth": 2,
+                  "employeeCount": 26,
+                  "children": [
+                    {
+                      "id": 26,
+                      "name": "ABASTECIMIENTO",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 27,
+                      "name": "CREDITO Y COBRANZAS",
+                      "depth": 3,
+                      "employeeCount": 7,
+                      "children": []
+                    },
+                    {
+                      "id": 29,
+                      "name": "TESORERIA",
+                      "depth": 3,
+                      "employeeCount": 8,
+                      "children": [
+                        {
+                          "id": 168,
+                          "name": "ANÁLISIS DE CUENTAS",
+                          "depth": 4,
+                          "employeeCount": 5,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 167,
+                      "name": "COMERCIO EXTERIOR",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 446,
+                      "name": "ANALISIS FINANCIERO",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 30,
+                  "name": "SUBGERENCIA TI",
+                  "depth": 2,
+                  "employeeCount": 17,
+                  "children": [
+                    {
+                      "id": 32,
+                      "name": "DESARROLLO Y MANTENCION",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 33,
+                      "name": "OPERACIONES TI",
+                      "depth": 3,
+                      "employeeCount": 6,
+                      "children": []
+                    },
+                    {
+                      "id": 34,
+                      "name": "PROYECTOS TI",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    },
+                    {
+                      "id": 1086,
+                      "name": "SUBGERENCIA T.I",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 415,
+              "name": "GERENCIA GENERAL CORPORATIVA",
+              "depth": 1,
+              "employeeCount": 7,
+              "children": [
+                {
+                  "id": 35,
+                  "name": "AUDITORIA INTERNA",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                },
+                {
+                  "id": 165,
+                  "name": "GERENCIA GENERAL CORPORATIVA",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 416,
+              "name": "GERENCIA CORPORATIVA GESTION DE PERSONAS",
+              "depth": 1,
+              "employeeCount": 23,
+              "children": [
+                {
+                  "id": 36,
+                  "name": "DESARROLLO ORGANIZACIONAL",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                },
+                {
+                  "id": 37,
+                  "name": "RECEPCION SANTA ADELA",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 38,
+                  "name": "PREVENCION DE RIESGOS Y MEDIO AMBIENTE",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 39,
+                  "name": "SERVICIOS GENERALES",
+                  "depth": 2,
+                  "employeeCount": 9,
+                  "children": [
+                    {
+                      "id": 40,
+                      "name": "MANTENCION E INFRAESTRUCTURA",
+                      "depth": 3,
+                      "employeeCount": 9,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 41,
+                  "name": "RECEPCION LA DIVISA",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 42,
+                  "name": "SUBGERENCIA ADMINISTRACIÓN DE RRHH",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": [
+                    {
+                      "id": 44,
+                      "name": "ADMINISTRACIÓN DE PERSONAL",
+                      "depth": 3,
+                      "employeeCount": 4,
+                      "children": []
+                    },
+                    {
+                      "id": 45,
+                      "name": "BENEFICIOS",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 46,
+                      "name": "REMUNERACIONES",
+                      "depth": 3,
+                      "employeeCount": 2,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 164,
+                  "name": "GERENCIA GESTION DE PERSONAS",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 954,
+              "name": "GERENCIA CORPORATIVA DE MARKETING",
+              "depth": 1,
+              "employeeCount": 13,
+              "children": [
+                {
+                  "id": 955,
+                  "name": "GERENCIA CORPORATIVA MARKETING",
+                  "depth": 2,
+                  "employeeCount": 13,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "MAKTOTAL SPA",
+      "employeeCount": 3,
+      "areas": [
+        {
+          "id": 410,
+          "name": "MAKTOTAL SPA",
+          "depth": 0,
+          "employeeCount": 3,
+          "children": [
+            {
+              "id": 426,
+              "name": "UN. Industrial Maktotal",
+              "depth": 1,
+              "employeeCount": 3,
+              "children": [
+                {
+                  "id": 272,
+                  "name": "ADMINISTRACION",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 394,
+                  "name": "VENTAS",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "INAMAR IZAJE SPA",
+      "employeeCount": 63,
+      "areas": [
+        {
+          "id": 412,
+          "name": "INAMAR IZAJE SPA",
+          "depth": 0,
+          "employeeCount": 63,
+          "children": [
+            {
+              "id": 425,
+              "name": "GERENCIA GESTION PERSONAS CORPORATIVO",
+              "depth": 1,
+              "employeeCount": 1,
+              "children": [
+                {
+                  "id": 369,
+                  "name": "PREVENCION DE RIESGOS Y MEDIO AMBIENTE",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 432,
+              "name": "GERENCIA COMERCIAL IZAJE",
+              "depth": 1,
+              "employeeCount": 62,
+              "children": [
+                {
+                  "id": 363,
+                  "name": "GERENCIA SERVICIO TECNICO",
+                  "depth": 2,
+                  "employeeCount": 28,
+                  "children": [
+                    {
+                      "id": 364,
+                      "name": "UNIDAD TECNICA",
+                      "depth": 3,
+                      "employeeCount": 23,
+                      "children": [
+                        {
+                          "id": 368,
+                          "name": "ZONA NORTE",
+                          "depth": 4,
+                          "employeeCount": 1,
+                          "children": []
+                        },
+                        {
+                          "id": 372,
+                          "name": "OPERACIONES Y COSTOS",
+                          "depth": 4,
+                          "employeeCount": 17,
+                          "children": []
+                        },
+                        {
+                          "id": 493,
+                          "name": "CONTRATO SOFTYS",
+                          "depth": 4,
+                          "employeeCount": 5,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 888,
+                      "name": "MINISTRO HALES",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 373,
+                  "name": "VENTAS",
+                  "depth": 2,
+                  "employeeCount": 10,
+                  "children": []
+                },
+                {
+                  "id": 381,
+                  "name": "BACK OFFICE",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                },
+                {
+                  "id": 382,
+                  "name": "DIVISION IZAJE 2 (Equipos y accesorios)",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                },
+                {
+                  "id": 444,
+                  "name": "PUENTES GRUA",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 921,
+                  "name": "Candelaria",
+                  "depth": 2,
+                  "employeeCount": 13,
+                  "children": []
+                },
+                {
+                  "id": 1020,
+                  "name": "Sensorización",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 1119,
+                  "name": "ACCESORIOS",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "MAESTRANZA INAMAR VAPOR SPA",
+      "employeeCount": 100,
+      "areas": [
+        {
+          "id": 411,
+          "name": "MAESTRANZA INAMAR VAPOR SPA",
+          "depth": 0,
+          "employeeCount": 100,
+          "children": [
+            {
+              "id": 427,
+              "name": "GERENCIA DE OPERACIONES",
+              "depth": 1,
+              "employeeCount": 68,
+              "children": [
+                {
+                  "id": 297,
+                  "name": "PROD. VISA",
+                  "depth": 2,
+                  "employeeCount": 39,
+                  "children": [
+                    {
+                      "id": 298,
+                      "name": "PRODUCCION",
+                      "depth": 3,
+                      "employeeCount": 24,
+                      "children": [
+                        {
+                          "id": 299,
+                          "name": "SOLDADURA",
+                          "depth": 4,
+                          "employeeCount": 6,
+                          "children": []
+                        },
+                        {
+                          "id": 304,
+                          "name": "ARMADO",
+                          "depth": 4,
+                          "employeeCount": 7,
+                          "children": [
+                            {
+                              "id": 315,
+                              "name": "MOVILIZACION",
+                              "depth": 5,
+                              "employeeCount": 2,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": 305,
+                          "name": "ELECTRICA",
+                          "depth": 4,
+                          "employeeCount": 2,
+                          "children": []
+                        },
+                        {
+                          "id": 308,
+                          "name": "MECANICA",
+                          "depth": 4,
+                          "employeeCount": 4,
+                          "children": []
+                        },
+                        {
+                          "id": 317,
+                          "name": "RECUBRIMIENTO Y PINTURA",
+                          "depth": 4,
+                          "employeeCount": 2,
+                          "children": []
+                        },
+                        {
+                          "id": 387,
+                          "name": "PRODUCCIÓN",
+                          "depth": 4,
+                          "employeeCount": 3,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 306,
+                      "name": "MANTENCION",
+                      "depth": 3,
+                      "employeeCount": 1,
+                      "children": []
+                    },
+                    {
+                      "id": 309,
+                      "name": "PLANIFICACION",
+                      "depth": 3,
+                      "employeeCount": 13,
+                      "children": [
+                        {
+                          "id": 311,
+                          "name": "ADMINISTRACION Y CONTROL PRODUCCION",
+                          "depth": 4,
+                          "employeeCount": 3,
+                          "children": []
+                        },
+                        {
+                          "id": 312,
+                          "name": "PREPARACION MATERIALES",
+                          "depth": 4,
+                          "employeeCount": 7,
+                          "children": []
+                        },
+                        {
+                          "id": 447,
+                          "name": "PLANIFICACION",
+                          "depth": 4,
+                          "employeeCount": 3,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 300,
+                  "name": "GLP",
+                  "depth": 2,
+                  "employeeCount": 25,
+                  "children": [
+                    {
+                      "id": 301,
+                      "name": "PRODUCCION ESTANQUES",
+                      "depth": 3,
+                      "employeeCount": 21,
+                      "children": [
+                        {
+                          "id": 313,
+                          "name": "PREPARACION MATERIALES GLP",
+                          "depth": 4,
+                          "employeeCount": 4,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 314,
+                      "name": "CERTIFICACION Y DESPACHO",
+                      "depth": 3,
+                      "employeeCount": 3,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 397,
+                  "name": "MONTAJE",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 398,
+                  "name": "ELECTRICA",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 428,
+              "name": "GERENCIA GENERAL",
+              "depth": 1,
+              "employeeCount": 7,
+              "children": [
+                {
+                  "id": 302,
+                  "name": "PROD. VISA",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": [
+                    {
+                      "id": 303,
+                      "name": "ASEGURAMIENTO DE CALIDAD",
+                      "depth": 3,
+                      "employeeCount": 5,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 316,
+                  "name": "GLP",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 396,
+                  "name": "GERENCIA GENERAL",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 429,
+              "name": "GERENCIA GESTION PERSONAS CORPORATIVO",
+              "depth": 1,
+              "employeeCount": 4,
+              "children": [
+                {
+                  "id": 307,
+                  "name": "PREVENCION DE RIESGOS Y MEDIO AMBIENTE",
+                  "depth": 2,
+                  "employeeCount": 4,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 430,
+              "name": "LOGISTICA",
+              "depth": 1,
+              "employeeCount": 5,
+              "children": [
+                {
+                  "id": 310,
+                  "name": "BODEGA",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 431,
+              "name": "GERENCIA INGENIERIA Y PROYECTOS",
+              "depth": 1,
+              "employeeCount": 8,
+              "children": [
+                {
+                  "id": 399,
+                  "name": "INGENIERIA",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                },
+                {
+                  "id": 400,
+                  "name": "PROYECTOS",
+                  "depth": 2,
+                  "employeeCount": 3,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 433,
+              "name": "GERENCIA COMERCIAL CALDERERIA Y EQUIPOS",
+              "depth": 1,
+              "employeeCount": 8,
+              "children": [
+                {
+                  "id": 401,
+                  "name": "PRESUPUESTO",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                },
+                {
+                  "id": 402,
+                  "name": "OPERACIONES",
+                  "depth": 2,
+                  "employeeCount": 2,
+                  "children": []
+                },
+                {
+                  "id": 403,
+                  "name": "OPERACIONES",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "FERRETEK PLUS SPA",
+      "employeeCount": 16,
+      "areas": [
+        {
+          "id": 448,
+          "name": "FERRETEK PLUS SPA",
+          "depth": 0,
+          "employeeCount": 16,
+          "children": [
+            {
+              "id": 449,
+              "name": "GERENCIA GENERAL",
+              "depth": 1,
+              "employeeCount": 16,
+              "children": [
+                {
+                  "id": 450,
+                  "name": "CASA MATRIZ FERRETEK",
+                  "depth": 2,
+                  "employeeCount": 5,
+                  "children": []
+                },
+                {
+                  "id": 451,
+                  "name": "SUCURSAL ENEA",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": []
+                },
+                {
+                  "id": 452,
+                  "name": "SUCURSAL HUECHURABA",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 455,
+                  "name": "SUCURSAL VITACURA",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 456,
+                  "name": "SUCURSAL PUERTO VARAS",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                },
+                {
+                  "id": 458,
+                  "name": "CANAL ONLINE",
+                  "depth": 2,
+                  "employeeCount": 1,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "COMERCIALIZADORA E INMOBILIARIA SUR SPA.",
+      "employeeCount": 7,
+      "areas": [
+        {
+          "id": 822,
+          "name": "COMERCIALIZADORA E INMOBILIARIA SUR SPA",
+          "depth": 0,
+          "employeeCount": 7,
+          "children": [
+            {
+              "id": 823,
+              "name": "UN. AGROFORESTAL COM. SUR",
+              "depth": 1,
+              "employeeCount": 7,
+              "children": [
+                {
+                  "id": 855,
+                  "name": "VENTAS COM SUR",
+                  "depth": 2,
+                  "employeeCount": 7,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
