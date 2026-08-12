@@ -5,8 +5,8 @@ import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
 import { StatusPill } from '../components/StatusPill'
 import { divisionPath, findUnit } from '../lib/clima'
-import { reportDefinitions, reportUrl } from '../lib/reports'
 import { formatPercent, formatPlain, resultTone } from '../lib/format'
+import { reportDefinitions, reportUrl } from '../lib/reports'
 
 export function UnitDetailPage() {
   const { nombre } = useParams()
@@ -15,13 +15,10 @@ export function UnitDetailPage() {
   if (!unidad) {
     return (
       <AppShell>
-        <section className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-slate-200">
-          <p className="text-sm font-bold uppercase tracking-wide text-emaresa-blue">Unidad no encontrada</p>
-          <h1 className="mt-3 font-display text-3xl font-extrabold">No existe una unidad para esta ruta</h1>
-          <Link
-            to="/"
-            className="mt-6 inline-flex rounded-md bg-emaresa-navy px-4 py-2 text-sm font-bold text-white"
-          >
+        <section className="border-t border-emaresa-line pt-6">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Unidad no encontrada</p>
+          <h1 className="mt-3 font-display text-3xl font-extrabold text-emaresa-text">No existe una unidad para esta ruta</h1>
+          <Link to="/" className="mt-6 inline-flex rounded-lg bg-emaresa-navy px-4 py-2.5 text-sm font-bold text-white hover:bg-emaresa-blue">
             Volver al resumen
           </Link>
         </section>
@@ -33,89 +30,114 @@ export function UnitDetailPage() {
 
   return (
     <AppShell activeUnit={unidad.unidad}>
-      <section className="border-b border-slate-200 pb-7">
-        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-500">
+      <section className="border-b border-emaresa-line pb-8">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-emaresa-muted">
           <Link to="/" className="hover:text-emaresa-blue">Grupo Emaresa</Link>
           <span aria-hidden="true">/</span>
           <span className="text-emaresa-blue">{unidad.unidad}</span>
         </div>
-        <div className="mt-5 flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+        <div className="mt-6 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-wide text-emaresa-blue">Unidad de negocio</p>
-            <h1 className="mt-3 max-w-full break-words whitespace-normal font-display text-4xl font-extrabold sm:text-5xl">{unidad.unidad}</h1>
-            <p className="mt-4 min-w-0 max-w-2xl break-words text-base leading-7 text-slate-600">
-              Resultado de clima organizacional con {unidad.divisiones.length} división{unidad.divisiones.length === 1 ? '' : 'es'} legales disponibles.
+            <p className="text-sm font-bold uppercase tracking-[0.14em] text-emaresa-blue">Unidad de negocio</p>
+            <h1 className="mt-3 max-w-3xl break-words font-display text-4xl font-extrabold tracking-tight text-emaresa-text sm:text-5xl">{unidad.unidad}</h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-emaresa-muted">
+              Resultado de clima con {unidad.divisiones.length} división{unidad.divisiones.length === 1 ? '' : 'es'} legal{unidad.divisiones.length === 1 ? '' : 'es'} disponible{unidad.divisiones.length === 1 ? '' : 's'}.
             </p>
           </div>
-          {hasAttachedReport ? (
-            <a
-              href={reportUrl(reportDefinitions.aj.file)}
-              download={reportDefinitions.aj.file}
-              className="inline-flex w-fit items-center rounded-md bg-emaresa-navy px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emaresa-blue focus:outline-none focus:ring-2 focus:ring-emaresa-gold focus:ring-offset-2"
-            >
-              Descargar PDF de A&J <span aria-hidden="true" className="ml-2 text-emaresa-gold">-&gt;</span>
-            </a>
-          ) : (
-            <p className="max-w-xs border-l-4 border-slate-300 bg-white px-4 py-3 text-sm leading-5 text-slate-500">
-              No hay un PDF adjunto para esta unidad en esta entrega.
-            </p>
-          )}
+          <div className="border-l-2 border-emaresa-gold pl-5">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-muted">Resultado de la unidad</p>
+            <div className="mt-2 flex items-end gap-3">
+              <span className="font-display text-5xl font-extrabold tracking-tight text-emaresa-text">{formatPercent(unidad.resultado_global)}</span>
+              <StatusPill tone={resultTone(unidad.resultado_global)} />
+            </div>
+            {hasAttachedReport ? (
+              <a href={reportUrl(reportDefinitions.aj.file)} download={reportDefinitions.aj.file} className="mt-4 inline-flex text-sm font-bold text-emaresa-blue hover:text-emaresa-navy">
+                Descargar informe PDF -&gt;
+              </a>
+            ) : (
+              <p className="mt-3 text-sm text-emaresa-muted">Sin PDF específico en esta entrega</p>
+            )}
+          </div>
         </div>
       </section>
 
-      <section className="mt-6 grid gap-4 md:grid-cols-3">
-        <KpiCard
-          label="Resultado de la unidad"
-          value={unidad.resultado_global}
-          detail="Clima organizacional sin Gestión Corporativa"
-        />
-        <KpiCard
-          label="Gestión Corporativa"
-          value={unidad.resultado_gestion_corporativa}
-          detail="Indicador mostrado por separado"
-        />
-        <KpiCard
-          label="Participación"
-          value={unidad.participacion}
-          detail={`${unidad.respondidas} respuestas de ${unidad.enviadas} enviadas`}
-        />
+      <section className="mt-9">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Lectura rápida</p>
+            <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Indicadores de la unidad</h2>
+          </div>
+          <p className="hidden text-sm text-emaresa-muted sm:block">Selecciona un indicador para ver el detalle</p>
+        </div>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <KpiCard
+            label="Resultado de la unidad"
+            value={unidad.resultado_global}
+            detail="Clima organizacional"
+            explanation="Resultado agregado de las preguntas de clima para esta unidad de negocio."
+            rows={[
+              { label: 'Gestión Corporativa', value: formatPercent(unidad.resultado_gestion_corporativa) },
+              { label: 'Divisiones', value: String(unidad.divisiones.length) },
+              { label: 'Estado', value: resultTone(unidad.resultado_global) === 'green' ? 'Favorable' : 'Revisar' },
+            ]}
+          />
+          <KpiCard
+            label="Gestión Corporativa"
+            value={unidad.resultado_gestion_corporativa}
+            detail="Indicador mostrado por separado"
+            explanation="Percepción de la gestión corporativa reportada para esta unidad."
+            rows={[
+              { label: 'Clima unidad', value: formatPercent(unidad.resultado_global) },
+              { label: 'Diferencia', value: formatPercent(unidad.resultado_gestion_corporativa - unidad.resultado_global) },
+              { label: 'Periodo', value: 'S1 - 2026' },
+            ]}
+          />
+          <KpiCard
+            label="Participación"
+            value={unidad.participacion}
+            detail={`${unidad.respondidas} respuestas de ${unidad.enviadas} enviadas`}
+            explanation="Cobertura de respuestas de la unidad respecto del universo invitado."
+            rows={[
+              { label: 'Respondidas', value: formatPlain(unidad.respondidas) },
+              { label: 'Enviadas', value: formatPlain(unidad.enviadas) },
+              { label: 'División siguiente', value: 'Razón social' },
+            ]}
+          />
+        </div>
       </section>
 
-      <div className="mt-6 grid min-w-0 items-start gap-6 xl:grid-cols-[1fr_0.9fr]">
+      <div className="mt-10 grid min-w-0 items-start gap-10 xl:grid-cols-[1fr_0.9fr]">
         <CategoryBars categorias={unidad.categorias} />
 
-        <section className="min-w-0 rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200/80 sm:p-6">
-          <p className="text-sm font-bold uppercase tracking-wide text-emaresa-blue">Tercer nivel</p>
-          <h2 className="mt-2 font-display text-2xl font-bold">Divisiones legales</h2>
-          <p className="mt-3 text-sm leading-6 text-slate-600">
-            Abre una razón social para revisar su resultado y participación disponibles.
-          </p>
-          <div className="mt-5 min-w-0 overflow-x-auto">
+        <section className="min-w-0 border-t border-emaresa-line pt-5">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Tercer nivel</p>
+            <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Divisiones legales</h2>
+            <p className="mt-3 text-sm leading-6 text-emaresa-muted">Abre una razón social para revisar su resultado y participación.</p>
+          </div>
+          <div className="mt-5 min-w-0 overflow-x-auto border-y border-emaresa-line">
             <table className="min-w-[580px] w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
-                  <th className="py-3 pr-4 font-semibold">Razón social</th>
-                  <th className="px-4 py-3 font-semibold">Resultado</th>
-                  <th className="px-4 py-3 font-semibold">Participación</th>
-                  <th className="py-3 pl-4 font-semibold">Detalle</th>
+                <tr className="border-b border-emaresa-line text-[11px] uppercase tracking-[0.14em] text-emaresa-muted">
+                  <th className="py-3 pr-4 font-bold">Razón social</th>
+                  <th className="px-4 py-3 font-bold">Resultado</th>
+                  <th className="px-4 py-3 font-bold">Participación</th>
+                  <th className="py-3 pl-4 font-bold">Detalle</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-emaresa-line">
                 {unidad.divisiones.map((division) => (
-                  <tr key={division.nombre}>
+                  <tr key={division.nombre} className="transition hover:bg-white/70">
                     <td className="py-4 pr-4 font-bold text-emaresa-text">{division.nombre}</td>
-                    <td className="px-4 py-4 font-bold">
-                      <span className="inline-flex items-center gap-2">
+                    <td className="px-4 py-4">
+                      <span className="flex items-center gap-2 font-display text-lg font-extrabold text-emaresa-text">
                         {formatPercent(division.resultado)}
                         <StatusPill tone={resultTone(division.resultado)} />
                       </span>
                     </td>
-                    <td className="px-4 py-4">{formatPlain(division.respondidos)} / {division.enviados}</td>
+                    <td className="px-4 py-4 text-sm text-emaresa-muted">{formatPlain(division.respondidos)} / {division.enviados}</td>
                     <td className="py-4 pl-4">
-                      <Link
-                        to={divisionPath(unidad.unidad, division.nombre)}
-                        className="font-bold text-emaresa-blue hover:text-emaresa-navy"
-                      >
+                      <Link to={divisionPath(unidad.unidad, division.nombre)} className="text-sm font-bold text-emaresa-blue hover:text-emaresa-navy">
                         Abrir -&gt;
                       </Link>
                     </td>
@@ -127,13 +149,13 @@ export function UnitDetailPage() {
         </section>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-2">
+      <div className="mt-10 grid gap-10 xl:grid-cols-2">
         <QuestionList title="10 preguntas mejor evaluadas" preguntas={unidad.top10} />
         <QuestionList title="10 preguntas con mayor oportunidad" preguntas={unidad.bottom10} />
       </div>
 
-      <section className="mt-6 border-l-4 border-emaresa-gold bg-white p-5 text-sm leading-6 text-slate-600 shadow-sm ring-1 ring-slate-200 sm:p-6">
-        Nota: La biblioteca de planes de acción por pregunta estará disponible en la versión de producción.
+      <section className="mt-10 border-t border-emaresa-line pt-5 text-sm leading-6 text-emaresa-muted">
+        La biblioteca de planes de acción por pregunta estará disponible en la versión de producción.
       </section>
     </AppShell>
   )

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { clima, divisionPath, findUnit, unitPath } from '../lib/clima'
 import { formatPercent } from '../lib/format'
@@ -8,114 +7,59 @@ interface HierarchyNavProps {
   activeDivision?: string
 }
 
+const primaryLink = 'flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition hover:bg-white/10'
+
 export function HierarchyNav({ activeUnit, activeDivision }: HierarchyNavProps) {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const activeLabel = activeDivision === 'corporativo'
-    ? 'Gestión Corporativa'
-    : activeDivision === 'organizacion'
-      ? 'Organización BUK'
-      : activeDivision ?? activeUnit ?? 'Grupo Emaresa'
-
   return (
-    <nav className="rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200/80" aria-label="Jerarquía organizacional">
-      <button
-        type="button"
-        className="flex w-full items-center justify-between gap-4 text-left lg:hidden"
-        aria-expanded={mobileOpen}
-        onClick={() => setMobileOpen((isOpen) => !isOpen)}
-      >
-        <span>
-          <span className="block text-xs font-bold uppercase tracking-wide text-slate-500">Explorar resultados</span>
-          <span className="mt-1 block font-display text-lg font-bold text-emaresa-blue">{activeLabel}</span>
-        </span>
-        <span className="text-sm font-bold text-emaresa-blue">{mobileOpen ? 'Ocultar' : 'Mostrar'}</span>
-      </button>
+    <nav className="mt-4 space-y-1" aria-label="Navegación principal">
+      <Link to="/" className={`${primaryLink} ${!activeUnit && !activeDivision ? 'bg-white/10 text-white' : 'text-blue-100/75'}`}>
+        <span>Resumen ejecutivo</span>
+        <span className="text-xs text-cyan-200">{formatPercent(clima.global.resultado_global)}</span>
+      </Link>
 
-      <div className={`${mobileOpen ? 'block' : 'hidden'} lg:block`}>
-        <div className="border-b border-slate-200 pb-4">
-          <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-            Explorar resultados
-          </p>
-          <Link
-            to="/"
-            className={`mt-3 block font-display text-lg font-bold ${!activeUnit ? 'text-emaresa-blue' : 'text-emaresa-text hover:text-emaresa-blue'}`}
-          >
-            Grupo Emaresa
-          </Link>
+      <Link to="/gestion-corporativa" className={`${primaryLink} ${activeDivision === 'corporativo' ? 'bg-white/10 text-white' : 'text-blue-100/75'}`}>
+        <span>Gestión corporativa</span>
+        <span className="text-xs text-cyan-200">{formatPercent(clima.global.resultado_gestion_corporativa)}</span>
+      </Link>
+
+      <Link to="/organizacion" className={`${primaryLink} ${activeDivision === 'organizacion' ? 'bg-white/10 text-white' : 'text-blue-100/75'}`}>
+        <span>Organización BUK</span>
+        <span className="text-cyan-200">-&gt;</span>
+      </Link>
+
+      <div className="pt-6">
+        <p className="px-3 text-[11px] font-bold uppercase tracking-[0.16em] text-blue-200/65">Unidades</p>
+        <div className="mt-3 space-y-0.5">
+          {clima.global.ranking_unidades.map((ranking) => {
+            const unit = findUnit(ranking.unidad)
+            const isActive = activeUnit === ranking.unidad
+
+            return (
+              <div key={ranking.unidad}>
+                <Link
+                  to={unitPath(ranking.unidad)}
+                  className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition ${isActive ? 'bg-white text-emaresa-navy' : 'text-blue-100/70 hover:bg-white/10 hover:text-white'}`}
+                >
+                  <span className="min-w-0 truncate">{ranking.unidad}</span>
+                  <span className={`shrink-0 text-xs font-bold ${isActive ? 'text-emaresa-blue' : 'text-blue-200/65'}`}>{formatPercent(ranking.resultado)}</span>
+                </Link>
+                {isActive && unit && unit.divisiones.length > 0 && (
+                  <div className="ml-4 border-l border-white/20 pl-2">
+                    {unit.divisiones.map((division) => (
+                      <Link
+                        key={division.nombre}
+                        to={divisionPath(unit.unidad, division.nombre)}
+                        className={`block truncate rounded-md px-2 py-1.5 text-xs ${activeDivision === division.nombre ? 'font-bold text-cyan-200' : 'text-blue-100/60 hover:text-white'}`}
+                      >
+                        {division.nombre}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
-
-        <div className="pt-4">
-          <Link
-            to="/"
-            className="flex items-center justify-between rounded-md px-2 py-2 text-sm font-bold text-emaresa-text hover:bg-slate-50"
-          >
-            <span>Clima organizacional</span>
-            <span className="text-xs font-semibold text-slate-400">
-              {formatPercent(clima.global.resultado_global)}
-            </span>
-          </Link>
-
-          <div className="mt-2 border-l border-slate-200 pl-3">
-            {clima.global.ranking_unidades.map((ranking) => {
-              const unit = findUnit(ranking.unidad)
-              const isActive = activeUnit === ranking.unidad
-
-              return (
-                <div key={ranking.unidad} className="py-0.5">
-                  <Link
-                    to={unitPath(ranking.unidad)}
-                    className={`flex items-center justify-between gap-2 rounded-md px-2 py-2 text-sm ${isActive ? 'bg-blue-50 font-bold text-emaresa-blue' : 'text-slate-600 hover:bg-slate-50 hover:text-emaresa-blue'}`}
-                  >
-                    <span className="min-w-0 truncate">{ranking.unidad}</span>
-                    <span className="shrink-0 text-xs font-semibold text-slate-400">
-                      {formatPercent(ranking.resultado)}
-                    </span>
-                  </Link>
-
-                  {isActive && unit && unit.divisiones.length > 0 && (
-                    <div className="ml-3 border-l border-slate-200 pl-2">
-                      {unit.divisiones.map((division) => {
-                        const isDivisionActive = activeDivision === division.nombre
-
-                        return (
-                          <Link
-                            key={division.nombre}
-                            to={divisionPath(unit.unidad, division.nombre)}
-                            className={`block truncate rounded-md px-2 py-1.5 text-xs ${isDivisionActive ? 'font-bold text-emaresa-blue' : 'text-slate-500 hover:bg-slate-50 hover:text-emaresa-blue'}`}
-                          >
-                            {division.nombre}
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-
-          <Link
-            to="/gestion-corporativa"
-            className={`mt-4 flex items-center justify-between rounded-md border-t border-slate-200 px-2 pt-4 text-sm font-bold ${!activeUnit && activeDivision === 'corporativo' ? 'text-emaresa-blue' : 'text-slate-700 hover:text-emaresa-blue'}`}
-          >
-            <span>Gestión corporativa</span>
-            <span className="text-xs font-semibold text-slate-400">
-              {formatPercent(clima.global.resultado_gestion_corporativa)}
-            </span>
-          </Link>
-
-          <Link
-            to="/organizacion"
-            className={`mt-4 flex items-center justify-between rounded-md border-t border-slate-200 px-2 pt-4 text-sm font-bold ${activeDivision === 'organizacion' ? 'text-emaresa-blue' : 'text-slate-700 hover:text-emaresa-blue'}`}
-          >
-            <span>Organización BUK</span>
-            <span className="text-xs font-semibold text-slate-400">-&gt;</span>
-          </Link>
-        </div>
-
-        <p className="mt-5 border-t border-slate-200 pt-4 text-xs leading-5 text-slate-500">
-          La fuente disponible llega hasta división legal. Los niveles inferiores requerirán datos de BUK.
-        </p>
       </div>
     </nav>
   )

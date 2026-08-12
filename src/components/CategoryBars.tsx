@@ -7,35 +7,25 @@ interface CategoryBarsProps {
 
 export function CategoryBars({ categorias }: CategoryBarsProps) {
   return (
-    <section className="min-w-0 rounded-lg bg-emaresa-card p-5 shadow-sm ring-1 ring-slate-200/80">
-      <div>
-        <p className="text-sm font-semibold uppercase text-emaresa-blue">
-          Categorías
-        </p>
-        <h2 className="mt-2 font-display text-2xl font-bold">
-          Resultado por categoría
-        </h2>
+    <section className="min-w-0 border-t border-emaresa-line pt-5">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-emaresa-blue">Lectura temática</p>
+          <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Resultado por categoría</h2>
+        </div>
+        <span className="hidden text-xs font-semibold text-emaresa-muted sm:block">Escala 0 - 100</span>
       </div>
-
       <div className="mt-6 space-y-5">
         {categorias.map((categoria) => {
           const tone = resultTone(categoria.resultado)
-
           return (
             <div key={categoria.categoria}>
               <div className="mb-2 flex items-center justify-between gap-4">
-                <span className="text-sm font-semibold text-slate-700">
-                  {categoria.categoria}
-                </span>
-                <span className={`rounded-full px-2 py-1 text-xs font-bold ring-1 ${toneClasses(tone)}`}>
-                  {formatPercent(categoria.resultado)}
-                </span>
+                <span className="text-sm font-semibold text-emaresa-text">{categoria.categoria}</span>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${toneClasses(tone)}`}>{formatPercent(categoria.resultado)}</span>
               </div>
-              <div className="h-3 overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className="h-full rounded-full bg-emaresa-blue"
-                  style={{ width: `${categoria.resultado}%` }}
-                />
+              <div className="h-2 rounded-full bg-emaresa-line/60">
+                <div className="h-2 rounded-full bg-emaresa-blue" style={{ width: `${categoria.resultado}%` }} />
               </div>
             </div>
           )
