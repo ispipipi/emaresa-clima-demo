@@ -5,13 +5,12 @@ import { CategoryBars } from '../components/CategoryBars'
 import { Icon } from '../components/IconSprite'
 import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
-import { ReportCard } from '../components/ReportCard'
 import { SectionHeader } from '../components/SectionHeader'
 import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
 import { divisionPath, findUnit, clima } from '../lib/clima'
 import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
-import { reportDefinitions } from '../lib/reports'
+import { unitReportFile, unitReportUrl } from '../lib/reports'
 
 export function UnitDetailPage() {
   const { nombre } = useParams()
@@ -22,7 +21,7 @@ export function UnitDetailPage() {
   }
 
   const rank = clima.global.ranking_unidades.findIndex((item) => item.unidad === unidad.unidad) + 1
-  const hasReport = unidad.unidad === 'A&J'
+  const reportFile = unitReportFile(unidad.unidad)
   const tone = resultTone(unidad.resultado_global)
 
   return (
@@ -33,7 +32,7 @@ export function UnitDetailPage() {
           <h1 className="mt-2.5 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
           <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Resultado de clima con {unidad.divisiones.length} división{unidad.divisiones.length === 1 ? '' : 'es'} legal{unidad.divisiones.length === 1 ? '' : 'es'} disponible{unidad.divisiones.length === 1 ? '' : 's'}.</p>
           <div className="mt-5 flex flex-wrap gap-5 border-t border-line-soft pt-4"><HeroStat value={`#${rank}`} label="posición en el grupo" /><HeroStat value={formatPlain(unidad.divisiones.length)} label="divisiones legales" /><HeroStat value={formatPercent(unidad.participacion)} label="participación" /></div>
-          {hasReport && <a href={`${import.meta.env.BASE_URL}reportes/${reportDefinitions.aj.file}`} download={reportDefinitions.aj.file} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="down" className="h-[15px] w-[15px]" />Descargar informe PDF</a>}
+          <a href={unitReportUrl(unidad.unidad)} download={reportFile} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="doc" className="h-[15px] w-[15px]" />Generar informe de clima</a>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
           <SegmentedGauge value={unidad.resultado_global} label="Resultado de la unidad" />
@@ -63,7 +62,7 @@ export function UnitDetailPage() {
         </div>
       </Card>
 
-      {hasReport && <Card className="p-[22px]"><SectionHeader title="Informe de la unidad" subtitle="Descarga directa del PDF original de A&J" /><div className="mt-[18px] max-w-xl"><ReportCard report={reportDefinitions.aj} /></div></Card>}
+      <Card className="p-[22px]"><SectionHeader title="Informe de clima de la unidad" subtitle="PDF generado con los resultados, categorías, preguntas y sugerencias de acción" /><div className="mt-[18px] flex flex-col gap-4 rounded-2xl border border-line-soft bg-surface-sunken p-4 sm:flex-row sm:items-center sm:justify-between"><div className="min-w-0"><p className="text-[9.5px] font-bold uppercase tracking-[0.15em] text-teal">Informe personalizado</p><p className="mt-1 font-display text-[15px] font-bold text-navy-ink">Encuesta Pulso de Clima · {unidad.unidad} · S1 2026</p><p className="mt-1 text-[11px] text-ink-faint">Formato oficial de presentación · descarga directa en PDF</p></div><a href={unitReportUrl(unidad.unidad)} download={reportFile} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-navy px-4 py-2.5 text-[12px] font-bold text-white transition hover:bg-teal"><Icon name="down" className="h-[15px] w-[15px]" />Generar informe</a></div></Card>
       <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La biblioteca de planes de acción por pregunta estará disponible en la versión de producción.</p></Card>
     </AppShell>
   )

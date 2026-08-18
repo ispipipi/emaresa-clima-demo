@@ -35,3 +35,17 @@ export function reportUrl(file: string) {
 export function reportCoverUrl(file: string) {
   return `${import.meta.env.BASE_URL}reportes/portadas/${file}`
 }
+
+export function unitReportFile(unidad: string) {
+  const normalized = unidad
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .toLowerCase()
+  return `${normalized}-s1-2026.pdf`
+}
+
+export function unitReportUrl(unidad: string) {
+  return `${import.meta.env.BASE_URL}reportes/unidades/${unitReportFile(unidad)}`
+}
