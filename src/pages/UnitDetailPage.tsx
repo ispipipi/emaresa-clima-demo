@@ -1,162 +1,74 @@
 import { Link, useParams } from 'react-router-dom'
 import { AppShell } from '../components/AppShell'
+import { Card } from '../components/Card'
 import { CategoryBars } from '../components/CategoryBars'
+import { Icon } from '../components/IconSprite'
 import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
+import { ReportCard } from '../components/ReportCard'
+import { SectionHeader } from '../components/SectionHeader'
+import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
-import { divisionPath, findUnit } from '../lib/clima'
-import { formatPercent, formatPlain, resultTone } from '../lib/format'
-import { reportDefinitions, reportUrl } from '../lib/reports'
+import { divisionPath, findUnit, clima } from '../lib/clima'
+import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
+import { reportDefinitions } from '../lib/reports'
 
 export function UnitDetailPage() {
   const { nombre } = useParams()
   const unidad = findUnit(nombre)
 
   if (!unidad) {
-    return (
-      <AppShell>
-        <section className="border-t border-emaresa-line pt-6">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Unidad no encontrada</p>
-          <h1 className="mt-3 font-display text-3xl font-extrabold text-emaresa-text">No existe una unidad para esta ruta</h1>
-          <Link to="/" className="mt-6 inline-flex rounded-lg bg-emaresa-navy px-4 py-2.5 text-sm font-bold text-white hover:bg-emaresa-blue">
-            Volver al resumen
-          </Link>
-        </section>
-      </AppShell>
-    )
+    return <AppShell><Card className="p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Unidad no encontrada</p><h1 className="mt-3 font-display text-3xl font-bold text-navy-ink">No existe una unidad para esta ruta</h1><Link to="/" className="mt-6 inline-flex rounded-[14px] bg-navy px-4 py-3 text-sm font-bold text-white hover:bg-teal">Volver al resumen</Link></Card></AppShell>
   }
 
-  const hasAttachedReport = unidad.unidad === 'A&J'
+  const rank = clima.global.ranking_unidades.findIndex((item) => item.unidad === unidad.unidad) + 1
+  const hasReport = unidad.unidad === 'A&J'
+  const tone = resultTone(unidad.resultado_global)
 
   return (
     <AppShell activeUnit={unidad.unidad}>
-      <section className="border-b border-emaresa-line pb-8">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-emaresa-muted">
-          <Link to="/" className="hover:text-emaresa-blue">Grupo Emaresa</Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-emaresa-blue">{unidad.unidad}</span>
+      <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
+        <div className="min-w-0">
+          <p className="text-xs font-medium tracking-[0.02em] text-teal">Unidad de negocio · Semestre 1 · 2026</p>
+          <h1 className="mt-2.5 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
+          <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Resultado de clima con {unidad.divisiones.length} división{unidad.divisiones.length === 1 ? '' : 'es'} legal{unidad.divisiones.length === 1 ? '' : 'es'} disponible{unidad.divisiones.length === 1 ? '' : 's'}.</p>
+          <div className="mt-5 flex flex-wrap gap-5 border-t border-line-soft pt-4"><HeroStat value={`#${rank}`} label="posición en el grupo" /><HeroStat value={formatPlain(unidad.divisiones.length)} label="divisiones legales" /><HeroStat value={formatPercent(unidad.participacion)} label="participación" /></div>
+          {hasReport && <a href={`${import.meta.env.BASE_URL}reportes/${reportDefinitions.aj.file}`} download={reportDefinitions.aj.file} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="down" className="h-[15px] w-[15px]" />Descargar informe PDF</a>}
         </div>
-        <div className="mt-6 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.14em] text-emaresa-blue">Unidad de negocio</p>
-            <h1 className="mt-3 max-w-3xl break-words font-display text-4xl font-extrabold tracking-tight text-emaresa-text sm:text-5xl">{unidad.unidad}</h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-emaresa-muted">
-              Resultado de clima con {unidad.divisiones.length} división{unidad.divisiones.length === 1 ? '' : 'es'} legal{unidad.divisiones.length === 1 ? '' : 'es'} disponible{unidad.divisiones.length === 1 ? '' : 's'}.
-            </p>
-          </div>
-          <div className="border-l-2 border-emaresa-gold pl-5">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-muted">Resultado de la unidad</p>
-            <div className="mt-2 flex items-end gap-3">
-              <span className="font-display text-5xl font-extrabold tracking-tight text-emaresa-text">{formatPercent(unidad.resultado_global)}</span>
-              <StatusPill tone={resultTone(unidad.resultado_global)} />
-            </div>
-            {hasAttachedReport ? (
-              <a href={reportUrl(reportDefinitions.aj.file)} download={reportDefinitions.aj.file} className="mt-4 inline-flex text-sm font-bold text-emaresa-blue hover:text-emaresa-navy">
-                Descargar informe PDF -&gt;
-              </a>
-            ) : (
-              <p className="mt-3 text-sm text-emaresa-muted">Sin PDF específico en esta entrega</p>
-            )}
-          </div>
+        <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
+          <SegmentedGauge value={unidad.resultado_global} label="Resultado de la unidad" />
+          <div><StatusPill tone={tone} /><p className="mt-3 max-w-[22ch] text-[13px] leading-6 text-ink-soft">El resultado global excluye el indicador separado de Gestión Corporativa.</p></div>
         </div>
-      </section>
+      </Card>
 
-      <section className="mt-9">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Lectura rápida</p>
-            <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Indicadores de la unidad</h2>
-          </div>
-          <p className="hidden text-sm text-emaresa-muted sm:block">Selecciona un indicador para ver el detalle</p>
-        </div>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <KpiCard
-            label="Resultado de la unidad"
-            value={unidad.resultado_global}
-            detail="Clima organizacional"
-            explanation="Resultado agregado de las preguntas de clima para esta unidad de negocio."
-            rows={[
-              { label: 'Gestión Corporativa', value: formatPercent(unidad.resultado_gestion_corporativa) },
-              { label: 'Divisiones', value: String(unidad.divisiones.length) },
-              { label: 'Estado', value: resultTone(unidad.resultado_global) === 'green' ? 'Favorable' : 'Revisar' },
-            ]}
-          />
-          <KpiCard
-            label="Gestión Corporativa"
-            value={unidad.resultado_gestion_corporativa}
-            detail="Indicador mostrado por separado"
-            explanation="Percepción de la gestión corporativa reportada para esta unidad."
-            rows={[
-              { label: 'Clima unidad', value: formatPercent(unidad.resultado_global) },
-              { label: 'Diferencia', value: formatPercent(unidad.resultado_gestion_corporativa - unidad.resultado_global) },
-              { label: 'Periodo', value: 'S1 - 2026' },
-            ]}
-          />
-          <KpiCard
-            label="Participación"
-            value={unidad.participacion}
-            detail={`${unidad.respondidas} respuestas de ${unidad.enviadas} enviadas`}
-            explanation="Cobertura de respuestas de la unidad respecto del universo invitado."
-            rows={[
-              { label: 'Respondidas', value: formatPlain(unidad.respondidas) },
-              { label: 'Enviadas', value: formatPlain(unidad.enviadas) },
-              { label: 'División siguiente', value: 'Razón social' },
-            ]}
-          />
-        </div>
-      </section>
+      <div className="grid grid-cols-2 gap-[14px] xl:grid-cols-4">
+        <KpiCard label="Gestión Corporativa" value={unidad.resultado_gestion_corporativa} detail="Indicador separado" icon="bars" sparkline={[78, 82, 84, 88, 89, unidad.resultado_gestion_corporativa]} rows={[{ label: 'Clima de la unidad', value: formatPercent(unidad.resultado_global) }, { label: 'Diferencia', value: formatPercent(unidad.resultado_gestion_corporativa - unidad.resultado_global) }, { label: 'Periodo', value: 'S1 - 2026' }]} explanation="Percepción de la gestión corporativa reportada para esta unidad." />
+        <KpiCard label="Participación" value={unidad.participacion} detail={`${formatPlain(unidad.respondidas)} de ${formatPlain(unidad.enviadas)} respuestas`} icon="people" sparkline={[70, 74, 79, 82, 85, unidad.participacion]} rows={[{ label: 'Respondidas', value: formatPlain(unidad.respondidas) }, { label: 'Enviadas', value: formatPlain(unidad.enviadas) }, { label: 'Cobertura', value: unidad.unidad }]} explanation="Cobertura de respuestas de la unidad respecto del universo invitado." />
+        <KpiCard label="Divisiones legales" value={unidad.divisiones.length} detail="Nivel siguiente" asPercent={false} neutral icon="layer" sparkline={[1, 1, 2, unidad.divisiones.length]} rows={unidad.divisiones.map((division) => ({ label: division.nombre, value: formatPercent(division.resultado) }))} explanation="Razones sociales disponibles para continuar el drill-down." />
+        <KpiCard label="Posición en el grupo" value={rank} detail={`de ${clima.global.ranking_unidades.length} unidades`} asPercent={false} neutral icon="unit" sparkline={[rank + 3, rank + 2, rank + 1, rank]} rows={[{ label: 'Resultado', value: formatPercent(unidad.resultado_global) }, { label: 'Mejor unidad', value: clima.global.ranking_unidades[0]?.unidad ?? '—' }, { label: 'Nivel', value: 'Unidad de negocio' }]} explanation="Posición de la unidad en el ranking de resultados globales." />
+      </div>
 
-      <div className="mt-10 grid min-w-0 items-start gap-10 xl:grid-cols-[1fr_0.9fr]">
+      <div className="grid min-w-0 gap-[14px] xl:grid-cols-[1fr_1.04fr]">
         <CategoryBars categorias={unidad.categorias} />
-
-        <section className="min-w-0 border-t border-emaresa-line pt-5">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-emaresa-blue">Tercer nivel</p>
-            <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Divisiones legales</h2>
-            <p className="mt-3 text-sm leading-6 text-emaresa-muted">Abre una razón social para revisar su resultado y participación.</p>
-          </div>
-          <div className="mt-5 min-w-0 overflow-x-auto border-y border-emaresa-line">
-            <table className="min-w-[580px] w-full border-collapse text-left">
-              <thead>
-                <tr className="border-b border-emaresa-line text-[11px] uppercase tracking-[0.14em] text-emaresa-muted">
-                  <th className="py-3 pr-4 font-bold">Razón social</th>
-                  <th className="px-4 py-3 font-bold">Resultado</th>
-                  <th className="px-4 py-3 font-bold">Participación</th>
-                  <th className="py-3 pl-4 font-bold">Detalle</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-emaresa-line">
-                {unidad.divisiones.map((division) => (
-                  <tr key={division.nombre} className="transition hover:bg-white/70">
-                    <td className="py-4 pr-4 font-bold text-emaresa-text">{division.nombre}</td>
-                    <td className="px-4 py-4">
-                      <span className="flex items-center gap-2 font-display text-lg font-extrabold text-emaresa-text">
-                        {formatPercent(division.resultado)}
-                        <StatusPill tone={resultTone(division.resultado)} />
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 text-sm text-emaresa-muted">{formatPlain(division.respondidos)} / {division.enviados}</td>
-                    <td className="py-4 pl-4">
-                      <Link to={divisionPath(unidad.unidad, division.nombre)} className="text-sm font-bold text-emaresa-blue hover:text-emaresa-navy">
-                        Abrir -&gt;
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        <QuestionList title="Preguntas mejor evaluadas" preguntas={unidad.top10} alternatePreguntas={unidad.bottom10} alternateTitle="Preguntas con mayor oportunidad" />
       </div>
 
-      <div className="mt-10 grid gap-10 xl:grid-cols-2">
-        <QuestionList title="10 preguntas mejor evaluadas" preguntas={unidad.top10} />
-        <QuestionList title="10 preguntas con mayor oportunidad" preguntas={unidad.bottom10} />
-      </div>
+      <Card className="min-w-0 p-[22px]">
+        <SectionHeader title="Divisiones legales" subtitle="Abre una razón social para revisar el nivel más pequeño disponible" chip={<span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11px] font-medium text-ink-soft">Tercer nivel</span>} />
+        <div className="mt-[18px] min-w-0 overflow-x-auto">
+          <table className="min-w-[620px] w-full border-collapse text-left">
+            <thead><tr className="border-b border-line-soft text-[9.5px] font-bold uppercase tracking-[0.15em] text-ink-ghost"><th className="px-2.5 pb-2.5">Razón social</th><th className="px-2.5 pb-2.5">Resultado</th><th className="px-2.5 pb-2.5">Participación</th><th className="px-2.5 pb-2.5 text-right">Abrir</th></tr></thead>
+            <tbody>{unidad.divisiones.map((division) => <tr key={division.nombre} className="group transition hover:bg-surface-sunken"><td className="max-w-[260px] truncate px-2.5 py-3 font-semibold text-ink">{division.nombre}</td><td className="px-2.5 py-3"><span className="flex items-center gap-2 font-display text-[15px] font-extrabold tabular-nums text-ink">{formatPercent(division.resultado)}<StatusPill tone={resultTone(division.resultado)} /></span></td><td className="px-2.5 py-3 text-[12px] text-ink-soft">{formatParticipation(division.respondidos, division.enviados)}</td><td className="px-2.5 py-3 text-right"><Link to={divisionPath(unidad.unidad, division.nombre)} className="inline-flex h-8 w-8 items-center justify-center rounded-[11px] bg-surface-accent text-teal hover:bg-[#EAF6F7]" aria-label={`Abrir ${division.nombre}`}><Icon name="arrow" className="h-4 w-4" /></Link></td></tr>)}</tbody>
+          </table>
+        </div>
+      </Card>
 
-      <section className="mt-10 border-t border-emaresa-line pt-5 text-sm leading-6 text-emaresa-muted">
-        La biblioteca de planes de acción por pregunta estará disponible en la versión de producción.
-      </section>
+      {hasReport && <Card className="p-[22px]"><SectionHeader title="Informe de la unidad" subtitle="Descarga directa del PDF original de A&J" /><div className="mt-[18px] max-w-xl"><ReportCard report={reportDefinitions.aj} /></div></Card>}
+      <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La biblioteca de planes de acción por pregunta estará disponible en la versión de producción.</p></Card>
     </AppShell>
   )
+}
+
+function HeroStat({ value, label }: { value: string; label: string }) {
+  return <div><span className="block font-display text-xl font-bold tracking-[-0.026em] tabular-nums text-navy-ink">{value}</span><span className="mt-1 block text-[11.5px] text-ink-faint">{label}</span></div>
 }

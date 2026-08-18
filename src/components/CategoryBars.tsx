@@ -1,36 +1,35 @@
 import type { Categoria } from '../types/clima'
-import { formatPercent, resultTone, toneClasses } from '../lib/format'
+import { formatPercent, toneMeta, toneOf } from '../lib/format'
+import { Card } from './Card'
+import { SectionHeader } from './SectionHeader'
 
 interface CategoryBarsProps {
   categorias: Categoria[]
+  title?: string
 }
 
-export function CategoryBars({ categorias }: CategoryBarsProps) {
+export function CategoryBars({ categorias, title = 'Resultado por categoría' }: CategoryBarsProps) {
   return (
-    <section className="min-w-0 border-t border-emaresa-line pt-5">
-      <div className="flex items-end justify-between gap-4">
-        <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-emaresa-blue">Lectura temática</p>
-          <h2 className="mt-2 font-display text-2xl font-extrabold text-emaresa-text">Resultado por categoría</h2>
-        </div>
-        <span className="hidden text-xs font-semibold text-emaresa-muted sm:block">Escala 0 - 100</span>
-      </div>
-      <div className="mt-6 space-y-5">
+    <Card className="min-w-0 p-[22px]" animationDelay={100}>
+      <SectionHeader title={title} subtitle="Escala 0–100 · marcas en 60 y 80" chip={<span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11px] font-medium tabular-nums text-ink-soft">{categorias.length} categorías</span>} />
+      <div className="mt-[22px] flex flex-col gap-[17px]">
         {categorias.map((categoria) => {
-          const tone = resultTone(categoria.resultado)
+          const tone = toneOf(categoria.resultado)
+          const meta = toneMeta[tone]
           return (
             <div key={categoria.categoria}>
-              <div className="mb-2 flex items-center justify-between gap-4">
-                <span className="text-sm font-semibold text-emaresa-text">{categoria.categoria}</span>
-                <span className={`rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${toneClasses(tone)}`}>{formatPercent(categoria.resultado)}</span>
+              <div className="mb-2 flex items-baseline justify-between gap-3.5">
+                <span className="text-[13px] font-semibold text-ink">{categoria.categoria}</span>
+                <span className="flex shrink-0 items-center gap-2"><span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: meta.dot }} /><span className="font-display text-sm font-extrabold tracking-[-0.02em] tabular-nums text-ink">{formatPercent(categoria.resultado)}</span></span>
               </div>
-              <div className="h-2 rounded-full bg-emaresa-line/60">
-                <div className="h-2 rounded-full bg-emaresa-blue" style={{ width: `${categoria.resultado}%` }} />
+              <div className="relative h-2 overflow-hidden rounded-full bg-bar-track">
+                <div className="h-2 rounded-full transition-[width] duration-500" style={{ width: `${typeof categoria.resultado === 'number' ? categoria.resultado : 0}%`, backgroundColor: meta.fill }} />
+                <span className="absolute left-[60%] top-[-2px] h-3 w-px bg-navy/15" /><span className="absolute left-[80%] top-[-2px] h-3 w-px bg-navy/15" />
               </div>
             </div>
           )
         })}
       </div>
-    </section>
+    </Card>
   )
 }
