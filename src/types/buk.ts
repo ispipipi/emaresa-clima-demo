@@ -4,6 +4,7 @@ export interface BukAreaNode {
   depth: number
   employeeCount: number
   children: BukAreaNode[]
+  notes?: string[]
 }
 
 export interface BukCompany {

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { HierarchyNav } from './HierarchyNav'
 import { Icon, IconSprite } from './IconSprite'
+import { MentatCopilot } from './MentatCopilot'
 import { SiblingStrip } from './SiblingStrip'
 
 interface AppShellProps {
@@ -119,6 +120,7 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
           </main>
         </div>
       </div>
+      <MentatCopilot context={{ activeUnit, activeDivision, pathname: location.pathname }} />
     </div>
   )
 }

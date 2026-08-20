@@ -1,4 +1,4 @@
-export type IconName = 'grid' | 'bars' | 'org' | 'doc' | 'down' | 'unit' | 'people' | 'ring' | 'layer' | 'chev' | 'arrow' | 'book' | 'play' | 'cursor' | 'close'
+export type IconName = 'grid' | 'bars' | 'org' | 'doc' | 'down' | 'unit' | 'people' | 'ring' | 'layer' | 'chev' | 'arrow' | 'book' | 'play' | 'cursor' | 'close' | 'spark' | 'send'
 
 export function IconSprite() {
   return (
@@ -19,6 +19,8 @@ export function IconSprite() {
         <symbol id="ico-play" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7.2" /><path d="M8.6 7.3 12.8 10l-4.2 2.7z" fill="currentColor" stroke="none" /></symbol>
         <symbol id="ico-cursor" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M4.6 3.4l3.1 12.4 2.1-4.6 4.6-2.1z" fill="currentColor" stroke="none" opacity=".9" /><path d="M11.6 11.6l3.4 3.4" opacity=".55" /></symbol>
         <symbol id="ico-close" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="m5.5 5.5 9 9M14.5 5.5l-9 9" /></symbol>
+        <symbol id="ico-spark" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round"><path d="m10 2.8 1.2 4.1a2.8 2.8 0 0 0 1.9 1.9l4.1 1.2-4.1 1.2a2.8 2.8 0 0 0-1.9 1.9L10 17.2l-1.2-4.1a2.8 2.8 0 0 0-1.9-1.9l-4.1-1.2 4.1-1.2a2.8 2.8 0 0 0 1.9-1.9z" /><path d="m16.2 3.2.35 1.2M17.8 4.8l-1.2.35" opacity=".65" /></symbol>
+        <symbol id="ico-send" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m3.4 3.8 13.2 5.4-13.2 5.4 2.1-5.4z" fill="currentColor" stroke="none" opacity=".3" /><path d="m3.4 3.8 13.2 5.4-13.2 5.4 2.1-5.4zM5.5 9.2h7.2" /></symbol>
       </defs>
     </svg>
   )

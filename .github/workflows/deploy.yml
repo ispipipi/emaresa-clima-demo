@@ -6,7 +6,9 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: '15 6 * * *'
+    # GitHub cron uses UTC. The gate below keeps the sync at 22:00 in Chile
+    # across daylight-saving and standard-time offsets.
+    - cron: '0 1 * * *'
 
 permissions:
   contents: read
@@ -20,29 +22,67 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      should_deploy: ${{ steps.chile_schedule.outputs.should_deploy }}
     steps:
+      - name: Wait for the 22:00 Chile window
+        id: chile_schedule
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          if [[ "$EVENT_NAME" != "schedule" ]]; then
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          local_hour=$(TZ=America/Santiago date +%H)
+          local_minute=$(TZ=America/Santiago date +%M)
+          local_second=$(TZ=America/Santiago date +%S)
+
+          if [[ "$local_hour" == "21" ]]; then
+            minute=$((10#$local_minute))
+            second=$((10#$local_second))
+            wait_seconds=$((3600 - minute * 60 - second))
+            echo "Chile is at ${local_hour}:${local_minute}:${local_second}; waiting ${wait_seconds}s until 22:00."
+            if (( wait_seconds > 0 )); then sleep "$wait_seconds"; fi
+          elif [[ "$local_hour" != "22" ]]; then
+            echo "Skipping scheduled run outside the 22:00 America/Santiago window. Current time: ${local_hour}:${local_minute}:${local_second}."
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Running BUK sync at $(TZ=America/Santiago date '+%Y-%m-%d %H:%M:%S %Z')."
+          echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+
       - name: Checkout
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         uses: actions/checkout@v4
 
       - name: Setup Node
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
       - name: Install dependencies
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         run: npm ci
 
       - name: Sync BUK organization snapshot
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         env:
           BUK_API_BASE_URL: https://emaresa.buk.cl/api/v1/chile
           BUK_API_TOKEN: ${{ secrets.BUK_API_TOKEN }}
         run: npm run sync:buk
 
       - name: Build
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         run: npm run build
 
       - name: Upload artifact
+        if: steps.chile_schedule.outputs.should_deploy == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -53,6 +93,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    if: needs.build.outputs.should_deploy == 'true'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

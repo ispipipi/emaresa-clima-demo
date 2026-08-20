@@ -52,12 +52,27 @@ const [companies, areas, employees] = await Promise.all([
   fetchAll('/employees/active?page_size=100&exclude_pending=true'),
 ])
 
+function areaNotes(area) {
+  const fields = ['notes', 'note', 'description', 'comment', 'comments', 'observation', 'observations', 'additional_info']
+  const values = fields.flatMap((field) => {
+    const value = area[field]
+    if (Array.isArray(value)) return value
+    return value ? [value] : []
+  })
+
+  return [...new Set(values
+    .filter((value) => typeof value === 'string')
+    .map((value) => value.trim())
+    .filter(Boolean))]
+}
+
 const areaById = new Map(
   areas.map((area) => [area.id, {
     id: area.id,
     name: area.name,
     depth: area.depth || 0,
     parentId: area.parent_area?.id || null,
+    notes: areaNotes(area),
   }]),
 )
 
@@ -104,6 +119,7 @@ function buildAreaNode(areaId, allowedIds, visiting = new Set()) {
     depth: area.depth,
     employeeCount: employeeCount + children.reduce((total, child) => total + child.employeeCount, 0),
     children,
+    ...(area.notes.length > 0 ? { notes: area.notes } : {}),
   }
 }
 

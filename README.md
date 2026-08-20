@@ -32,7 +32,7 @@ La aplicación navega desde Grupo Emaresa hasta la unidad de negocio y la divisi
 
 La organización se sincroniza durante el build desde `https://emaresa.buk.cl/api/v1/chile` usando `BUK_API_TOKEN` como secreto de GitHub Actions. El snapshot publicado contiene solo empresas, áreas, subáreas y conteos agregados de personas activas; no contiene nombres, RUT, correos ni fichas personales. La API Key no se guarda en el repositorio ni se expone como variable `VITE_*`.
 
-El workflow también corre una sincronización programada diariamente, además de ejecutarse con cada publicación manual o cambio en `main`.
+El workflow también corre una sincronización programada una vez al día a las **22:00 hora de Chile** (`America/Santiago`), además de ejecutarse con cada publicación manual o cambio en `main`. El workflow usa un cron UTC de referencia y ajusta automáticamente la espera para cubrir horario de verano e invierno.
 
 Para sincronizar localmente:
 
