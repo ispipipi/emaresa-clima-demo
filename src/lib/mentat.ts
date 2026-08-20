@@ -1,7 +1,7 @@
 import { corporateMonths, corporateQuestions } from '../data/corporativo'
 import { clima, divisionPath, unitPath } from './clima'
 import { bukOrganization } from './buk'
-import { formatPercent, formatPlain, toneLabel, toneOf } from './format'
+import { formatPercent, formatPlain, toneLabel, toneMeta, toneOf } from './format'
 import type { BukAreaNode, BukCompany } from '../types/buk'
 import type { Pregunta, UnidadNegocio } from '../types/clima'
 
@@ -16,11 +16,29 @@ export interface MentatAction {
   href: string
 }
 
+export interface MentatTableBlock {
+  type: 'table'
+  title: string
+  columns: string[]
+  rows: string[][]
+}
+
+export interface MentatBarsBlock {
+  type: 'bars'
+  title: string
+  valueLabel: string
+  maxValue: number
+  items: Array<{ label: string; value: number; displayValue: string; fill: string }>
+}
+
+export type MentatDataBlock = MentatTableBlock | MentatBarsBlock
+
 export interface MentatReply {
   text: string
   source?: string
   sourceHref?: string
   actions?: MentatAction[]
+  blocks?: MentatDataBlock[]
 }
 
 interface AreaRecord {
@@ -62,23 +80,28 @@ function includesAny(value: string, words: string[]) {
   return words.some((word) => value.includes(word))
 }
 
-function findUnit(query: string, context?: MentatContext) {
+function unitMatchesQuery(unit: UnidadNegocio, normalizedQuery: string, compactQuery: string, queryTokens: string[]) {
+  const name = normalize(unit.unidad)
+  const compactName = compact(unit.unidad)
+  const isShortName = compactName.length <= 3
+  return (name.includes(' ') && normalizedQuery.includes(name))
+    || (!isShortName && normalizedQuery.includes(name))
+    || (!isShortName && compactQuery.includes(compactName))
+    || (isShortName && queryTokens.includes(name))
+    || (isShortName && queryTokens.includes(compactName))
+    || (!isShortName && name.split(' ').every((part) => part.length > 1 && normalizedQuery.includes(part)))
+}
+
+function findUnits(query: string) {
   const normalizedQuery = normalize(query)
   const compactQuery = compact(query)
   const queryTokens = normalizedQuery.split(' ')
+  return clima.unidades.filter((unit) => unitMatchesQuery(unit, normalizedQuery, compactQuery, queryTokens))
+}
+
+function findUnit(query: string, context?: MentatContext) {
   const contextUnit = context?.activeUnit ? clima.unidades.find((unit) => unit.unidad === context.activeUnit) : undefined
-  const explicitUnit = clima.unidades.find((unit) => {
-    const name = normalize(unit.unidad)
-    const compactName = compact(unit.unidad)
-    const isShortName = compactName.length <= 3
-    return (name.includes(' ') && normalizedQuery.includes(name))
-      || (!isShortName && normalizedQuery.includes(name))
-      || (!isShortName && compactQuery.includes(compactName))
-      || (isShortName && queryTokens.includes(name))
-      || (isShortName && queryTokens.includes(compactName))
-      || (!isShortName && name.split(' ').every((part) => part.length > 1 && normalizedQuery.includes(part)))
-  })
-  return explicitUnit ?? contextUnit
+  return findUnits(query)[0] ?? contextUnit
 }
 
 function findArea(query: string) {
@@ -107,6 +130,243 @@ function questionAnswer(question: Pick<Pregunta, 'pregunta' | 'resultado'> & { c
     source: `Detalle de ${scope}`,
     sourceHref: href,
   }
+}
+
+type ComparisonMetric = 'clima' | 'participacion' | 'gestion' | 'personas'
+
+interface VisualRequest {
+  comparison: boolean
+  chart: boolean
+  table: boolean
+  ranking: boolean
+}
+
+interface VisualRow {
+  label: string
+  value: number
+  displayValue: string
+  columns: string[]
+}
+
+function visualRequest(query: string): VisualRequest {
+  const normalizedQuery = normalize(query)
+  const tokens = normalizedQuery.split(' ')
+  const comparison = includesAny(normalizedQuery, ['compar', 'versus', 'diferencia', 'contrasta']) || tokens.includes('vs')
+  const chart = includesAny(normalizedQuery, ['grafico', 'grafica', 'chart', 'barras', 'visualiza'])
+  const table = includesAny(normalizedQuery, ['tabla', 'tabular', 'cuadro', 'lista'])
+  const ranking = includesAny(normalizedQuery, ['ranking', 'todas las unidades', 'todas unidades', 'unidades de negocio'])
+  return { comparison, chart, table, ranking }
+}
+
+function comparisonMetric(query: string): ComparisonMetric {
+  const normalizedQuery = normalize(query)
+  if (includesAny(normalizedQuery, ['persona', 'dotacion', 'empleados', 'colaboradores'])) return 'personas'
+  if (includesAny(normalizedQuery, ['participacion', 'respuesta', 'cobertura'])) return 'participacion'
+  if (includesAny(normalizedQuery, ['gestion corporativa', 'gestion'])) return 'gestion'
+  return 'clima'
+}
+
+function metricLabel(metric: ComparisonMetric) {
+  return metric === 'participacion'
+    ? 'participación'
+    : metric === 'gestion'
+      ? 'Gestión Corporativa'
+      : metric === 'personas'
+        ? 'personas activas'
+        : 'resultado de clima'
+}
+
+function unitMetric(unit: UnidadNegocio, metric: ComparisonMetric) {
+  if (metric === 'participacion') return unit.participacion
+  if (metric === 'gestion') return unit.resultado_gestion_corporativa
+  return unit.resultado_global
+}
+
+function visualBlocks(query: string, title: string, valueLabel: string, chartItems: Array<{ label: string; value: number; displayValue: string }>, columns: string[], rows: VisualRow[], maxValue?: number): MentatDataBlock[] {
+  const request = visualRequest(query)
+  const blocks: MentatDataBlock[] = []
+  const showChart = request.chart || request.comparison || request.ranking
+  const showTable = request.table || request.comparison || request.ranking
+
+  if (showChart && chartItems.length > 0) {
+    const highestValue = Math.max(...chartItems.map((item) => item.value), 1)
+    blocks.push({
+      type: 'bars',
+      title,
+      valueLabel,
+      maxValue: maxValue ?? highestValue,
+      items: chartItems.map((item) => ({
+        ...item,
+        fill: toneMeta[toneOf(item.value)].fill,
+      })),
+    })
+  }
+
+  if (showTable && rows.length > 0) blocks.push({ type: 'table', title, columns, rows: rows.map((row) => row.columns) })
+  return blocks
+}
+
+function findAreas(query: string) {
+  const normalizedQuery = normalize(query)
+  const compactQuery = compact(query)
+  const seen = new Set<number>()
+  return [...areaRecords]
+    .sort((a, b) => b.area.name.length - a.area.name.length)
+    .filter((record) => {
+      const name = normalize(record.area.name)
+      const matches = name.length > 2 && (normalizedQuery.includes(name) || compactQuery.includes(compact(record.area.name)))
+      if (!matches || seen.has(record.area.id)) return false
+      seen.add(record.area.id)
+      return true
+    })
+}
+
+function answerComparison(query: string, context?: MentatContext): MentatReply | undefined {
+  const normalizedQuery = normalize(query)
+  const request = visualRequest(query)
+  if (!request.comparison && !request.chart && !request.table && !request.ranking) return undefined
+
+  const explicitUnits = findUnits(query)
+  const contextUnit = findUnit('', context)
+  const asksUnits = includesAny(normalizedQuery, ['unidades de negocio', 'unidades', 'unidad de negocio'])
+  const allUnitsRequested = (request.ranking || (asksUnits && (request.chart || request.table || request.comparison))) && !includesAny(normalizedQuery, ['area', 'subarea', 'buk'])
+  const units = allUnitsRequested
+    ? clima.global.ranking_unidades.map((ranking) => clima.unidades.find((unit) => unit.unidad === ranking.unidad)).filter((unit): unit is UnidadNegocio => Boolean(unit))
+    : explicitUnits.length > 0 ? explicitUnits : contextUnit ? [contextUnit] : []
+  const metric = comparisonMetric(query)
+  const globalRequested = includesAny(normalizedQuery, ['global', 'grupo'])
+  const asksCorporateVsClimate = includesAny(normalizedQuery, ['gestion corporativa', 'gestion']) && (includesAny(normalizedQuery, ['clima', 'resultado', 'global']) || request.comparison)
+
+  if (asksCorporateVsClimate) {
+    const scopes = units.length > 0
+      ? units.map((unit) => ({ label: unit.unidad, climate: unit.resultado_global, corporate: unit.resultado_gestion_corporativa, href: unitPath(unit.unidad) }))
+      : [{ label: 'Grupo Emaresa', climate: clima.global.resultado_global, corporate: clima.global.resultado_gestion_corporativa, href: '/' }]
+    const chartItems = scopes.flatMap((scope) => [
+      { label: `${scope.label} · Clima`, value: scope.climate, displayValue: formatPercent(scope.climate) },
+      { label: `${scope.label} · Gestión`, value: scope.corporate, displayValue: formatPercent(scope.corporate) },
+    ])
+    const rows = scopes.map((scope) => ({ label: scope.label, value: scope.climate, displayValue: formatPercent(scope.climate), columns: [scope.label, formatPercent(scope.climate), formatPercent(scope.corporate), formatPercent(scope.corporate - scope.climate)] }))
+    return {
+      text: `Comparé clima versus Gestión Corporativa${scopes.length === 1 ? ` para ${scopes[0].label}` : ` en ${scopes.length} unidades`}. La última columna muestra la diferencia entre ambos indicadores.`,
+      source: 'Dataset de clima · S1 2026',
+      sourceHref: scopes[0]?.href,
+      blocks: visualBlocks(query, 'Clima versus Gestión Corporativa', 'Resultado (%)', chartItems, ['Alcance', 'Clima', 'Gestión Corporativa', 'Diferencia'], rows, 100),
+    }
+  }
+
+  const asksCorporateTeams = includesAny(normalizedQuery, ['equipo', 'equipos', 'corporativa', 'corporativo'])
+  if (asksCorporateTeams && !asksCorporateVsClimate && (request.chart || request.table || request.comparison)) {
+    const selectedMonths = corporateMonths.filter((month) => normalizedQuery.includes(normalize(month.mes)))
+    const teams = (selectedMonths.length > 0 ? selectedMonths : corporateMonths).flatMap((month) => month.equipos.map((team) => ({ ...team, mes: month.mes })))
+    const rows = teams.map((team) => ({ label: team.equipo, value: team.resultado, displayValue: formatPercent(team.resultado), columns: [team.equipo, team.mes, formatPercent(team.resultado)] }))
+    return {
+      text: `Comparé ${teams.length} equipos de Gestión Corporativa${selectedMonths.length > 0 ? ` en ${selectedMonths.map((month) => month.mes).join(' y ')}` : ''}.`,
+      source: 'Gestión Corporativa',
+      sourceHref: '/gestion-corporativa',
+      blocks: visualBlocks(query, 'Equipos de Gestión Corporativa', 'Resultado (%)', teams.map((team) => ({ label: team.equipo, value: team.resultado, displayValue: formatPercent(team.resultado) })), ['Equipo', 'Mes', 'Resultado'], rows, 100),
+    }
+  }
+
+  const explicitAreas = findAreas(query)
+  const asksOrganization = includesAny(normalizedQuery, ['area', 'subarea', 'organizacion', 'buk', 'personas'])
+  if (explicitAreas.length >= 2 || (asksOrganization && (request.chart || request.table || request.comparison) && units.length === 0)) {
+    const areas = explicitAreas.length >= 2
+      ? explicitAreas
+      : areaRecords.filter((record) => record.area.depth === 1).sort((a, b) => b.area.employeeCount - a.area.employeeCount).slice(0, 10)
+    const rows = areas.map((record) => ({ label: record.area.name, value: record.area.employeeCount, displayValue: formatPlain(record.area.employeeCount), columns: [record.area.name, record.company.name, formatPlain(record.area.employeeCount), formatPlain(record.area.children.length)] }))
+    return {
+      text: explicitAreas.length >= 2 ? `Comparé ${areas.length} áreas o subáreas por cantidad de personas activas.` : 'Ordené las áreas de primer nivel por cantidad de personas activas. Puedes pedirme el nombre de un área para revisar su detalle.',
+      source: 'Organización BUK · datos agregados',
+      sourceHref: '/organizacion',
+      blocks: visualBlocks(query, 'Personas activas por área', 'Personas', areas.map((record) => ({ label: record.area.name, value: record.area.employeeCount, displayValue: formatPlain(record.area.employeeCount) })), ['Área o subárea', 'Empresa', 'Personas', 'Nodos dependientes'], rows),
+    }
+  }
+
+  const asksDivision = includesAny(normalizedQuery, ['division', 'razon social', 'legal'])
+  if (asksDivision && units.length > 0) {
+    const unit = units[0]
+    const divisions = unit.divisiones.filter((division) => typeof division.resultado === 'number')
+    const rows = divisions.map((division) => {
+      const result = typeof division.resultado === 'number' ? division.resultado : 0
+      const participation = typeof division.respondidos === 'number' && division.enviados > 0 ? (division.respondidos / division.enviados) * 100 : 0
+      return { label: division.nombre, value: result, displayValue: formatPercent(result), columns: [division.nombre, formatPercent(result), formatPercent(participation), `${formatPlain(division.respondidos)} / ${formatPlain(division.enviados)}`] }
+    })
+    return {
+      text: `Comparé las divisiones legales de ${unit.unidad} por resultado de clima y participación.`,
+      source: `Detalle de ${unit.unidad}`,
+      sourceHref: unitPath(unit.unidad),
+      blocks: visualBlocks(query, `Divisiones legales · ${unit.unidad}`, 'Resultado (%)', divisions.map((division) => ({ label: division.nombre, value: typeof division.resultado === 'number' ? division.resultado : 0, displayValue: formatPercent(division.resultado) })), ['Razón social', 'Resultado', 'Participación', 'Respuestas'], rows, 100),
+      actions: [unitAction(unit)],
+    }
+  }
+
+  const asksCategory = includesAny(normalizedQuery, ['categoria', 'categorias'])
+  if (asksCategory && units.length > 0) {
+    const unit = units[0]
+    const compareWithGlobal = globalRequested || request.comparison
+    const categories = unit.categorias
+    const rows = categories.map((category) => {
+      const globalCategory = clima.global.categorias.find((item) => item.categoria === category.categoria)
+      const columns = compareWithGlobal
+        ? [category.categoria, formatPercent(category.resultado), formatPercent(globalCategory?.resultado)]
+        : [category.categoria, formatPercent(category.resultado)]
+      return { label: category.categoria, value: category.resultado, displayValue: formatPercent(category.resultado), columns }
+    })
+    const chartItems = compareWithGlobal
+      ? categories.flatMap((category) => {
+        const globalCategory = clima.global.categorias.find((item) => item.categoria === category.categoria)
+        return [
+          { label: `${category.categoria} · ${unit.unidad}`, value: category.resultado, displayValue: formatPercent(category.resultado) },
+          ...(globalCategory ? [{ label: `${category.categoria} · Grupo`, value: globalCategory.resultado, displayValue: formatPercent(globalCategory.resultado) }] : []),
+        ]
+      })
+      : categories.map((category) => ({ label: category.categoria, value: category.resultado, displayValue: formatPercent(category.resultado) }))
+    return {
+      text: compareWithGlobal ? `Comparé las categorías de ${unit.unidad} contra el resultado del grupo.` : `Organicé las categorías de ${unit.unidad} de acuerdo con su resultado.`,
+      source: `Categorías de ${unit.unidad}`,
+      sourceHref: unitPath(unit.unidad),
+      blocks: visualBlocks(query, compareWithGlobal ? `Categorías · ${unit.unidad} versus grupo` : `Categorías · ${unit.unidad}`, 'Resultado (%)', chartItems, compareWithGlobal ? ['Categoría', unit.unidad, 'Grupo'] : ['Categoría', 'Resultado'], rows, 100),
+      actions: [unitAction(unit)],
+    }
+  }
+
+  const unitsForComparison = allUnitsRequested || explicitUnits.length >= 2 ? units : []
+  if (metric === 'personas' && unitsForComparison.length >= 2) {
+    return {
+      text: 'El snapshot de BUK permite comparar personas activas por empresa, área y subárea, pero no cruza esa dotación con las unidades de la encuesta. Para una comparación válida, pide “grafica las áreas con más personas”.',
+      source: 'Organización BUK · datos agregados',
+      sourceHref: '/organizacion',
+    }
+  }
+  if (unitsForComparison.length >= 2) {
+    const rows = unitsForComparison.map((unit) => ({
+      label: unit.unidad,
+      value: unitMetric(unit, metric),
+      displayValue: metric === 'personas' ? '—' : formatPercent(unitMetric(unit, metric)),
+      columns: [unit.unidad, formatPercent(unit.resultado_global), formatPercent(unit.participacion), formatPercent(unit.resultado_gestion_corporativa)],
+    }))
+    const chartItems = unitsForComparison.map((unit) => ({ label: unit.unidad, value: unitMetric(unit, metric), displayValue: metric === 'personas' ? '—' : formatPercent(unitMetric(unit, metric)) }))
+    return {
+      text: `Comparé ${unitsForComparison.length} unidades por ${metricLabel(metric)}. La tabla conserva también clima, participación y Gestión Corporativa para que puedas leer la diferencia completa.`,
+      source: 'Ranking de unidades · S1 2026',
+      sourceHref: '/',
+      blocks: visualBlocks(query, `Comparativa de unidades · ${metricLabel(metric)}`, metric === 'personas' ? 'Personas' : 'Resultado (%)', chartItems, ['Unidad', 'Clima', 'Participación', 'Gestión Corporativa'], rows, metric === 'personas' ? undefined : 100),
+    }
+  }
+
+  if (units.length === 1 && (request.chart || request.table) && !asksCategory && !asksDivision) {
+    const unit = units[0]
+    const rows = unit.categorias.map((category) => ({ label: category.categoria, value: category.resultado, displayValue: formatPercent(category.resultado), columns: [category.categoria, formatPercent(category.resultado)] }))
+    return {
+      text: `Preparé una lectura visual de ${unit.unidad} por categoría.`,
+      source: `Detalle de ${unit.unidad}`,
+      sourceHref: unitPath(unit.unidad),
+      blocks: visualBlocks(query, `Perfil de clima · ${unit.unidad}`, 'Resultado (%)', rows.map((row) => ({ label: row.label, value: row.value, displayValue: row.displayValue })), ['Categoría', 'Resultado'], rows, 100),
+      actions: [unitAction(unit)],
+    }
+  }
+
+  return undefined
 }
 
 function answerArea(query: string): MentatReply | undefined {
@@ -321,7 +581,8 @@ export function replyToMentat(query: string, context?: MentatContext): MentatRep
     return { text: 'Soy Mentat. Puedo consultar resultados, participación, categorías, preguntas, unidades, divisiones legales y la estructura de BUK. También puedo buscar notas de áreas y subáreas cuando estén cargadas.', source: 'Mentat' }
   }
 
-  return answerArea(trimmed)
+  return answerComparison(trimmed, context)
+    ?? answerArea(trimmed)
     ?? answerOrganization(trimmed)
     ?? answerUnit(trimmed, context)
     ?? answerCorporate(trimmed)

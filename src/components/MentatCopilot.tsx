@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { replyToMentat, type MentatContext, type MentatReply } from '../lib/mentat'
+import { replyToMentat, type MentatContext, type MentatDataBlock, type MentatReply } from '../lib/mentat'
 import { Icon } from './IconSprite'
 
 interface ChatMessage {
@@ -10,6 +10,7 @@ interface ChatMessage {
   source?: string
   sourceHref?: string
   actions?: MentatReply['actions']
+  blocks?: MentatReply['blocks']
 }
 
 const initialMessage: ChatMessage = {
@@ -31,6 +32,23 @@ function MentatAvatar({ compact = false }: { compact?: boolean }) {
 
 function renderMessageText(text: string) {
   return text.split('\n').map((line, index) => <span key={`${line}-${index}`} className="block">{line}</span>)
+}
+
+function MentatDataBlocks({ blocks }: { blocks: MentatDataBlock[] }) {
+  return <div className="mentat-data-blocks">
+    {blocks.map((block, index) => block.type === 'bars' ? <section key={`${block.type}-${index}`} className="mentat-data-card" aria-label={block.title}>
+      <div className="mentat-data-card__heading"><strong>{block.title}</strong><span>{block.valueLabel}</span></div>
+      <div className="mentat-bars">
+        {block.items.map((item) => <div key={item.label} className="mentat-bar-row">
+          <div className="mentat-bar-label"><span title={item.label}>{item.label}</span><strong>{item.displayValue}</strong></div>
+          <div className="mentat-bar-track"><span className="mentat-bar-fill" style={{ width: `${Math.max(4, Math.min(100, (item.value / block.maxValue) * 100))}%`, backgroundColor: item.fill }} /></div>
+        </div>)}
+      </div>
+    </section> : <section key={`${block.type}-${index}`} className="mentat-data-card" aria-label={block.title}>
+      <div className="mentat-data-card__heading"><strong>{block.title}</strong><span>Detalle</span></div>
+      <div className="mentat-table-wrap"><table className="mentat-table"><thead><tr>{block.columns.map((column) => <th key={column}>{column}</th>)}</tr></thead><tbody>{block.rows.map((row, rowIndex) => <tr key={`${row[0] ?? rowIndex}-${rowIndex}`}>{row.map((cell, cellIndex) => <td key={`${cell}-${cellIndex}`} className={cellIndex === 0 ? 'mentat-table__label' : ''}>{cell}</td>)}</tr>)}</tbody></table></div>
+    </section>)}
+  </div>
 }
 
 export function MentatCopilot({ context }: { context: MentatContext }) {
@@ -88,6 +106,7 @@ export function MentatCopilot({ context }: { context: MentatContext }) {
             {message.role === 'assistant' && <MentatAvatar compact />}
             <div className="min-w-0 max-w-[calc(100%-42px)]">
               <div className="mentat-bubble">{renderMessageText(message.text)}</div>
+              {message.blocks && <MentatDataBlocks blocks={message.blocks} />}
               {message.source && <div className="mt-1.5 px-1 text-[10px] text-ink-faint">{message.sourceHref ? <Link to={message.sourceHref} className="font-semibold text-teal hover:underline">{message.source}</Link> : message.source}</div>}
               {message.actions && message.actions.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5">{message.actions.map((action) => <Link key={action.href} to={action.href} onClick={() => setOpen(false)} className="inline-flex max-w-full items-center gap-1 rounded-lg border border-[#DCE9F4] bg-white px-2.5 py-1.5 text-[10.5px] font-semibold text-teal hover:border-teal"><span className="truncate">{action.label}</span><Icon name="arrow" className="h-3 w-3 shrink-0" /></Link>)}</div>}
             </div>

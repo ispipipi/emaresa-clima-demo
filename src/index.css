@@ -128,6 +128,23 @@ select { font: inherit; }
 .mentat-message--user .mentat-bubble { border-color: #0b7180; color: #fff; background: #0b7180; }
 .mentat-bubble { border: 1px solid #e4eef8; border-radius: 4px 15px 15px 15px; padding: 10px 12px; color: #17263c; background: #f4f8fd; font-size: 12.5px; line-height: 1.55; white-space: normal; }
 .mentat-message--user .mentat-bubble { border-radius: 15px 4px 15px 15px; }
+.mentat-data-blocks { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.mentat-data-card { overflow: hidden; border: 1px solid #e4eef8; border-radius: 13px; background: #fff; }
+.mentat-data-card__heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 9px 10px 8px; border-bottom: 1px solid #edf4fa; background: #f9fcff; }
+.mentat-data-card__heading strong { min-width: 0; color: #1f3656; font-size: 10.5px; line-height: 1.3; }
+.mentat-data-card__heading span { flex: 0 0 auto; color: #93a6bc; font-size: 9px; font-weight: 600; }
+.mentat-bars { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+.mentat-bar-row { min-width: 0; }
+.mentat-bar-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #647792; font-size: 10px; line-height: 1.3; }
+.mentat-bar-label span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mentat-bar-label strong { flex: 0 0 auto; color: #17263c; font-size: 10px; font-variant-numeric: tabular-nums; }
+.mentat-bar-track { height: 5px; margin-top: 4px; overflow: hidden; border-radius: 999px; background: #edf4fa; }
+.mentat-bar-fill { display: block; height: 100%; min-width: 3px; border-radius: inherit; transition: width .45s ease; }
+.mentat-table-wrap { overflow-x: auto; }
+.mentat-table { width: 100%; min-width: 330px; border-collapse: collapse; color: #647792; font-size: 10px; }
+.mentat-table th { padding: 8px 9px 7px; color: #a9bcd1; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-align: left; text-transform: uppercase; white-space: nowrap; }
+.mentat-table td { padding: 8px 9px; border-top: 1px solid #edf4fa; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mentat-table__label { max-width: 145px; overflow: hidden; color: #17263c; font-weight: 600; text-overflow: ellipsis; }
 .mentat-panel__suggestions { flex: 0 0 auto; padding: 0 14px 11px; }
 .mentat-panel__suggestions button { flex: 0 0 auto; border: 1px solid #dce9f4; border-radius: 999px; padding: 7px 10px; color: #526480; background: #fff; font-size: 10.5px; font-weight: 600; white-space: nowrap; transition: border-color .2s ease, color .2s ease, background-color .2s ease; }
 .mentat-panel__suggestions button:hover { border-color: #8fc9d1; color: #0b7180; background: #f2f8fd; }
