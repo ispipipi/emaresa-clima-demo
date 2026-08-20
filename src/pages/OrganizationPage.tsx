@@ -6,13 +6,13 @@ import { SectionHeader } from '../components/SectionHeader'
 import { SegmentedGauge } from '../components/SegmentedGauge'
 import { clima } from '../lib/clima'
 import { bukOrganization, formatBukSyncDate } from '../lib/buk'
-import { formatPercent, formatPlain } from '../lib/format'
+import { formatPlain } from '../lib/format'
 
 export function OrganizationPage() {
   return (
     <AppShell activeDivision="organizacion">
       <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
-        <div className="min-w-0"><p className="text-xs font-medium tracking-[0.02em] text-teal">Fuente conectada · Snapshot BUK</p><h1 className="mt-2.5 font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">Organización</h1><p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Explora la estructura real desde la empresa hasta las áreas y subáreas más pequeñas disponibles.</p><div className="mt-5 flex flex-wrap gap-5 border-t border-line-soft pt-4"><HeroStat value={formatPlain(bukOrganization.companyCount)} label="empresas" /><HeroStat value={formatPlain(bukOrganization.areaCount)} label="áreas y subáreas" /><HeroStat value={formatPercent(clima.global.participacion)} label="universo encuestado" /></div></div>
+        <div className="min-w-0"><p className="text-xs font-medium tracking-[0.02em] text-teal">Fuente conectada · Snapshot BUK</p><h1 className="mt-2.5 font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">Organización</h1><p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Explora la estructura real desde la empresa hasta las áreas y subáreas más pequeñas disponibles.</p></div>
         <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start"><SegmentedGauge value={bukOrganization.employeeCount} label="Personas activas" full /><div><p className="text-[9.5px] font-bold uppercase tracking-[0.19em] text-teal">Última sincronización</p><p className="mt-2 font-display text-lg font-bold text-navy-ink">{formatBukSyncDate(bukOrganization.generatedAt)}</p><p className="mt-1 text-[11.5px] text-ink-faint">{bukOrganization.instance}</p></div></div>
       </Card>
 
@@ -27,8 +27,4 @@ export function OrganizationPage() {
       <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La vista publica únicamente conteos agregados de empresas, áreas, subáreas y personas activas. No se muestran nombres, RUT, correos ni datos contractuales.</p></Card>
     </AppShell>
   )
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return <div><span className="block font-display text-xl font-bold tracking-[-0.026em] tabular-nums text-navy-ink">{value}</span><span className="mt-1 block text-[11.5px] text-ink-faint">{label}</span></div>
 }

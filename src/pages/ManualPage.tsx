@@ -59,7 +59,7 @@ const steps: Array<{
     icon: 'unit',
     title: 'Bajar a una unidad',
     intro: 'Elige una unidad en el menú lateral o desde la tira de hermanos para comparar su resultado.',
-    bullets: ['Selecciona una unidad de negocio.', 'Revisa su posición, participación y divisiones.', 'Continúa con sus categorías y preguntas.'],
+    bullets: ['Selecciona una unidad de negocio.', 'Revisa sus KPI, divisiones, categorías y preguntas.', 'Usa Generar informe de clima para descargar su PDF.'],
     image: 'manual/05-unidad.png',
     caption: 'Vista de unidad de negocio con acceso a sus divisiones.',
     href: '/unidad/A%26J',
@@ -76,17 +76,6 @@ const steps: Array<{
   },
   {
     number: '07',
-    icon: 'down',
-    title: 'Descargar informes',
-    intro: 'Los informes publicados están disponibles para descarga directa y envío.',
-    bullets: ['Elige el informe corporativo o el de unidad.', 'Descarga el PDF original desde su tarjeta.', 'Usa la portada y el alcance para identificarlo.'],
-    image: 'manual/07-informes.png',
-    caption: 'Tarjetas de descarga con los informes PDF originales.',
-    href: '/',
-    cta: 'Ver informes',
-  },
-  {
-    number: '08',
     icon: 'org',
     title: 'Estructura organizacional',
     intro: 'Consulta la fotografía agregada de la organización sincronizada desde BUK.',
@@ -127,7 +116,7 @@ export function ManualPage() {
         </div>
       </Card>
 
-      <div className="flex items-end justify-between gap-4 px-1 pt-1"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Recorrido recomendado</p><h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.022em] text-navy-ink">Ocho pasos para leer el reporte</h2></div><span className="hidden text-[12px] text-ink-faint sm:block">Desde la compañía hasta la división</span></div>
+      <div className="flex items-end justify-between gap-4 px-1 pt-1"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Recorrido recomendado</p><h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.022em] text-navy-ink">Siete pasos para leer el reporte</h2></div><span className="hidden text-[12px] text-ink-faint sm:block">Desde la compañía hasta la división</span></div>
 
       <div className="flex flex-col gap-[14px]">
         {steps.map((step) => <Card key={step.number} className="grid gap-6 p-5 lg:grid-cols-[minmax(0,1fr)_1.12fr] lg:gap-7 lg:p-6">
@@ -149,7 +138,7 @@ export function ManualPage() {
 
       <Card className="p-5 lg:p-6"><div className="flex items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Lectura rápida</p><h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.022em] text-navy-ink">Cómo leer los colores</h2></div><span className="hidden text-[12px] text-ink-faint sm:block">Umbrales del reporte</span></div><div className="mt-5 grid gap-2.5 lg:grid-cols-3"><ColorBand tone="green" label="Favorable" range="≥ 80" description="Resultado sólido, con una percepción positiva del equipo o indicador." /><ColorBand tone="yellow" label="Atención" range="60–79" description="Resultado intermedio que conviene revisar junto a categorías y preguntas." /><ColorBand tone="red" label="Crítico" range="< 60" description="Resultado bajo que requiere contexto y priorización en la lectura." /></div></Card>
 
-      <Card className="p-5 lg:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Alcance de la plataforma</p><h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.022em] text-navy-ink">Qué puedes hacer aquí</h2><div className="mt-5 grid gap-6 sm:grid-cols-2"><ScopeColumn title="Sí puedes" items={['Consultar los tres niveles de la organización.', 'Abrir la composición de los indicadores.', 'Descargar los PDF originales publicados.', 'Revisar la estructura organizacional agregada.']} positive /><ScopeColumn title="No puedes" items={['Editar o cargar datos en el reporte.', 'Generar informes nuevos desde esta pantalla.', 'Ver respuestas individuales o datos personales.', 'Definir planes de acción dentro de la plataforma.']} /></div></Card>
+      <Card className="p-5 lg:p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Alcance de la plataforma</p><h2 className="mt-1 font-display text-[22px] font-bold tracking-[-0.022em] text-navy-ink">Qué puedes hacer aquí</h2><div className="mt-5 grid gap-6 sm:grid-cols-2"><ScopeColumn title="Sí puedes" items={['Consultar los tres niveles de la organización.', 'Abrir la composición de los indicadores.', 'Generar el informe PDF desde una unidad.', 'Revisar la estructura organizacional agregada.']} positive /><ScopeColumn title="No puedes" items={['Editar o cargar datos en el reporte.', 'Ver respuestas individuales o datos personales.', 'Definir planes de acción dentro de la plataforma.']} /></div></Card>
     </AppShell>
   )
 }

@@ -156,9 +156,7 @@ def cover(c: canvas.Canvas, unit: dict) -> None:
     c.drawString(48, 218, "Elaborado por: Equipo de Desarrollo Organizacional")
 
     if LOGO_PATH.exists():
-        c.setFillColor(white)
-        c.roundRect(PAGE_W - 356, 34, 304, 92, 12, stroke=0, fill=1)
-        c.drawImage(ImageReader(str(LOGO_PATH)), PAGE_W - 338, 49, width=268, height=65, preserveAspectRatio=True, mask="auto")
+        c.drawImage(ImageReader(str(LOGO_PATH)), PAGE_W - 356, 38, width=304, height=73, preserveAspectRatio=True, mask="auto")
 
 
 def interpretation(c: canvas.Canvas, title: str, page_number: int) -> None:

@@ -3,7 +3,6 @@ import { Card } from '../components/Card'
 import { Icon } from '../components/IconSprite'
 import { KpiCard } from '../components/KpiCard'
 import { MonthlyTeams } from '../components/MonthlyTeams'
-import { ReportCard } from '../components/ReportCard'
 import { SectionHeader } from '../components/SectionHeader'
 import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
@@ -26,7 +25,6 @@ export function CorporatePage() {
           <p className="text-xs font-medium tracking-[0.02em] text-teal">Indicador separado · Semestre 1 · 2026</p>
           <h1 className="mt-2.5 max-w-[24ch] font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">Gestión Corporativa</h1>
           <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">La percepción de la gestión de la organización, separada de la experiencia particular de cada equipo.</p>
-          <div className="mt-5 flex flex-wrap gap-5 border-t border-line-soft pt-4"><HeroStat value={formatPercent(result)} label="resultado consolidado" /><HeroStat value={best?.equipo ?? '—'} label="mejor equipo" /><HeroStat value={opportunity?.equipo ?? '—'} label="mayor oportunidad" /></div>
           <a href={`${import.meta.env.BASE_URL}reportes/${reportDefinitions.corporate.file}`} download={reportDefinitions.corporate.file} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="down" className="h-[15px] w-[15px]" />Descargar informe PDF</a>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start"><SegmentedGauge value={result} label="Gestión Corporativa" /><div><StatusPill tone={resultTone(result)} /><p className="mt-3 max-w-[23ch] text-[13px] leading-6 text-ink-soft">Este indicador se presenta fuera del clima global y sus categorías.</p></div></div>
@@ -43,11 +41,6 @@ export function CorporatePage() {
 
       <Card className="p-[22px]"><SectionHeader title="Preguntas de Gestión Corporativa" subtitle="Consolidado semestral" /><div className="mt-[18px] grid gap-x-7 sm:grid-cols-2 lg:grid-cols-5">{corporateQuestions.map((question) => <div key={question.pregunta} className="border-t border-line-soft py-4"><p className="text-[12.5px] leading-[1.55] text-ink-soft">{question.pregunta}</p><p className="mt-2 font-display text-2xl font-extrabold tabular-nums text-navy-ink">{formatPercent(question.resultado)}</p></div>)}</div></Card>
 
-      <Card className="p-[22px]"><SectionHeader title="Informe listo para envío" subtitle="PDF original de Gestión Corporativa" /><div className="mt-[18px] max-w-2xl"><ReportCard report={reportDefinitions.corporate} /></div></Card>
     </AppShell>
   )
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return <div><span className="block max-w-[16ch] truncate font-display text-xl font-bold tracking-[-0.026em] tabular-nums text-navy-ink">{value}</span><span className="mt-1 block text-[11.5px] text-ink-faint">{label}</span></div>
 }

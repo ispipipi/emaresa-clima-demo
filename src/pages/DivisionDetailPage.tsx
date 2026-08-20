@@ -8,7 +8,6 @@ import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
 import { clima, divisionPath, findDivision, findUnit } from '../lib/clima'
 import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
-import { reportDefinitions } from '../lib/reports'
 
 export function DivisionDetailPage() {
   const { nombre, division } = useParams()
@@ -18,13 +17,12 @@ export function DivisionDetailPage() {
   if (!unidad || !divisionData) return <AppShell><Card className="p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">División no encontrada</p><h1 className="mt-3 font-display text-3xl font-bold text-navy-ink">No existe una división para esta ruta</h1><Link to={unidad ? `/unidad/${encodeURIComponent(unidad.unidad)}` : '/'} className="mt-6 inline-flex rounded-[14px] bg-navy px-4 py-3 text-sm font-bold text-white hover:bg-teal">Volver al nivel anterior</Link></Card></AppShell>
 
   const participation = typeof divisionData.respondidos === 'number' && divisionData.enviados > 0 ? (divisionData.respondidos / divisionData.enviados) * 100 : '-'
-  const parentReport = unidad.unidad === 'A&J' ? reportDefinitions.aj : undefined
   const unitRank = clima.global.ranking_unidades.findIndex((item) => item.unidad === unidad.unidad) + 1
 
   return (
     <AppShell activeUnit={unidad.unidad} activeDivision={divisionData.nombre}>
       <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
-        <div className="min-w-0"><p className="text-xs font-medium tracking-[0.02em] text-teal">División legal · Tercer nivel</p><h1 className="mt-2.5 max-w-[30ch] break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{divisionData.nombre}</h1><p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Unidad de negocio: <span className="font-semibold text-ink">{unidad.unidad}</span>. Este es el nivel más pequeño informado para esta entrega.</p><div className="mt-5 flex flex-wrap gap-5 border-t border-line-soft pt-4"><HeroStat value={formatParticipation(divisionData.respondidos, divisionData.enviados)} label="participación" /><HeroStat value={formatPlain(divisionData.respondidos)} label="respuestas" /><HeroStat value={`#${unitRank}`} label="posición de la unidad" /></div>{parentReport && <a href={`${import.meta.env.BASE_URL}reportes/${parentReport.file}`} download={parentReport.file} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="down" className="h-[15px] w-[15px]" />Descargar PDF de la unidad</a>}</div>
+        <div className="min-w-0"><p className="text-xs font-medium tracking-[0.02em] text-teal">División legal · Tercer nivel</p><h1 className="mt-2.5 max-w-[30ch] break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{divisionData.nombre}</h1><p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Unidad de negocio: <span className="font-semibold text-ink">{unidad.unidad}</span>. Este es el nivel más pequeño informado para esta entrega.</p></div>
         <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start"><SegmentedGauge value={divisionData.resultado} label="Resultado de la división" /><div><StatusPill tone={resultTone(divisionData.resultado)} /><p className="mt-3 max-w-[22ch] text-[13px] leading-6 text-ink-soft">La entrega no trae categorías ni preguntas a este nivel.</p></div></div>
       </Card>
 
@@ -39,8 +37,4 @@ export function DivisionDetailPage() {
       <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La entrega S1 2026 no trae categorías ni preguntas para este nivel. La lectura temática vive en la unidad de negocio.</p></Card>
     </AppShell>
   )
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return <div><span className="block max-w-[18ch] truncate font-display text-xl font-bold tracking-[-0.026em] tabular-nums text-navy-ink">{value}</span><span className="mt-1 block text-[11.5px] text-ink-faint">{label}</span></div>
 }

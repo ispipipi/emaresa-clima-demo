@@ -56,8 +56,8 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
           <div className="flex-none p-[18px_16px_16px]">
             <div className="flex items-start justify-between gap-3">
               <Link to="/" className="block min-w-0 flex-1" onClick={() => setMenuOpen(false)}>
-                <span className="flex items-center justify-center rounded-[14px] bg-white px-3.5 py-3">
-                  <img src={assetUrl('emaresa-logo.png')} alt="Grupo Emaresa" className="block h-auto w-full max-w-[150px]" />
+                <span className="flex items-center justify-center rounded-[14px] bg-[#15579A] px-3.5 py-4">
+                  <img src={assetUrl('emaresa-logo.png')} alt="Grupo Emaresa" className="block h-auto w-full max-w-[175px]" />
                 </span>
                 <span className="mt-3 block pl-1 text-[9.5px] font-bold uppercase tracking-[0.2em] text-teal-light">Clima organizacional</span>
                 <span className="mt-1 block pl-1 text-[11px] font-medium text-white/45">Semestre 1 · 2026</span>
@@ -110,7 +110,9 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
             </div>
           </header>
 
-          <SiblingStrip activeUnit={activeUnit} activeDivision={activeDivision} />
+          <div className="lg:hidden">
+            <SiblingStrip activeUnit={activeUnit} activeDivision={activeDivision} />
+          </div>
 
           <main key={location.pathname} className="flex min-w-0 flex-col gap-[14px] pb-[26px]" style={{ animationName: animFlip ? 'om-in-a' : 'om-in-b', animationDuration: '.44s', animationTimingFunction: 'cubic-bezier(.2,.7,.3,1)', animationFillMode: 'both' }}>
             {children}

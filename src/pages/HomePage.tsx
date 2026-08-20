@@ -3,12 +3,9 @@ import { Card } from '../components/Card'
 import { CategoryBars } from '../components/CategoryBars'
 import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
-import { ReportCard } from '../components/ReportCard'
-import { SectionHeader } from '../components/SectionHeader'
 import { SegmentedGauge } from '../components/SegmentedGauge'
 import { formatPercent, formatPlain, toneLabel, toneMeta, toneOf } from '../lib/format'
 import { clima } from '../lib/clima'
-import { reportDefinitions } from '../lib/reports'
 
 export function HomePage() {
   const { global } = clima
@@ -29,11 +26,6 @@ export function HomePage() {
             <div className="min-w-[190px] flex-1">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold" style={{ color: heroMeta.text, backgroundColor: heroMeta.background }}><span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: heroMeta.dot }} />{toneLabel[heroTone]}</span>
               <p className="mt-3.5 max-w-[46ch] text-[13.5px] leading-[1.65] text-ink-soft">Una lectura ejecutiva del pulso de clima, con navegación desde la compañía hasta la división legal disponible.</p>
-              <div className="mt-[18px] flex flex-wrap gap-5 border-t border-line-soft pt-4">
-                <HeroStat value={formatPercent(global.participacion)} label="participación" />
-                <HeroStat value={`${formatPlain(global.respondidas)} / ${formatPlain(global.enviadas)}`} label="respuestas" />
-                <HeroStat value={`${favorableUnits} / ${global.ranking_unidades.length}`} label="unidades favorables" />
-              </div>
             </div>
           </div>
         </Card>
@@ -51,17 +43,6 @@ export function HomePage() {
         <QuestionList title="Preguntas mejor evaluadas" preguntas={global.top5} alternatePreguntas={global.bottom5} alternateTitle="Preguntas con mayor oportunidad" />
       </div>
 
-      <Card className="p-[22px]" animationDelay={200}>
-        <SectionHeader title="Informes listos para envío" subtitle="PDF originales · Semestre 1 · 2026" chip={<span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11px] font-medium text-ink-soft">Descarga directa</span>} />
-        <div className="mt-[18px] grid gap-[10px] lg:grid-cols-2">
-          <ReportCard report={reportDefinitions.corporate} />
-          <ReportCard report={reportDefinitions.aj} />
-        </div>
-      </Card>
     </AppShell>
   )
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return <div><span className="block font-display text-xl font-bold tracking-[-0.026em] tabular-nums text-navy-ink">{value}</span><span className="mt-1 block text-[11.5px] text-ink-faint">{label}</span></div>
 }
