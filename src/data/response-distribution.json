@@ -1,0 +1,10 @@
+{
+  "period": "S1-2026",
+  "source": "Informe oficial de clima",
+  "units": {
+    "A&J": {
+      "neutrales": 9.8,
+      "detractores": 3.1
+    }
+  }
+}

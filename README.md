@@ -24,6 +24,10 @@ npm run lint
 npm run build
 ```
 
+## Documentación
+
+La documentación funcional, el handoff de diseño y los archivos de referencia están organizados en `docs/`. Los informes PDF descargables permanecen en `public/reportes/` porque forman parte de los activos publicados por la aplicación.
+
 ## Informes y drilldown
 
 La aplicación navega desde Grupo Emaresa hasta la unidad de negocio y la división legal disponible en el dataset. Los PDF originales entregados para esta demo están publicados en `public/reportes/` y se descargan sin transformación desde las vistas correspondientes.

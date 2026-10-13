@@ -17,8 +17,10 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = ROOT / "src" / "data" / "clima.json"
+RESPONSE_DISTRIBUTION_PATH = ROOT / "src" / "data" / "response-distribution.json"
+ACTION_PLANS_PATH = ROOT / "src" / "data" / "action-plans.json"
 OUTPUT_DIR = ROOT / "public" / "reportes" / "unidades"
 LOGO_PATH = ROOT / "public" / "emaresa-logo.png"
 PAGE_W, PAGE_H = 1440, 810
@@ -34,6 +36,8 @@ LINE = HexColor("#B7C7D8")
 GREEN = HexColor("#16A34A")
 AMBER = HexColor("#CA8A04")
 RED = HexColor("#DC2626")
+ACTION_PLANS: dict[str, list[str]] = {}
+RESPONSE_DISTRIBUTION: dict[str, dict[str, object]] = {}
 
 
 def clean(value: object) -> str:
@@ -53,6 +57,11 @@ def clean(value: object) -> str:
     return text
 
 
+def normalize_question(value: object) -> str:
+    normalized = unicodedata.normalize("NFKD", clean(value)).encode("ascii", "ignore").decode("ascii")
+    return " ".join(normalized.casefold().split())
+
+
 def slug(value: str) -> str:
     normalized = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
     normalized = re.sub(r"[^a-zA-Z0-9]+", "-", normalized).strip("-").lower()
@@ -64,6 +73,20 @@ def fmt(value: object) -> str:
         return "-"
     number = f"{value:.2f}".rstrip("0").rstrip(".")
     return number
+
+
+def distribution_value(value: object) -> str:
+    if isinstance(value, (float, int)):
+        return f"{fmt(value)}%"
+    return "No disponible"
+
+
+def question_word(count: int) -> str:
+    return "pregunta" if count == 1 else "preguntas"
+
+
+def sort_questions(questions: Iterable[dict], descending: bool = False) -> list[dict]:
+    return sorted(questions, key=lambda item: float(item["resultado"]), reverse=descending)
 
 
 def tone(value: float) -> tuple[str, object]:
@@ -187,20 +210,25 @@ def general_data(c: canvas.Canvas, unit: dict, page_number: int) -> None:
     c.setFont("Helvetica-Bold", 42)
     c.drawCentredString(PAGE_W / 2, 650, "Datos Generales")
     result, result_color = tone(float(unit["resultado_global"]))
+    summary_left, summary_right = 395, 1260
+    summary_bottom, summary_top = 420, 575
     c.setStrokeColor(BLUE)
     c.setLineWidth(4)
-    c.line(395, 460, 395, 575)
-    c.line(1045, 460, 1045, 575)
+    c.line(summary_left, summary_bottom, summary_left, summary_top)
+    c.line(summary_right, summary_bottom, summary_right, summary_top)
     c.setFillColor(BLUE_DARK)
     c.setFont("Helvetica", 30)
-    c.drawString(425, 540, f"Resultado de la encuesta: {fmt(unit['resultado_global'])}%")
+    c.drawString(425, 540, "Resultado de la encuesta:")
+    c.drawString(800, 540, f"{fmt(unit['resultado_global'])}%")
     c.setFont("Helvetica-Bold", 30)
     c.setFillColor(result_color)
-    c.drawString(910, 540, result)
+    c.drawRightString(summary_right - 34, 540, result)
     c.setFillColor(BLUE_DARK)
     c.setFont("Helvetica", 30)
     c.drawString(425, 488, f"Participación: {fmt(unit['participacion'])}%")
-    c.drawString(425, 436, f"Respuestas: {unit['respondidas']} de {unit['enviadas']}")
+    distribution = RESPONSE_DISTRIBUTION.get(unit["unidad"], {})
+    c.drawString(425, 436, f"Neutrales: {distribution_value(distribution.get('neutrales'))}")
+    c.drawString(800, 436, f"Detractores: {distribution_value(distribution.get('detractores'))}")
 
     y = 345
     y = paragraph(c, "La metodología de cálculo utilizada para el resultado es Porcentaje de Promotores, lo que significa que cada valor mostrado en este informe se puede interpretar como porcentaje de respuestas positivas o promotoras.", 160, y, 1120, size=24, leading=36, color=BLUE_DARK)
@@ -255,19 +283,55 @@ def level_reading(c: canvas.Canvas, unit: dict, page_number: int) -> None:
     c.drawCentredString(PAGE_W / 2, 660, "Lectura general de resultados por nivel de clima")
     c.setFont("Helvetica", 18)
     c.drawCentredString(PAGE_W / 2, 620, "Esta sección resume la distribución de las preguntas según su nivel de resultado.")
-    questions = unit.get("bottom10", [])
+    questions = sort_questions(unit.get("bottom10", []))
     favorable = sum(float(item["resultado"]) >= 80 for item in questions)
     opportunity = sum(60 <= float(item["resultado"]) < 80 for item in questions)
-    critical = sum(float(item["resultado"]) < 60 for item in questions)
+    critical_questions = [item for item in questions if float(item["resultado"]) < 60]
+    critical = len(critical_questions)
     total = len(questions) or 1
-    distribution = f"En esta unidad, {favorable} de {total} preguntas se ubican en nivel favorable, {opportunity} presentan oportunidad de mejora y {critical} se encuentran en nivel crítico."
+    opportunity_phrase = (
+        f"{opportunity} {question_word(opportunity)} presenta"
+        if opportunity == 1
+        else f"{opportunity} preguntas presentan"
+    )
+    critical_phrase = (
+        f"{critical} {question_word(critical)} se encuentra"
+        if critical == 1
+        else f"{critical} preguntas se encuentran"
+    )
+    distribution = (
+        f"En esta unidad, {favorable} de {total} preguntas se ubican en nivel favorable, "
+        f"{opportunity_phrase} oportunidad de mejora y {critical_phrase} en nivel crítico."
+    )
     y = 535
     y = paragraph(c, distribution, 150, y, 1140, size=23, leading=35, color=BLUE_DARK, font="Helvetica-Bold")
     y -= 25
+    lowest_questions = questions[:5]
+    if critical_questions:
+        critical_verb = "requiere" if critical == 1 else "requieren"
+        critical_body = f"El nivel crítico concentra {critical} {question_word(critical)}. Cuando existen resultados en este tramo, {critical_verb} atención prioritaria, análisis de causas y planes de acción que puedan monitorearse en el tiempo."
+    elif lowest_questions:
+        lowest_results = [float(item["resultado"]) for item in lowest_questions]
+        critical_body = (
+            "No se registran preguntas bajo 60 puntos. Para priorizar la lectura, este análisis toma como referencia "
+            f"las cinco preguntas con menor resultado del equipo, ubicadas entre {fmt(min(lowest_results))}% y "
+            f"{fmt(max(lowest_results))}%; sus causas y posibles acciones se revisan en las secciones siguientes."
+        )
+    else:
+        critical_body = "No hay preguntas disponibles para construir un análisis crítico en este periodo."
     narratives = [
-        ("Puntos favorables (80-100):", "Las preguntas en este tramo muestran prácticas instaladas y una experiencia cotidiana mayoritariamente positiva. El principal desafío es no dar por garantizados estos resultados y reforzar activamente las condiciones que sostienen el buen clima."),
-        ("Con oportunidad de mejora (60-79):", "Este tramo sugiere experiencias no del todo consolidadas. Conviene revisar las causas junto a los equipos, priorizando conversaciones de gestión, comunicación y coordinación interna."),
-        ("Puntos críticos (0-59):", "Las preguntas en este rango requieren atención prioritaria, análisis de causas y definición de planes de acción que puedan ser monitoreados en el tiempo."),
+        (
+            "Puntos favorables (80-100):",
+            f"El tramo favorable reúne {favorable} preguntas. Estos resultados sugieren prácticas instaladas y una experiencia cotidiana positiva; el desafío es reforzar las condiciones que sostienen ese buen clima.",
+        ),
+        (
+            "Con oportunidad de mejora (60-79):",
+            f"Se identifican {opportunity} preguntas en rango de oportunidad. Conviene revisar sus causas junto a los equipos y priorizar conversaciones de gestión, comunicación y coordinación interna.",
+        ),
+        (
+            "Puntos críticos (0-59):",
+            critical_body,
+        ),
     ]
     for label, body in narratives:
         c.setFillColor(BLUE_DARK)
@@ -315,7 +379,11 @@ def draw_question_table(c: canvas.Canvas, title: str, intro: str, questions: Ite
             break
 
 
-def action_text(category: str) -> tuple[str, str]:
+def action_text(question: str, category: str) -> tuple[str, str]:
+    official_plans = ACTION_PLANS.get(normalize_question(question), [])
+    if len(official_plans) >= 2:
+        return official_plans[0], official_plans[1]
+
     actions = {
         "Colaboración": (
             "Fomentar metas compartidas que requieran coordinación entre integrantes y refuercen la responsabilidad colectiva.",
@@ -355,7 +423,7 @@ def action_page(c: canvas.Canvas, questions: list[dict], page_number: int, page_
         c.setFont("Helvetica-Bold", 16)
         c.drawString(135, y, "Planes:")
         y -= 25
-        first, second = action_text(item["categoria"])
+        first, second = action_text(item["pregunta"], item["categoria"])
         y = paragraph(c, f"- {first}", 165, y, 1120, size=16, leading=24, color=BLUE_DARK)
         y -= 7
         y = paragraph(c, f"- {second}", 165, y, 1120, size=16, leading=24, color=BLUE_DARK)
@@ -385,6 +453,9 @@ def closing_page(c: canvas.Canvas, unit: dict, page_number: int) -> None:
 
 def generate(unit: dict) -> Path:
     output = OUTPUT_DIR / slug(unit["unidad"])
+    top10 = sort_questions(unit.get("top10", []), descending=True)[:10]
+    bottom10 = sort_questions(unit.get("bottom10", []))[:10]
+    bottom5 = bottom10[:5]
     pdf = canvas.Canvas(str(output), pagesize=(PAGE_W, PAGE_H), pageCompression=1)
     pdf.setTitle(f"Encuesta Pulso de Clima - {clean(unit['unidad'])} - S1 2026")
     cover(pdf, unit)
@@ -397,21 +468,31 @@ def generate(unit: dict) -> Path:
     pdf.showPage()
     level_reading(pdf, unit, 5)
     pdf.showPage()
-    draw_question_table(pdf, "Preguntas mejor evaluadas", "Las 10 preguntas con mejor calificación en la encuesta, ordenadas de mayor a menor resultado.", unit.get("top10", []), 6)
+    draw_question_table(pdf, "Preguntas mejor evaluadas", "Las 10 preguntas con mejor calificación en la encuesta, ordenadas de mayor a menor resultado.", top10, 6)
     pdf.showPage()
-    draw_question_table(pdf, "Preguntas con mayor oportunidad", "Las 5 preguntas con menor calificación, ordenadas de menor a mayor resultado.", unit.get("bottom10", [])[:5], 7)
+    draw_question_table(pdf, "Preguntas con mayor oportunidad", "Las 5 preguntas con menor calificación, ordenadas de menor a mayor resultado.", bottom5, 7)
     pdf.showPage()
-    action_page(pdf, unit.get("bottom10", [])[:5], 8, 0)
+    action_page(pdf, bottom5, 8, 0)
     pdf.showPage()
-    action_page(pdf, unit.get("bottom10", [])[:5], 9, 2)
+    action_page(pdf, bottom5, 9, 2)
     pdf.showPage()
-    closing_page(pdf, unit, 10)
+    action_page(pdf, bottom5, 10, 4)
+    pdf.showPage()
+    closing_page(pdf, unit, 11)
     pdf.save()
     return output
 
 
 def main() -> None:
+    global ACTION_PLANS, RESPONSE_DISTRIBUTION
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    distribution_data = json.loads(RESPONSE_DISTRIBUTION_PATH.read_text(encoding="utf-8"))
+    action_data = json.loads(ACTION_PLANS_PATH.read_text(encoding="utf-8"))
+    RESPONSE_DISTRIBUTION = distribution_data.get("units", {})
+    ACTION_PLANS = {
+        normalize_question(question): [clean(plan) for plan in plans]
+        for question, plans in action_data.get("plans", {}).items()
+    }
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     for unit in data["unidades"]:
         path = generate(unit)

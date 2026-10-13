@@ -86,7 +86,7 @@ Tipografías:
 
 ### Referencias visuales incluidas
 
-En `handoff/assets/` se incluyen:
+En `docs/assets/` se incluyen:
 
 - `fis-intervent-reference.png`: captura de la referencia visual solicitada.
 - `emaresa-home.png`: captura del resumen ejecutivo actual.
@@ -229,7 +229,7 @@ Fuente:
 
 Fuente publicada:
 
-`src/data/buk-organization.json`
+`src/data/generated/buk-organization.json`
 
 Tipos:
 
@@ -243,7 +243,7 @@ El snapshot actual contiene, como referencia del build publicado:
 
 El script de sincronización es:
 
-`scripts/sync-buk.mjs`
+`scripts/buk/sync-buk.mjs`
 
 La API base de build es:
 
@@ -252,6 +252,8 @@ La API base de build es:
 La credencial se consume únicamente como secreto de GitHub Actions `BUK_API_TOKEN`. Nunca incluir el token en archivos, prompts, capturas o commits.
 
 El script publica únicamente agregados y no expone fichas personales.
+
+La sincronización se ejecuta diariamente mediante GitHub Actions en la ventana de las 22:00 de Chile. El snapshot se escribe primero en un archivo temporal y luego se reemplaza con un `rename` atómico: si la API falla o devuelve una respuesta inválida, el último snapshot válido queda intacto y el workflow falla para que pueda ser monitoreado.
 
 ## 7. Mapa de archivos relevantes
 
@@ -269,7 +271,7 @@ El script publica únicamente agregados y no expone fichas personales.
 ### Componentes funcionales
 
 - `src/components/KpiCard.tsx`: KPI interactivo y modal.
-- `src/components/ReportCard.tsx`: informe original y descarga.
+- `src/pages/UnitDetailPage.tsx` y `src/pages/CorporatePage.tsx`: informes originales y descarga.
 - `src/components/CategoryBars.tsx`: barras por categoría.
 - `src/components/QuestionList.tsx`: preguntas top/bottom.
 - `src/components/StatusPill.tsx`: semáforo.
@@ -287,7 +289,7 @@ El script publica únicamente agregados y no expone fichas personales.
 
 - `src/data/clima.json`: dataset de clima.
 - `src/data/corporativo.ts`: detalle corporativo.
-- `src/data/buk-organization.json`: snapshot BUK.
+- `src/data/generated/buk-organization.json`: snapshot BUK generado durante la sincronización.
 - `src/lib/clima.ts`: helpers de búsqueda y rutas.
 - `src/lib/buk.ts`: lectura y formato del snapshot BUK.
 - `src/lib/format.ts`: porcentajes, estados y formatos.
@@ -304,14 +306,12 @@ El script publica únicamente agregados y no expone fichas personales.
 
 ## 8. Archivos de referencia entregados
 
-Dentro de `handoff/source-docs/` se incluyen copias de:
+Dentro de `docs/reference/docs/` se incluyen copias de:
 
 - `EMARESA_HANDOFF-CLAUDE-CODEX_v1.1.md`: handoff histórico de construcción.
 - `EMARESA_MD-FUNCIONAL-CLIMA_v1.1.md`: documento funcional congelado.
 
-Dentro de `handoff/source-data/` se incluye:
-
-- `emaresa-clima-dataset.json`: dataset original entregado para la construcción.
+El dataset canónico consumido por la aplicación se mantiene en `src/data/clima.json`. La carpeta `docs/reference/data/` se reserva para snapshots o archivos de referencia que no sean fuente de ejecución.
 
 El documento funcional histórico describe la primera versión Type D sin BUK. La realidad actual de la demo es la descrita en este handoff: existe sincronización de snapshot BUK durante el build, además de las vistas de Gestión Corporativa y división legal.
 
@@ -430,12 +430,12 @@ No guardar ese valor en el repositorio.
 
 Abrir primero:
 
-1. `handoff/CLAUDE_DESIGN_HANDOFF.md`
-2. `handoff/FILE_MANIFEST.md`
-3. `handoff/assets/fis-intervent-reference.png`
-4. `handoff/assets/emaresa-home.png`
-5. `handoff/assets/emaresa-unit.png`
-6. `handoff/assets/emaresa-organization.png`
+1. `docs/design/CLAUDE_DESIGN_HANDOFF.md`
+2. `docs/FILE_MANIFEST.md`
+3. `docs/assets/fis-intervent-reference.png`
+4. `docs/assets/emaresa-home.png`
+5. `docs/assets/emaresa-unit.png`
+6. `docs/assets/emaresa-organization.png`
 
 Después revisar:
 
@@ -449,4 +449,3 @@ Después revisar:
 La instrucción final para la iteración de diseño es:
 
 > Refinar la interfaz existente hacia una experiencia minimalista, elegante y premium inspirada en FIS Intervent. Mantener el dashboard como herramienta operativa: los KPI deben ser accionables, los PDF deben descargarse sin transformación y el usuario debe poder bajar desde Grupo Emaresa hasta la división legal y desde la empresa BUK hasta sus subáreas. No cambiar los datos ni las reglas de negocio. Entregar diseño y código implementable, con desktop y mobile verificados.
-

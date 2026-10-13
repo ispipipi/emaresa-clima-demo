@@ -1,0 +1,66 @@
+{
+  "period": "2026",
+  "source": "Base Planes de acción 2026.pdf",
+  "plans": {
+    "Confío en que los líderes de mi unidad de negocio actúan de manera ética.": [
+      "Reforzar en reuniones de equipo los principios y lineamientos éticos de la organización, vinculándolos a situaciones concretas del negocio para dar claridad práctica.",
+      "Promover conversaciones abiertas frente a dilemas o decisiones complejas, explicando criterios utilizados para fortalecer la transparencia y coherencia."
+    ],
+    "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos.": [
+      "Coordinar reuniones interáreas para revisar procesos críticos, identificar fricciones y acordar mejoras conjuntas.",
+      "Definir acuerdos de servicio internos claros que establezcan responsabilidades y tiempos de respuesta entre áreas."
+    ],
+    "Cuento con flexibilidad razonable para responder a imprevistos personales.": [
+      "Definir criterios internos de flexibilidad que permitan ajustes de horario o modalidad ante situaciones justificadas.",
+      "Fomentar coordinación interna para cubrir funciones críticas cuando un integrante requiera atender un imprevisto personal."
+    ],
+    "Puedo mantener un equilibrio saludable entre mi vida personal y laboral.": [
+      "Revisar distribución de tareas y expectativas de disponibilidad fuera de horario, estableciendo límites claros cuando sea posible.",
+      "Promover planificación anticipada de actividades críticas para evitar urgencias recurrentes que afecten el equilibrio."
+    ],
+    "Considero que mi compensación es justa en relación con mis responsabilidades.": [
+      "Explicar de manera transparente los criterios que determinan estructura salarial, incrementos o bonos, vinculándolos a responsabilidades y resultados.",
+      "Revisar periódicamente la coherencia entre responsabilidades reales del cargo y su compensación, levantando ajustes cuando corresponda."
+    ],
+    "Mi carga de trabajo es sostenible en el tiempo.": [
+      "Analizar periódicamente volumen de tareas y responsabilidades del equipo, identificando sobrecargas estructurales.",
+      "Priorizar actividades estratégicas y eliminar o postergar tareas de bajo impacto para equilibrar exigencia operativa."
+    ],
+    "Mi jefatura comunica claramente cuales son las prioridades y expectativas de mi trabajo.": [
+      "Establecer instancias formales de alineación mensual donde se definan prioridades del período, objetivos esperados y criterios de éxito por rol, asegurando espacio para preguntas y validación de entendimiento.",
+      "Documentar metas y responsabilidades clave por cargo, compartiéndolas con cada colaborador para que exista claridad permanente sobre qué se espera y cómo se evaluará su desempeño."
+    ],
+    "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo.": [
+      "Incorporar un espacio fijo en las reuniones de equipo para informar resultados relevantes del negocio y explicar de manera directa cómo estos impactan la operación del área.",
+      "Generar comunicados breves y periódicos que resuman cambios organizacionales, decisiones estratégicas o ajustes operativos que puedan influir en el trabajo diario."
+    ],
+    "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva.": [
+      "Definir objetivos claros y resultados esperados, reduciendo controles innecesarios y enfocando el seguimiento en cumplimiento de metas más que en microgestión.",
+      "Delegar responsabilidades completas en proyectos o tareas específicas, otorgando autonomía real y espacio para que el equipo proponga soluciones."
+    ],
+    "Soy tratado/a con respeto independientemente de mi cargo o función.": [
+      "Establecer acuerdos explícitos de convivencia dentro del equipo, reforzando conductas de respeto en todas las interacciones formales e informales.",
+      "Intervenir oportunamente ante conductas inadecuadas, abordándolas de manera directa y formativa para mantener estándares claros de trato."
+    ],
+    "Mi jefatura reconoce el buen trabajo y el esfuerzo.": [
+      "Incorporar espacios formales de reconocimiento en reuniones de equipo, destacando logros específicos y comportamientos alineados a valores.",
+      "Entregar retroalimentación positiva individual de manera oportuna cuando se observen esfuerzos o resultados destacados."
+    ],
+    "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo.": [
+      "Comunicar hitos alcanzados por el equipo y explicar el impacto concreto que generan en clientes, resultados o en el grupo empresarial.",
+      "Involucrar al equipo en revisiones periódicas de resultados, destacando contribuciones individuales y colectivas."
+    ],
+    "Me identifico con los valores y el propósito de la empresa.": [
+      "Relacionar decisiones operativas y comerciales con los valores corporativos, explicando cómo se aplican en la práctica diaria.",
+      "Desarrollar instancias de conversación donde el equipo pueda reflexionar sobre cómo su rol contribuye al propósito de la organización."
+    ],
+    "En mi equipo existe colaboración y apoyo mutuo.": [
+      "Fomentar metas compartidas que requieran coordinación entre integrantes del equipo y refuercen la responsabilidad colectiva.",
+      "Establecer espacios periódicos de coordinación donde se revisen avances y se identifiquen oportunidades de apoyo cruzado."
+    ],
+    "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo.": [
+      "Crear espacios formales en reuniones para recibir sugerencias o inquietudes, asegurando escucha activa y respuesta posterior.",
+      "Promover una cultura donde el error se analice como aprendizaje, evitando sanciones desproporcionadas que inhiban la participación."
+    ]
+  }
+}

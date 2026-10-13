@@ -24,17 +24,68 @@ export function HomePage() {
           <div className="flex flex-wrap items-center gap-7">
             <SegmentedGauge value={global.resultado_global} label="Global" />
             <div className="min-w-[190px] flex-1">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold" style={{ color: heroMeta.text, backgroundColor: heroMeta.background }}><span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: heroMeta.dot }} />{toneLabel[heroTone]}</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold" style={{ color: heroMeta.text, backgroundColor: heroMeta.background }}>
+                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: heroMeta.dot }} />
+                {toneLabel[heroTone]}
+              </span>
               <p className="mt-3.5 max-w-[46ch] text-[13.5px] leading-[1.65] text-ink-soft">Una lectura ejecutiva del pulso de clima, con navegación desde la compañía hasta la división legal disponible.</p>
             </div>
           </div>
         </Card>
 
         <div className="grid grid-cols-2 gap-[14px]">
-          <KpiCard label="Gestión Corporativa" value={global.resultado_gestion_corporativa} detail="Indicador separado" sparkline={[74, 78, 79, 80, 79, global.resultado_gestion_corporativa]} icon="bars" rows={[{ label: 'Resultado clima', value: formatPercent(global.resultado_global) }, { label: 'Diferencia', value: formatPercent(global.resultado_gestion_corporativa - global.resultado_global) }, { label: 'Fuente', value: 'Informe corporativo' }]} explanation="Percepción de la gestión de la organización, mostrada fuera del resultado de clima global." />
-          <KpiCard label="Participación" value={global.participacion} detail={`${formatPlain(global.respondidas)} de ${formatPlain(global.enviadas)} respuestas`} sparkline={[70, 74, 78, 82, 84, global.participacion]} icon="people" rows={[{ label: 'Respondidas', value: formatPlain(global.respondidas) }, { label: 'Enviadas', value: formatPlain(global.enviadas) }, { label: 'Cobertura', value: 'Grupo Emaresa' }]} explanation="Porcentaje de personas que respondieron la encuesta respecto del universo invitado." />
-          <KpiCard label="Unidades de negocio" value={global.ranking_unidades.length} detail="Con resultado agregado" asPercent={false} neutral sparkline={[11, 12, 13, 14, 15]} icon="unit" rows={[{ label: 'Unidades', value: formatPlain(global.ranking_unidades.length) }, { label: 'Favorables', value: `${favorableUnits} unidades` }, { label: 'Nivel siguiente', value: 'División legal' }]} explanation="Unidades de negocio con resultado disponible en el dataset de clima." />
-          <KpiCard label="Categorías medidas" value={global.categorias.length} detail="Lectura temática" asPercent={false} neutral sparkline={[3, 4, 4, 5, 5]} icon="layer" rows={global.categorias.map((category) => ({ label: category.categoria, value: formatPercent(category.resultado) }))} explanation="Categorías que componen el resultado de clima organizacional." />
+          <KpiCard
+            label="Gestión Corporativa"
+            value={global.resultado_gestion_corporativa}
+            detail="Indicador separado"
+            sparkline={[74, 78, 79, 80, 79, global.resultado_gestion_corporativa]}
+            icon="bars"
+            rows={[
+              { label: 'Resultado clima', value: formatPercent(global.resultado_global) },
+              { label: 'Diferencia', value: formatPercent(global.resultado_gestion_corporativa - global.resultado_global) },
+              { label: 'Fuente', value: 'Informe corporativo' },
+            ]}
+            explanation="Percepción de la gestión de la organización, mostrada fuera del resultado de clima global."
+          />
+          <KpiCard
+            label="Participación"
+            value={global.participacion}
+            detail={`${formatPlain(global.respondidas)} de ${formatPlain(global.enviadas)} respuestas`}
+            sparkline={[70, 74, 78, 82, 84, global.participacion]}
+            icon="people"
+            rows={[
+              { label: 'Respondidas', value: formatPlain(global.respondidas) },
+              { label: 'Enviadas', value: formatPlain(global.enviadas) },
+              { label: 'Cobertura', value: 'Grupo Emaresa' },
+            ]}
+            explanation="Porcentaje de personas que respondieron la encuesta respecto del universo invitado."
+          />
+          <KpiCard
+            label="Unidades de negocio"
+            value={global.ranking_unidades.length}
+            detail="Con resultado agregado"
+            asPercent={false}
+            neutral
+            sparkline={[11, 12, 13, 14, 15]}
+            icon="unit"
+            rows={[
+              { label: 'Unidades', value: formatPlain(global.ranking_unidades.length) },
+              { label: 'Favorables', value: `${favorableUnits} unidades` },
+              { label: 'Nivel siguiente', value: 'División legal' },
+            ]}
+            explanation="Unidades de negocio con resultado disponible en el dataset de clima."
+          />
+          <KpiCard
+            label="Categorías medidas"
+            value={global.categorias.length}
+            detail="Lectura temática"
+            asPercent={false}
+            neutral
+            sparkline={[3, 4, 4, 5, 5]}
+            icon="layer"
+            rows={global.categorias.map((category) => ({ label: category.categoria, value: formatPercent(category.resultado) }))}
+            explanation="Categorías que componen el resultado de clima organizacional."
+          />
         </div>
       </div>
 

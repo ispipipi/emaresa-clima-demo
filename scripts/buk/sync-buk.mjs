@@ -1,7 +1,9 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, rename, unlink, writeFile } from 'node:fs/promises'
 
 const token = process.env.BUK_API_TOKEN
 const baseUrl = process.env.BUK_API_BASE_URL || 'https://emaresa.buk.cl/api/v1/chile'
+const snapshotPath = 'src/data/generated/buk-organization.json'
+const snapshotTempPath = `${snapshotPath}.tmp`
 
 if (!token) {
   throw new Error('BUK_API_TOKEN is required to sync the organization snapshot')
@@ -30,7 +32,12 @@ async function fetchPage(path) {
     throw new Error(`BUK request failed (${response.status}) for ${url.pathname}`)
   }
 
-  return response.json()
+  const payload = await response.json()
+  if (!payload || typeof payload !== 'object' || !Array.isArray(payload.data)) {
+    throw new Error(`BUK response for ${url.pathname} did not contain a data array`)
+  }
+
+  return payload
 }
 
 async function fetchAll(path) {
@@ -51,6 +58,10 @@ const [companies, areas, employees] = await Promise.all([
   fetchAll('/organization/areas/?page_size=100'),
   fetchAll('/employees/active?page_size=100&exclude_pending=true'),
 ])
+
+if (companies.length === 0 || areas.length === 0) {
+  throw new Error('BUK returned an empty organization; previous snapshot kept')
+}
 
 function areaNotes(area) {
   const fields = ['notes', 'note', 'description', 'comment', 'comments', 'observation', 'observations', 'additional_info']
@@ -148,6 +159,17 @@ const snapshot = {
   companies: snapshotCompanies,
 }
 
-await mkdir('src/data', { recursive: true })
-await writeFile('src/data/buk-organization.json', `${JSON.stringify(snapshot, null, 2)}\n`)
+async function persistSnapshot(nextSnapshot) {
+  await mkdir('src/data/generated', { recursive: true })
+
+  try {
+    await writeFile(snapshotTempPath, `${JSON.stringify(nextSnapshot, null, 2)}\n`, 'utf8')
+    await rename(snapshotTempPath, snapshotPath)
+  } catch (error) {
+    await unlink(snapshotTempPath).catch(() => {})
+    throw error
+  }
+}
+
+await persistSnapshot(snapshot)
 console.log(`BUK snapshot synced: ${snapshot.companyCount} companies, ${snapshot.areaCount} areas, ${snapshot.employeeCount} active employees`)

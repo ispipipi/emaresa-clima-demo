@@ -14,6 +14,9 @@ export function QuestionList({ title = 'Preguntas del clima', preguntas, alterna
   const [mode, setMode] = useState<'top' | 'bottom'>('top')
   const showingAlternate = mode === 'bottom' && Boolean(alternatePreguntas)
   const items = showingAlternate ? alternatePreguntas ?? [] : preguntas
+  const orderedItems = [...items]
+    .sort((left, right) => showingAlternate ? left.resultado - right.resultado : right.resultado - left.resultado)
+    .slice(0, 10)
 
   return (
     <Card className="min-w-0 p-[22px]" animationDelay={150}>
@@ -25,7 +28,7 @@ export function QuestionList({ title = 'Preguntas del clima', preguntas, alterna
         </div>}
       </div>
       <ol className="mt-[14px] flex flex-col gap-0.5">
-        {items.map((pregunta, index) => {
+        {orderedItems.map((pregunta, index) => {
           const tone = toneOf(pregunta.resultado)
           const meta = toneMeta[tone]
           return (
