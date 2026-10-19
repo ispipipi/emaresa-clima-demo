@@ -4,6 +4,7 @@ import { HierarchyNav } from './HierarchyNav'
 import { Icon, IconSprite } from './IconSprite'
 import { MentatCopilot } from './MentatCopilot'
 import { SiblingStrip } from './SiblingStrip'
+import { bukOrganization, formatBukSyncDateLabel } from '../lib/buk'
 
 interface AppShellProps {
   children: ReactNode
@@ -107,7 +108,7 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <span className="hidden items-center gap-1.5 rounded-full bg-[#F1FAF3] px-3 py-1.5 text-[11px] font-semibold text-tone-green lg:flex"><span className="h-1.5 w-1.5 rounded-full bg-tone-green-dot" />{levelLabel}</span>
-              <span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11.5px] font-semibold tabular-nums text-ink-soft">12 ago 2026</span>
+              <span title="Última sincronización de BUK" className="rounded-full bg-surface-muted px-3 py-1.5 text-[11.5px] font-semibold tabular-nums text-ink-soft">{formatBukSyncDateLabel(bukOrganization.generatedAt)}</span>
             </div>
           </header>
 
