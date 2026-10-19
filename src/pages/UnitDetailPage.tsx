@@ -1,15 +1,15 @@
 import { Link, useParams } from 'react-router-dom'
-import { AppShell } from '../components/AppShell'
 import { ActionPlanSuggestions } from '../components/ActionPlanSuggestions'
-import { Card } from '../components/Card'
 import { CategoryBars } from '../components/CategoryBars'
 import { Icon } from '../components/IconSprite'
-import { KpiCard } from '../components/KpiCard'
+import { KpiCard, ScoreCard } from '../components/KpiCard'
+import { PageHeader } from '../components/PageHeader'
 import { QuestionList } from '../components/QuestionList'
-import { SectionHeader } from '../components/SectionHeader'
-import { StatusPill } from '../components/StatusPill'
-import { divisionPath, findUnit } from '../lib/clima'
-import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
+import { StripPlot } from '../components/StripPlot'
+import { Card, Delta, ErrorState, Meter, SectionHeader, StatusChip, btnOutline, btnPrimary } from '../components/ui'
+import { clima, divisionPath, findUnit } from '../lib/clima'
+import { formatParticipation, formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
+import { FAVORABLE_THRESHOLD, GROUP_RESULT, unitRows } from '../lib/insights'
 import { unitReportsForUnit } from '../lib/reports'
 import { getResponseDistribution, getResponseDistributionPeriod, getResponseDistributionSource } from '../lib/responseDistribution'
 
@@ -19,59 +19,72 @@ export function UnitDetailPage() {
 
   if (!unidad) {
     return (
-      <AppShell>
-        <Card className="p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">Unidad no encontrada</p>
-          <h1 className="mt-3 font-display text-3xl font-bold text-navy-ink">No existe una unidad para esta ruta</h1>
-          <Link to="/" className="mt-6 inline-flex rounded-[14px] bg-navy px-4 py-3 text-sm font-bold text-white hover:bg-teal">Volver al resumen</Link>
-        </Card>
-      </AppShell>
+      <ErrorState title="No encontramos esa unidad" actions={<Link to="/" className={btnPrimary}>Volver al resumen</Link>}>
+        La dirección no corresponde a una unidad del S1 2026. Revisa el nombre o búscala con el buscador de la barra superior.
+      </ErrorState>
     )
   }
 
-  const unitReports = unitReportsForUnit(unidad.unidad)
-  const tone = resultTone(unidad.resultado_global)
-  const responseDistribution = getResponseDistribution(unidad.unidad)
-  const distributionPeriod = getResponseDistributionPeriod()
-  const distributionSource = getResponseDistributionSource()
-  const divisionSummary = unidad.divisiones.length === 1
-    ? '1 división legal disponible'
-    : `${unidad.divisiones.length} divisiones legales disponibles`
+  const row = unitRows.find((item) => item.name === unidad.unidad)
+  const reports = unitReportsForUnit(unidad.unidad)
+  const distribution = getResponseDistribution(unidad.unidad)
+  const source = getResponseDistributionSource()
+  const period = getResponseDistributionPeriod()
+  const tone = toneOf(unidad.resultado_global)
+  const noData = (value?: number) => value === undefined
+  const missingText = 'Porcentaje informado por la fuente oficial. Si no aparece una cifra, debe incorporarse en la próxima carga de datos.'
 
   return (
-    <AppShell activeUnit={unidad.unidad}>
-      <Card className="now-detail-header flex min-w-0 flex-wrap items-center justify-between gap-6 p-5 lg:p-6">
-        <div className="min-w-0">
-          <p className="now-eyebrow">Unidad de negocio · Semestre 1 · 2026</p>
-          <h1 className="mt-2 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
-          <p className="mt-2 max-w-[48ch] text-[13px] leading-[1.6] text-ink-soft">Resultado de clima con {divisionSummary}.</p>
-        </div>
-        <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
-          <div className="flex items-center gap-3 rounded-xl bg-surface-sunken px-4 py-3">
-            <div><p className="text-[9px] font-bold uppercase tracking-[0.14em] text-ink-faint">Resultado</p><p className="mt-1 font-display text-[28px] font-extrabold leading-none tabular-nums text-navy-ink">{formatPercent(unidad.resultado_global)}</p></div>
-            <StatusPill tone={tone} />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {unitReports.map((report) => (
-              <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-bold transition ${report.current ? 'bg-navy text-white hover:bg-teal' : 'bg-surface-accent text-teal hover:bg-[#EAF6F7]'}`} title={report.description}>
-                <Icon name="doc" className="h-[15px] w-[15px]" />{report.label}
+    <>
+      <PageHeader
+        tone={tone}
+        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="unit" className="h-[17px] w-[17px]" />Unidad de negocio · Semestre 1 · 2026</span>}
+        title={unidad.unidad}
+        subtitle={`${formatPlain(unidad.enviadas)} personas invitadas · ${unidad.divisiones.length === 1 ? '1 división legal' : `${unidad.divisiones.length} divisiones legales`}`}
+        actions={
+          <>
+            {reports.map((report, index) => (
+              <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} title={report.description} className={index === 0 ? `${btnPrimary} h-[46px]` : `${btnOutline} h-[46px]`}>
+                <Icon name="down" className="h-[19px] w-[19px]" />
+                {index === 0 ? `Descargar ${report.label.toLowerCase().replace('informe', 'informe')}` : report.label}
+                <span className="border-l border-current pl-2.5 text-xs font-semibold opacity-80">PDF</span>
               </a>
             ))}
-          </div>
-        </div>
-      </Card>
+            <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('mentat:open'))} className={`${btnOutline} h-[46px]`}>
+              <Icon name="spark" className="h-[18px] w-[18px] text-brand-deep" />Preguntar a Mentat sobre {unidad.unidad}
+            </button>
+          </>
+        }
+        aside={
+          <ScoreCard
+            title="Resultado de la unidad"
+            value={unidad.resultado_global}
+            comparisons={[
+              { label: `vs. Grupo (${formatPercent(GROUP_RESULT)})`, value: <Delta value={unidad.resultado_global - GROUP_RESULT} /> },
+              { label: 'vs. Favorable (80)', value: <Delta value={unidad.resultado_global - FAVORABLE_THRESHOLD} /> },
+              { label: 'Puesto', value: `${row?.rank ?? '—'} de ${unitRows.length}` },
+            ]}
+            explanation={`Resultado de clima de ${unidad.unidad} en el semestre 1 de 2026.`}
+            rows={[
+              { label: 'Resultado', value: formatPercent(unidad.resultado_global) },
+              { label: 'Grupo', value: formatPercent(GROUP_RESULT) },
+              { label: 'Divisiones', value: formatPlain(unidad.divisiones.length) },
+            ]}
+          />
+        }
+      />
 
-      <div className="grid grid-cols-2 gap-[14px] xl:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard
           label="Gestión Corporativa"
           value={unidad.resultado_gestion_corporativa}
-          detail="Indicador separado"
+          detail="Indicador separado del clima"
           icon="bars"
-          sparkline={[78, 82, 84, 88, 89, unidad.resultado_gestion_corporativa]}
+          delta={<Delta value={unidad.resultado_gestion_corporativa - unidad.resultado_global} suffix=" pts sobre el clima de la unidad" />}
           rows={[
             { label: 'Clima de la unidad', value: formatPercent(unidad.resultado_global) },
-            { label: 'Diferencia', value: formatPercent(unidad.resultado_gestion_corporativa - unidad.resultado_global) },
-            { label: 'Periodo', value: 'S1 - 2026' },
+            { label: 'Diferencia', value: `${formatPlain(Math.round((unidad.resultado_gestion_corporativa - unidad.resultado_global) * 10) / 10)} pts` },
+            { label: 'Período', value: 'S1 · 2026' },
           ]}
           explanation="Percepción de la gestión corporativa reportada para esta unidad."
         />
@@ -80,89 +93,100 @@ export function UnitDetailPage() {
           value={unidad.participacion}
           detail={`${formatPlain(unidad.respondidas)} de ${formatPlain(unidad.enviadas)} respuestas`}
           icon="people"
-          sparkline={[70, 74, 79, 82, 85, unidad.participacion]}
+          delta={<Delta value={unidad.participacion - clima.global.participacion} suffix=" pts vs. Grupo" />}
+          visual={<Meter value={unidad.participacion} color={toneMeta[toneOf(unidad.participacion)].fill} marks />}
           rows={[
             { label: 'Respondidas', value: formatPlain(unidad.respondidas) },
             { label: 'Enviadas', value: formatPlain(unidad.enviadas) },
             { label: 'Cobertura', value: unidad.unidad },
           ]}
           explanation="Cobertura de respuestas de la unidad respecto del universo invitado."
+          extra={
+            <div>
+              <p className="mb-2 text-[13px] font-bold text-ink-soft">Por división legal</p>
+              <ul className="flex flex-col gap-2.5">
+                {unidad.divisiones.map((division) => (
+                  <li key={division.nombre}>
+                    <div className="mb-1 flex justify-between gap-2 text-[13px] font-semibold"><span className="truncate">{division.nombre}</span><span className="shrink-0 tabular-nums">{formatPlain(division.respondidos)} de {formatPlain(division.enviados)} · {formatParticipation(division.respondidos, division.enviados)}</span></div>
+                    <Meter value={typeof division.respondidos === 'number' && division.enviados > 0 ? (division.respondidos / division.enviados) * 100 : 0} color="var(--brand-mid)" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          }
         />
         <KpiCard
           label="Respuestas neutrales"
-          value={responseDistribution.neutrales ?? '—'}
-          detail={responseDistribution.neutrales === undefined ? 'No disponible en snapshot' : 'Ni de acuerdo ni en desacuerdo'}
+          value={distribution.neutrales ?? '—'}
           neutral
+          chipLabel={noData(distribution.neutrales) ? 'Sin datos' : undefined}
+          detail={noData(distribution.neutrales) ? 'No disponible en el snapshot' : 'Ni de acuerdo ni en desacuerdo'}
           icon="people"
-          sparkline={responseDistribution.neutrales === undefined ? [] : [12, 11, 10, responseDistribution.neutrales]}
+          visual={noData(distribution.neutrales) ? <span aria-hidden="true" className="block h-2 rounded-full" style={{ background: 'repeating-linear-gradient(90deg,var(--line-soft) 0 8px,var(--sunken) 8px 16px)' }} /> : <Meter value={distribution.neutrales as number} color="var(--ink-3)" />}
+          delta={<span className="text-ink-soft">{noData(distribution.neutrales) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${period}`}</span>}
           rows={[
             { label: 'Definición', value: 'Ni de acuerdo ni en desacuerdo' },
-            { label: 'Fuente', value: responseDistribution.neutrales === undefined ? 'No informada' : distributionSource },
-            { label: 'Periodo', value: distributionPeriod },
+            { label: 'Fuente', value: noData(distribution.neutrales) ? 'No informada' : source },
+            { label: 'Período', value: period },
           ]}
-          explanation="Porcentaje de respuestas neutrales informado por la fuente oficial. Si no aparece una cifra, debe incorporarse en la próxima carga de datos."
+          explanation={missingText}
         />
         <KpiCard
           label="Respuestas detractoras"
-          value={responseDistribution.detractores ?? '—'}
-          detail={responseDistribution.detractores === undefined ? 'No disponible en snapshot' : 'En desacuerdo o totalmente en desacuerdo'}
+          value={distribution.detractores ?? '—'}
           neutral
+          chipLabel={noData(distribution.detractores) ? 'Sin datos' : undefined}
+          detail={noData(distribution.detractores) ? 'No disponible en el snapshot' : 'En desacuerdo o totalmente en desacuerdo'}
           icon="bars"
-          sparkline={responseDistribution.detractores === undefined ? [] : [5, 4, 4, responseDistribution.detractores]}
+          visual={noData(distribution.detractores) ? <span aria-hidden="true" className="block h-2 rounded-full" style={{ background: 'repeating-linear-gradient(90deg,var(--line-soft) 0 8px,var(--sunken) 8px 16px)' }} /> : <Meter value={distribution.detractores as number} color="var(--ink-3)" />}
+          delta={<span className="text-ink-soft">{noData(distribution.detractores) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${period}`}</span>}
           rows={[
             { label: 'Definición', value: 'En desacuerdo o totalmente en desacuerdo' },
-            { label: 'Fuente', value: responseDistribution.detractores === undefined ? 'No informada' : distributionSource },
-            { label: 'Periodo', value: distributionPeriod },
+            { label: 'Fuente', value: noData(distribution.detractores) ? 'No informada' : source },
+            { label: 'Período', value: period },
           ]}
-          explanation="Porcentaje de respuestas detractoras informado por la fuente oficial. Si no aparece una cifra, debe incorporarse en la próxima carga de datos."
+          explanation={missingText}
         />
       </div>
 
-      <div className="grid min-w-0 gap-[14px] xl:grid-cols-[1fr_1.04fr]">
-        <CategoryBars categorias={unidad.categorias} />
-        <QuestionList title="Preguntas mejor evaluadas" preguntas={unidad.top10} alternatePreguntas={unidad.bottom10} alternateTitle="Preguntas con mayor oportunidad" />
+      <Card className="p-6">
+        <SectionHeader title="Frente al Grupo y a las demás unidades" subtitle="Cada punto es una unidad de negocio · S1 2026 · pasa el cursor para ver el nombre" />
+        <StripPlot highlight={unidad.unidad} />
+      </Card>
+
+      <div className="grid gap-5 xl:grid-cols-2">
+        <CategoryBars categorias={unidad.categorias} benchmark={clima.global.categorias} />
+        <QuestionList title="Preguntas" subtitle={undefined} preguntas={unidad.top10} alternatePreguntas={unidad.bottom10} />
       </div>
 
-      <Card className="min-w-0 p-[22px]">
-        <SectionHeader
-          title="Divisiones legales"
-          subtitle="Abre una razón social para revisar el nivel más pequeño disponible"
-          chip={<span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11px] font-medium text-ink-soft">Tercer nivel</span>}
-        />
-        <div className="mt-[18px] min-w-0 overflow-x-auto">
-          <table className="min-w-[620px] w-full border-collapse text-left">
+      <Card className="p-6">
+        <SectionHeader title="Divisiones legales" subtitle="Abre una razón social para ver el tercer nivel" action={<span className="inline-flex h-[30px] items-center rounded-full bg-sunken px-3 text-[12.5px] font-semibold text-ink-soft">Tercer nivel</span>} />
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[760px] border-collapse text-left">
             <thead>
-              <tr className="border-b border-line-soft text-[9.5px] font-bold uppercase tracking-[0.15em] text-ink-ghost">
-                <th className="px-2.5 pb-2.5">Razón social</th>
-                <th className="px-2.5 pb-2.5">Resultado</th>
-                <th className="px-2.5 pb-2.5">Participación</th>
-                <th className="px-2.5 pb-2.5 text-right">Abrir</th>
+              <tr className="text-[12.5px] font-bold text-ink-soft">
+                <th className="px-3 pb-2.5">Razón social</th><th className="px-3 pb-2.5">Resultado</th><th className="px-3 pb-2.5">vs. unidad</th><th className="px-3 pb-2.5">Participación</th><th className="px-3 pb-2.5 text-right">Abrir</th>
               </tr>
             </thead>
             <tbody>
-              {unidad.divisiones.map((division) => (
-                <tr key={division.nombre} className="group transition hover:bg-surface-sunken">
-                  <td className="max-w-[260px] truncate px-2.5 py-3 font-semibold text-ink">{division.nombre}</td>
-                  <td className="px-2.5 py-3">
-                    <span className="flex items-center gap-2 font-display text-[15px] font-extrabold tabular-nums text-ink">
-                      {formatPercent(division.resultado)}
-                      <StatusPill tone={resultTone(division.resultado)} />
-                    </span>
-                  </td>
-                  <td className="px-2.5 py-3 text-[12px] text-ink-soft">{formatParticipation(division.respondidos, division.enviados)}</td>
-                  <td className="px-2.5 py-3 text-right">
-                    <Link to={divisionPath(unidad.unidad, division.nombre)} className="inline-flex h-8 w-8 items-center justify-center rounded-[11px] bg-surface-accent text-teal hover:bg-[#EAF6F7]" aria-label={`Abrir ${division.nombre}`}>
-                      <Icon name="arrow" className="h-4 w-4" />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+              {unidad.divisiones.map((division) => {
+                const value = typeof division.resultado === 'number' ? division.resultado : undefined
+                return (
+                  <tr key={division.nombre} className="border-t border-line-soft transition hover:bg-brand-wash">
+                    <td className="max-w-[300px] px-3 py-3.5 text-sm font-bold leading-5">{division.nombre}</td>
+                    <td className="px-3 py-3.5"><span className="flex items-center gap-2.5"><b className="text-lg font-extrabold tabular-nums">{formatPercent(value)}</b><StatusChip tone={toneOf(value)} label={value === undefined ? 'Sin datos' : undefined} size="sm" /></span></td>
+                    <td className="px-3 py-3.5 text-[13.5px]">{value === undefined ? <span className="text-ink-soft">—</span> : <Delta value={value - unidad.resultado_global} />}</td>
+                    <td className="px-3 py-3.5 text-[13.5px] font-semibold">{formatPlain(division.respondidos)} de {formatPlain(division.enviados)} · {formatParticipation(division.respondidos, division.enviados)}</td>
+                    <td className="px-3 py-3.5 text-right"><Link to={divisionPath(unidad.unidad, division.nombre)} aria-label={`Abrir ${division.nombre}`} className="inline-flex h-9 w-9 items-center justify-center rounded-ctl bg-brand-soft text-brand-deep transition hover:bg-brand hover:text-white"><Icon name="go" className="h-[17px] w-[17px]" /></Link></td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
       </Card>
 
       <ActionPlanSuggestions preguntas={unidad.bottom10} />
-    </AppShell>
+    </>
   )
 }

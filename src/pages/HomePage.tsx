@@ -1,56 +1,69 @@
-import { AppShell } from '../components/AppShell'
-import { Card } from '../components/Card'
 import { CategoryBars } from '../components/CategoryBars'
-import { KpiCard } from '../components/KpiCard'
+import { HeatmapTable } from '../components/HeatmapTable'
+import { KpiCard, ScoreCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
-import { formatPercent, formatPlain, toneLabel, toneOf } from '../lib/format'
+import { StripPlot } from '../components/StripPlot'
+import { UnitMap } from '../components/UnitMap'
+import { Card, Delta, Meter, SectionHeader, StatusChip } from '../components/ui'
 import { clima } from '../lib/clima'
+import { formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
+import { FAVORABLE_THRESHOLD, statusCounts, unitRows } from '../lib/insights'
 
 export function HomePage() {
   const { global } = clima
-  const favorableUnits = global.ranking_unidades.filter((unit) => unit.resultado >= 80).length
-  const heroTone = toneOf(global.resultado_global)
+  const tone = toneOf(global.resultado_global)
+  const counts = statusCounts()
+  const gap = FAVORABLE_THRESHOLD - global.resultado_global
+  const lowestParticipation = [...unitRows].sort((a, b) => a.participation - b.participation)[0]
+  const gcDelta = global.resultado_gestion_corporativa - global.resultado_global
 
   return (
-    <AppShell>
-      <Card className="now-filterbar flex flex-wrap items-center justify-between gap-4 px-4 py-3.5" animationDelay={0}>
-        <div className="flex min-w-0 items-center gap-3">
-          <span className="now-focus-pill">★ Foco ejecutivo</span>
-          <div className="min-w-0">
-            <p className="truncate text-[13px] font-semibold text-navy-ink">Clima organizacional del Grupo Emaresa</p>
-            <p className="mt-0.5 text-[11px] text-ink-soft">Resultado global · {toneLabel[heroTone]}</p>
-          </div>
+    <>
+      <header className="animate-rise pt-1">
+        <div className="flex flex-wrap items-center gap-3.5">
+          <h1 className="text-[clamp(28px,4vw,34px)] font-extrabold leading-10 tracking-[-0.035em]">Resumen ejecutivo</h1>
+          <StatusChip tone={tone} size="lg" />
         </div>
-        <div className="flex shrink-0 items-center gap-2 text-[11px]">
-          <span className="now-filter-label">PERÍODO:</span>
-          <span className="now-filter-value">S1 · 2026</span>
-          <span className="now-filter-status"><span /> BUK conectado</span>
-        </div>
-      </Card>
+        <p className="mt-2 max-w-[72ch] text-[17px] font-medium leading-[27px] text-ink-soft">
+          Clima del Grupo Emaresa en {formatPercent(global.resultado_global)}
+          {gap > 0 ? `, ${formatPlain(Math.round(gap * 10) / 10)} puntos bajo el umbral Favorable` : ', sobre el umbral Favorable'}. {counts.green} de {unitRows.length} unidades lo superan
+          {counts.yellow ? ` y ${counts.yellow} están en Atención` : ''}
+          {counts.red ? `, ${counts.red} en Crítico` : ''}.
+        </p>
+      </header>
 
-      <div className="grid min-w-0 grid-cols-2 gap-[14px] xl:grid-cols-4">
-        <KpiCard
-          label="Resultado global"
+      <div className="grid gap-5 xl:grid-cols-[400px_minmax(0,1fr)]">
+        <ScoreCard
+          title="Resultado global"
           value={global.resultado_global}
-          detail="Clima consolidado del grupo"
-          sparkline={[72, 75, 77, 79, 78, global.resultado_global]}
-          icon="ring"
-          rows={[
-            { label: 'Resultado', value: formatPercent(global.resultado_global) },
-            { label: 'Estado', value: toneLabel[heroTone] },
-            { label: 'Periodo', value: 'S1 - 2026' },
+          comparisons={[
+            { label: 'vs. Favorable (80)', value: <Delta value={global.resultado_global - FAVORABLE_THRESHOLD} suffix=" pts" /> },
+            { label: 'Participación', value: formatPercent(global.participacion) },
+            { label: 'Unidades favorables', value: `${counts.green} de ${unitRows.length}` },
           ]}
           explanation="Resultado global de clima organizacional, calculado sobre las unidades de negocio disponibles."
+          rows={[
+            { label: 'Resultado', value: formatPercent(global.resultado_global) },
+            { label: 'Período', value: 'S1 · 2026' },
+            { label: 'Umbral Favorable', value: '80%' },
+          ]}
         />
+        <Card className="p-6">
+          <SectionHeader title="Unidades frente a los umbrales" subtitle="Cada punto es una unidad de negocio · S1 2026 · pasa el cursor para ver el nombre" />
+          <StripPlot />
+        </Card>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <KpiCard
           label="Gestión Corporativa"
           value={global.resultado_gestion_corporativa}
-          detail="Indicador separado"
-          sparkline={[74, 78, 79, 80, 79, global.resultado_gestion_corporativa]}
+          detail="Indicador separado del clima"
           icon="bars"
+          delta={<Delta value={gcDelta} suffix=" pts vs. clima global" />}
           rows={[
             { label: 'Resultado clima', value: formatPercent(global.resultado_global) },
-            { label: 'Diferencia', value: formatPercent(global.resultado_gestion_corporativa - global.resultado_global) },
+            { label: 'Diferencia', value: `${formatPlain(Math.round(gcDelta * 10) / 10)} pts` },
             { label: 'Fuente', value: 'Informe corporativo' },
           ]}
           explanation="Percepción de la gestión de la organización, mostrada fuera del resultado de clima global."
@@ -59,8 +72,9 @@ export function HomePage() {
           label="Participación"
           value={global.participacion}
           detail={`${formatPlain(global.respondidas)} de ${formatPlain(global.enviadas)} respuestas`}
-          sparkline={[70, 74, 78, 82, 84, global.participacion]}
           icon="people"
+          visual={<Meter value={global.participacion} color={toneMeta[toneOf(global.participacion)].fill} marks />}
+          delta={<span className="text-ink-soft">La más baja: {lowestParticipation.name}, {formatPercent(lowestParticipation.participation)}</span>}
           rows={[
             { label: 'Respondidas', value: formatPlain(global.respondidas) },
             { label: 'Enviadas', value: formatPlain(global.enviadas) },
@@ -70,26 +84,34 @@ export function HomePage() {
         />
         <KpiCard
           label="Unidades de negocio"
-          value={global.ranking_unidades.length}
-          detail="Con resultado agregado"
+          value={unitRows.length}
           asPercent={false}
           neutral
-          sparkline={[11, 12, 13, 14, 15]}
+          detail={`${counts.green} favorables · ${counts.yellow} en atención · ${counts.red} críticas`}
           icon="unit"
+          visual={
+            <span aria-hidden="true" className="flex h-2.5 gap-1">
+              <span className="rounded-full" style={{ flex: counts.green, background: 'var(--fav)' }} />
+              <span className="rounded-full" style={{ flex: counts.yellow, background: 'var(--att)' }} />
+              {counts.red > 0 ? <span className="rounded-full" style={{ flex: counts.red, background: 'var(--crit)' }} /> : null}
+            </span>
+          }
           rows={[
-            { label: 'Unidades', value: formatPlain(global.ranking_unidades.length) },
-            { label: 'Favorables', value: `${favorableUnits} unidades` },
+            { label: 'Unidades', value: formatPlain(unitRows.length) },
+            { label: 'Favorables', value: `${counts.green} unidades` },
             { label: 'Nivel siguiente', value: 'División legal' },
           ]}
           explanation="Unidades de negocio con resultado disponible en el dataset de clima."
         />
       </div>
 
-      <div className="grid min-w-0 gap-[14px] xl:grid-cols-[1fr_1.04fr]">
-        <CategoryBars categorias={global.categorias} />
-        <QuestionList title="Preguntas mejor evaluadas" preguntas={global.top5} alternatePreguntas={global.bottom5} alternateTitle="Preguntas con mayor oportunidad" />
-      </div>
+      <UnitMap />
+      <HeatmapTable />
 
-    </AppShell>
+      <div className="grid gap-5 xl:grid-cols-2">
+        <CategoryBars categorias={global.categorias} />
+        <QuestionList title="Preguntas" preguntas={global.top5} alternatePreguntas={global.bottom5} />
+      </div>
+    </>
   )
 }

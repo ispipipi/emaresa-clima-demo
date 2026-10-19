@@ -1,86 +1,60 @@
-import { AppShell } from '../components/AppShell'
-import { Card } from '../components/Card'
+import { Icon } from '../components/IconSprite'
 import { KpiCard } from '../components/KpiCard'
 import { OrganizationTree } from '../components/OrganizationTree'
-import { SectionHeader } from '../components/SectionHeader'
-import { SegmentedGauge } from '../components/SegmentedGauge'
-import { clima } from '../lib/clima'
+import { PageHeader } from '../components/PageHeader'
+import { Card, Meter, SectionHeader, StatusChip } from '../components/ui'
+import type { BukAreaNode } from '../types/buk'
 import { bukOrganization, formatBukSyncDate } from '../lib/buk'
-import { formatPlain } from '../lib/format'
+import { clima } from '../lib/clima'
+import { formatPlain, toneMeta, toneOf } from '../lib/format'
+
+function visibleAreas(nodes: BukAreaNode[]): number {
+  return nodes.reduce((sum, node) => sum + (node.depth > 0 ? 1 : 0) + visibleAreas(node.children), 0)
+}
 
 export function OrganizationPage() {
-  return (
-    <AppShell activeDivision="organizacion">
-      <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
-        <div className="min-w-0">
-          <p className="text-xs font-medium tracking-[0.02em] text-teal">Fuente conectada · Snapshot BUK</p>
-          <h1 className="mt-2.5 font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">Organización</h1>
-          <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Explora la estructura real desde la empresa hasta las áreas y subáreas más pequeñas disponibles.</p>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
-          <SegmentedGauge value={bukOrganization.employeeCount} label="Personas activas" full />
-          <div>
-            <p className="text-[9.5px] font-bold uppercase tracking-[0.19em] text-teal">Última sincronización</p>
-            <p className="mt-2 font-display text-lg font-bold text-navy-ink">{formatBukSyncDate(bukOrganization.generatedAt)}</p>
-            <p className="mt-1 text-[11.5px] text-ink-faint">{bukOrganization.instance}</p>
-          </div>
-        </div>
-      </Card>
+  const treeAreas = bukOrganization.companies.reduce((sum, company) => sum + visibleAreas(company.areas), 0)
+  const ageDays = Math.max(0, Math.floor((Date.now() - Date.parse(bukOrganization.generatedAt)) / 86400000))
+  const age = ageDays === 0 ? 'Hoy' : `Hace ${ageDays} ${ageDays === 1 ? 'día' : 'días'}`
 
-      <div className="grid grid-cols-2 gap-[14px] xl:grid-cols-4">
-        <KpiCard
-          label="Empresas"
-          value={bukOrganization.companyCount}
-          detail="Snapshot BUK"
-          asPercent={false}
-          neutral
-          icon="org"
-          sparkline={[4, 5, 6, 7]}
-          rows={[{ label: 'Empresas', value: formatPlain(bukOrganization.companyCount) }, { label: 'Fuente', value: 'BUK' }, { label: 'Privacidad', value: 'Datos agregados' }]}
-          explanation="Empresas con información organizacional disponible en el snapshot sincronizado."
-        />
-        <KpiCard
-          label="Áreas y subáreas"
-          value={bukOrganization.areaCount}
-          detail="Estructura disponible"
-          asPercent={false}
-          neutral
-          icon="layer"
-          sparkline={[190, 220, 245, 261]}
-          rows={[{ label: 'Nodos', value: formatPlain(bukOrganization.areaCount) }, { label: 'Nivel', value: 'Área y subárea' }, { label: 'Fuente', value: 'BUK' }]}
-          explanation="Cantidad de áreas y subáreas que forman parte del árbol organizacional publicado."
-        />
-        <KpiCard
-          label="Personas activas"
-          value={bukOrganization.employeeCount}
-          detail="Conteo agregado"
-          asPercent={false}
-          neutral
-          icon="people"
-          sparkline={[600, 650, 700, bukOrganization.employeeCount]}
-          rows={[{ label: 'Personas', value: formatPlain(bukOrganization.employeeCount) }, { label: 'Fichas personales', value: 'No publicadas' }, { label: 'Fuente', value: 'BUK' }]}
-          explanation="Personas activas contabilizadas para construir el snapshot, sin publicar información individual."
-        />
-        <KpiCard
-          label="Cobertura encuesta"
-          value={clima.global.participacion}
-          detail={`${formatPlain(clima.global.respondidas)} de ${formatPlain(clima.global.enviadas)} respuestas`}
-          icon="bars"
-          sparkline={[73, 78, 82, clima.global.participacion]}
-          rows={[{ label: 'Respondidas', value: formatPlain(clima.global.respondidas) }, { label: 'Enviadas', value: formatPlain(clima.global.enviadas) }, { label: 'Periodo', value: 'S1 - 2026' }]}
-          explanation="Cobertura de la encuesta de clima del mismo periodo disponible en el dashboard."
-        />
+  return (
+    <>
+      <PageHeader
+        tone="neutral"
+        hideChip
+        eyebrow={<span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-fav" />Fuente conectada · Snapshot BUK</span>}
+        title="Organización"
+        subtitle="Explora la estructura real desde la empresa hasta las áreas y subáreas más pequeñas disponibles."
+        aside={
+          <Card className="flex flex-col gap-3 p-5 shadow-lift">
+            <div className="flex items-center justify-between gap-2.5">
+              <span className="flex items-center gap-2 text-[14.5px] font-bold"><Icon name="sync" className="h-[17px] w-[17px] text-brand-deep" />Última sincronización</span>
+              <StatusChip tone="green" label="Sincronizado" />
+            </div>
+            <p className="text-[28px] font-extrabold leading-8 tracking-[-0.03em] tabular-nums">{formatBukSyncDate(bukOrganization.generatedAt)}</p>
+            {[['Antigüedad', age], ['Instancia', bukOrganization.instance.replace('https://', '')], ['Datos publicados', 'Solo conteos agregados']].map(([label, value]) => (
+              <p key={label} className="flex justify-between gap-3 text-[13px] text-ink-soft"><span>{label}</span><b className="font-bold text-ink">{value}</b></p>
+            ))}
+          </Card>
+        }
+      />
+
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Empresas" value={bukOrganization.companyCount} asPercent={false} neutral detail="Con personas activas" icon="org" visual={<span aria-hidden="true" className="flex gap-1">{bukOrganization.companies.map((company) => <span key={company.id} className="h-2.5 flex-1 rounded-full bg-brand-mid" />)}</span>} rows={[{ label: 'Empresas', value: formatPlain(bukOrganization.companyCount) }, { label: 'Fuente', value: 'BUK' }, { label: 'Privacidad', value: 'Datos agregados' }]} explanation="Empresas con información organizacional disponible en el snapshot sincronizado." />
+        <KpiCard label="Áreas y subáreas" value={bukOrganization.areaCount} asPercent={false} neutral detail="Hasta 5 niveles bajo cada empresa" icon="layer" delta={<span className="text-ink-soft">{formatPlain(bukOrganization.areaCount)} en el snapshot · {formatPlain(treeAreas)} en el árbol</span>} rows={[{ label: 'En el snapshot', value: formatPlain(bukOrganization.areaCount) }, { label: 'En el árbol', value: formatPlain(treeAreas) }, { label: 'Fuente', value: 'BUK' }]} explanation="Cantidad de áreas y subáreas del snapshot. El árbol muestra las que tienen personas activas; la diferencia debe confirmarse con la fuente." />
+        <KpiCard label="Personas activas" value={bukOrganization.employeeCount} asPercent={false} neutral detail="Conteo agregado, sin fichas personales" icon="people" rows={[{ label: 'Personas', value: formatPlain(bukOrganization.employeeCount) }, { label: 'Fichas personales', value: 'No publicadas' }, { label: 'Fuente', value: 'BUK' }]} explanation="Personas activas contabilizadas para construir el snapshot, sin publicar información individual." />
+        <KpiCard label="Cobertura de la encuesta" value={clima.global.participacion} detail={`${formatPlain(clima.global.respondidas)} de ${formatPlain(clima.global.enviadas)} respuestas · S1 2026`} icon="bars" visual={<Meter value={clima.global.participacion} color={toneMeta[toneOf(clima.global.participacion)].fill} marks />} rows={[{ label: 'Respondidas', value: formatPlain(clima.global.respondidas) }, { label: 'Enviadas', value: formatPlain(clima.global.enviadas) }, { label: 'Período', value: 'S1 · 2026' }]} explanation="Cobertura de la encuesta de clima del mismo período disponible en el dashboard." />
       </div>
 
-      <Card className="p-[22px]">
-        <SectionHeader
-          title="Estructura organizacional"
-          subtitle="Empresa → área → subárea · Expande solo los niveles que necesitas"
-          chip={<span className="rounded-full bg-surface-muted px-3 py-1.5 text-[11px] font-medium text-ink-soft">{formatPlain(bukOrganization.companyCount)} empresas</span>}
-        />
-        <div className="mt-[18px]"><OrganizationTree companies={bukOrganization.companies} /></div>
+      <Card className="p-6">
+        <SectionHeader title="Estructura organizacional" subtitle="Empresa → área → subárea · Expande solo los niveles que necesitas" />
+        <div className="mt-4"><OrganizationTree companies={bukOrganization.companies} /></div>
       </Card>
-      <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La vista publica únicamente conteos agregados de empresas, áreas, subáreas y personas activas. No se muestran nombres, RUT, correos ni datos contractuales.</p></Card>
-    </AppShell>
+
+      <div className="flex items-center gap-4 rounded-card border-[1.5px] border-dashed border-line px-6 py-5">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-ctl bg-sunken text-ink-soft"><Icon name="lock" className="h-5 w-5" /></span>
+        <p className="text-sm leading-[21px] text-ink-soft">La vista publica únicamente conteos agregados de empresas, áreas, subáreas y personas activas. No se muestran nombres, RUT, correos ni datos contractuales.</p>
+      </div>
+    </>
   )
 }

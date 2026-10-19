@@ -1,133 +1,125 @@
 import { Link, useParams } from 'react-router-dom'
-import { AppShell } from '../components/AppShell'
-import { Card } from '../components/Card'
+import { DivisionCompare } from '../components/DivisionCompare'
 import { Icon } from '../components/IconSprite'
-import { KpiCard } from '../components/KpiCard'
-import { SectionHeader } from '../components/SectionHeader'
-import { SegmentedGauge } from '../components/SegmentedGauge'
-import { StatusPill } from '../components/StatusPill'
-import { clima, divisionPath, findDivision, findUnit } from '../lib/clima'
-import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
+import { KpiCard, ScoreCard } from '../components/KpiCard'
+import { PageHeader } from '../components/PageHeader'
+import { Card, Delta, EmptyState, ErrorState, Meter, StatusChip, btnBrandOutline, btnOutline, btnPrimary } from '../components/ui'
+import { clima, findDivision, findUnit, unitPath } from '../lib/clima'
+import { formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
+import { FAVORABLE_THRESHOLD, GROUP_RESULT, unitRows } from '../lib/insights'
+import { unitReportsForUnit } from '../lib/reports'
 
 export function DivisionDetailPage() {
   const { nombre, division } = useParams()
   const unidad = findUnit(nombre)
-  const divisionData = findDivision(nombre, division)
+  const data = findDivision(nombre, division)
 
-  if (!unidad || !divisionData) {
+  if (!unidad || !data) {
     return (
-      <AppShell>
-        <Card className="p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal">División no encontrada</p>
-          <h1 className="mt-3 font-display text-3xl font-bold text-navy-ink">No existe una división para esta ruta</h1>
-          <Link to={unidad ? `/unidad/${encodeURIComponent(unidad.unidad)}` : '/'} className="mt-6 inline-flex rounded-[14px] bg-navy px-4 py-3 text-sm font-bold text-white hover:bg-teal">
-            Volver al nivel anterior
-          </Link>
-        </Card>
-      </AppShell>
+      <ErrorState title="No encontramos esa división" actions={<Link to={unidad ? unitPath(unidad.unidad) : '/'} className={btnPrimary}>Volver al nivel anterior</Link>}>
+        La dirección no corresponde a una división legal del S1 2026.
+      </ErrorState>
     )
   }
 
-  const participation = typeof divisionData.respondidos === 'number' && divisionData.enviados > 0
-    ? (divisionData.respondidos / divisionData.enviados) * 100
-    : '-'
-  const unitRank = clima.global.ranking_unidades.findIndex((item) => item.unidad === unidad.unidad) + 1
+  const result = typeof data.resultado === 'number' ? data.resultado : undefined
+  const tone = toneOf(result)
+  const participation = typeof data.respondidos === 'number' && data.enviados > 0 ? (data.respondidos / data.enviados) * 100 : undefined
+  const siblings = [...unidad.divisiones].sort((a, b) => (typeof b.resultado === 'number' ? b.resultado : -1) - (typeof a.resultado === 'number' ? a.resultado : -1))
+  const unitRank = unitRows.find((item) => item.name === unidad.unidad)?.rank
+  const report = unitReportsForUnit(unidad.unidad)[0]
 
   return (
-    <AppShell activeUnit={unidad.unidad} activeDivision={divisionData.nombre}>
-      <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
-        <div className="min-w-0">
-          <p className="text-xs font-medium tracking-[0.02em] text-teal">División legal · Tercer nivel</p>
-          <h1 className="mt-2.5 max-w-[30ch] break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{divisionData.nombre}</h1>
-          <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">
-            Unidad de negocio: <span className="font-semibold text-ink">{unidad.unidad}</span>. Este es el nivel más pequeño informado para esta entrega.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
-          <SegmentedGauge value={divisionData.resultado} label="Resultado de la división" />
-          <div>
-            <StatusPill tone={resultTone(divisionData.resultado)} />
-            <p className="mt-3 max-w-[22ch] text-[13px] leading-6 text-ink-soft">La entrega no trae categorías ni preguntas a este nivel.</p>
-          </div>
-        </div>
-      </Card>
+    <>
+      <PageHeader
+        tone={tone}
+        chipLabel={result === undefined ? 'Sin datos' : undefined}
+        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="layer" className="h-[17px] w-[17px]" />División legal · Tercer nivel · Semestre 1 · 2026</span>}
+        title={data.nombre}
+        subtitle={<>Unidad <Link to={unitPath(unidad.unidad)} className="font-bold text-brand-deep hover:underline">{unidad.unidad}</Link> · {formatPlain(data.enviados)} personas invitadas · {formatPlain(data.respondidos)} respondieron</>}
+        actions={
+          <>
+            <a href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} className={`${btnPrimary} h-[46px]`}>
+              <Icon name="down" className="h-[19px] w-[19px]" />Descargar informe de {unidad.unidad}<span className="border-l border-white/45 pl-2.5 text-xs font-semibold">PDF</span>
+            </a>
+            <Link to={unitPath(unidad.unidad)} className={`${btnOutline} h-[46px]`}><Icon name="back" className="h-[17px] w-[17px]" />Volver a {unidad.unidad}</Link>
+          </>
+        }
+        aside={
+          result !== undefined ? (
+            <ScoreCard
+              title="Resultado de la división"
+              value={result}
+              comparisons={[
+                { label: `vs. unidad ${unidad.unidad} (${formatPercent(unidad.resultado_global)})`, value: <Delta value={result - unidad.resultado_global} /> },
+                { label: `vs. Grupo (${formatPercent(GROUP_RESULT)})`, value: <Delta value={result - GROUP_RESULT} /> },
+                { label: 'Puesto en la unidad', value: `${siblings.findIndex((item) => item.nombre === data.nombre) + 1} de ${siblings.length}` },
+              ]}
+              explanation="Resultado de clima de la división legal. Esta entrega informa resultado y participación en este nivel."
+              rows={[
+                { label: 'Resultado', value: formatPercent(result) },
+                { label: 'Unidad', value: formatPercent(unidad.resultado_global) },
+                { label: 'Umbral Favorable', value: `${FAVORABLE_THRESHOLD}%` },
+              ]}
+            />
+          ) : (
+            <Card className="flex items-center gap-4 p-5">
+              <span className="flex h-[88px] w-[88px] shrink-0 items-center justify-center rounded-full border-[10px] border-dashed border-line text-2xl font-extrabold text-ink-faint">—</span>
+              <div><StatusChip tone="neutral" label="Sin datos" /><p className="mt-2 text-sm leading-5 text-ink-soft">Sin respuestas informadas: el resultado no se calcula ni se compara. El resultado de la unidad no incluye esta división.</p></div>
+            </Card>
+          )
+        }
+      />
 
-      <div className="grid grid-cols-2 gap-[14px] xl:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard
           label="Participación"
-          value={participation}
-          detail={`${formatPlain(divisionData.respondidos)} de ${formatPlain(divisionData.enviados)} respuestas`}
+          value={participation ?? '—'}
+          chipLabel={participation === undefined ? 'Sin datos' : undefined}
+          neutral={participation === undefined}
+          detail={participation === undefined ? 'Sin respuestas informadas' : `${formatPlain(data.respondidos)} de ${formatPlain(data.enviados)} respuestas`}
           icon="people"
-          sparkline={[60, 68, 72, typeof participation === 'number' ? participation : 0]}
-          rows={[{ label: 'Respondidas', value: formatPlain(divisionData.respondidos) }, { label: 'Enviadas', value: formatPlain(divisionData.enviados) }, { label: 'Nivel', value: 'División legal' }]}
+          delta={participation === undefined ? undefined : <Delta value={participation - clima.global.participacion} suffix=" pts vs. Grupo" />}
+          visual={participation === undefined ? undefined : <Meter value={participation} color={toneMeta[toneOf(participation)].fill} marks />}
+          rows={[{ label: 'Respondidas', value: formatPlain(data.respondidos) }, { label: 'Enviadas', value: formatPlain(data.enviados) }, { label: 'Nivel', value: 'División legal' }]}
           explanation="Cobertura de respuestas de la división respecto del universo invitado."
         />
         <KpiCard
           label="Respuestas"
-          value={divisionData.respondidos}
-          detail={`de ${formatPlain(divisionData.enviados)} enviadas`}
+          value={typeof data.respondidos === 'number' ? data.respondidos : '—'}
           asPercent={false}
           neutral
+          detail={`de ${formatPlain(data.enviados)} personas invitadas`}
           icon="bars"
-          sparkline={[0, typeof divisionData.respondidos === 'number' ? divisionData.respondidos : 0]}
-          rows={[{ label: 'Respondidas', value: formatPlain(divisionData.respondidos) }, { label: 'Enviadas', value: formatPlain(divisionData.enviados) }, { label: 'Resultado', value: formatPercent(divisionData.resultado) }]}
+          visual={<span aria-hidden="true" className="flex gap-1">{Array.from({ length: Math.min(data.enviados, 12) }, (_, index) => <span key={index} className="h-2.5 flex-1 rounded-full" style={{ background: typeof data.respondidos === 'number' && index < data.respondidos ? 'var(--brand-mid)' : 'var(--sunken)', boxShadow: typeof data.respondidos === 'number' && index < data.respondidos ? undefined : 'inset 0 0 0 1.5px var(--line)' }} />)}</span>}
+          rows={[{ label: 'Respondidas', value: formatPlain(data.respondidos) }, { label: 'Enviadas', value: formatPlain(data.enviados) }, { label: 'Resultado', value: formatPercent(result) }]}
           explanation="Cantidad de respuestas disponibles para esta división legal."
         />
         <KpiCard
           label="Resultado de la unidad"
           value={unidad.resultado_global}
-          detail={unidad.unidad}
+          detail={`${unidad.unidad} · puesto ${unitRank ?? '—'} de ${unitRows.length}`}
           icon="unit"
-          sparkline={[unidad.resultado_global - 4, unidad.resultado_global - 2, unidad.resultado_global]}
-          rows={[{ label: 'Unidad', value: unidad.unidad }, { label: 'Resultado', value: formatPercent(unidad.resultado_global) }, { label: 'Posición', value: `#${unitRank}` }]}
+          visual={<Meter value={unidad.resultado_global} color={toneMeta[toneOf(unidad.resultado_global)].fill} marks />}
+          rows={[{ label: 'Unidad', value: unidad.unidad }, { label: 'Resultado', value: formatPercent(unidad.resultado_global) }, { label: 'Posición', value: `#${unitRank ?? '—'}` }]}
           explanation="Resultado de clima de la unidad de negocio que contiene esta división."
         />
         <KpiCard
-          label="Resultado del grupo"
-          value={clima.global.resultado_global}
+          label="Resultado del Grupo"
+          value={GROUP_RESULT}
           detail="Grupo Emaresa"
           icon="grid"
-          sparkline={[75, 77, 78, clima.global.resultado_global]}
-          rows={[{ label: 'Grupo', value: 'Grupo Emaresa' }, { label: 'Resultado', value: formatPercent(clima.global.resultado_global) }, { label: 'Nivel', value: 'Grupo' }]}
-          explanation="Resultado global consolidado para comparar esta división con el grupo."
+          visual={<Meter value={GROUP_RESULT} color={toneMeta[toneOf(GROUP_RESULT)].fill} marks />}
+          rows={[{ label: 'Grupo', value: 'Grupo Emaresa' }, { label: 'Resultado', value: formatPercent(GROUP_RESULT) }, { label: 'Nivel', value: 'Grupo' }]}
+          explanation="Resultado global consolidado para comparar esta división con el Grupo."
         />
       </div>
 
-      <Card className="min-w-0 p-[22px]">
-        <SectionHeader title="Divisiones hermanas" subtitle="Navega entre las razones sociales de la unidad" />
-        <div className="mt-[18px] min-w-0 overflow-x-auto">
-          <table className="min-w-[620px] w-full border-collapse text-left">
-            <thead>
-              <tr className="border-b border-line-soft text-[9.5px] font-bold uppercase tracking-[0.15em] text-ink-ghost">
-                <th className="px-2.5 pb-2.5">Razón social</th>
-                <th className="px-2.5 pb-2.5">Resultado</th>
-                <th className="px-2.5 pb-2.5">Participación</th>
-                <th className="px-2.5 pb-2.5 text-right">Abrir</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unidad.divisiones.map((item) => (
-                <tr key={item.nombre} className="transition hover:bg-surface-sunken">
-                  <td className="max-w-[300px] truncate px-2.5 py-3 font-semibold text-ink">{item.nombre}</td>
-                  <td className="px-2.5 py-3">
-                    <span className="flex items-center gap-2 font-display text-[15px] font-extrabold tabular-nums text-ink">
-                      {formatPercent(item.resultado)}
-                      <StatusPill tone={resultTone(item.resultado)} />
-                    </span>
-                  </td>
-                  <td className="px-2.5 py-3 text-[12px] text-ink-soft">{formatParticipation(item.respondidos, item.enviados)}</td>
-                  <td className="px-2.5 py-3 text-right">
-                    <Link to={divisionPath(unidad.unidad, item.nombre)} className="inline-flex h-8 w-8 items-center justify-center rounded-[11px] bg-surface-accent text-teal hover:bg-[#EAF6F7]" aria-label={`Abrir ${item.nombre}`}>
-                      <Icon name="arrow" className="h-4 w-4" />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
-      <Card className="p-4"><p className="border-l-[3px] border-[#DCE8F4] pl-3 text-[12px] leading-6 text-ink-soft">La entrega S1 2026 no trae categorías ni preguntas para este nivel. La lectura temática vive en la unidad de negocio.</p></Card>
-    </AppShell>
+      {result === undefined ? null : <DivisionCompare unit={unidad} current={data} />}
+
+      <EmptyState title="Este nivel no trae categorías ni preguntas" action={<Link to={unitPath(unidad.unidad)} className={btnBrandOutline}>Ver categorías y preguntas de {unidad.unidad}<Icon name="go" className="h-[17px] w-[17px]" /></Link>}>
+        La entrega S1 2026 informa resultado y participación por división. La lectura temática está en la unidad de negocio.
+      </EmptyState>
+    </>
   )
 }

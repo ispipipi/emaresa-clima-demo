@@ -1,137 +1,143 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, Outlet, useLocation, useMatch } from 'react-router-dom'
+import { CommandPalette } from './CommandPalette'
 import { HierarchyNav } from './HierarchyNav'
-import { Icon, IconSprite } from './IconSprite'
-import { MentatCopilot } from './MentatCopilot'
+import { Icon, toneIcon } from './IconSprite'
 import { SiblingStrip } from './SiblingStrip'
+import { MentatCopilot } from '../features/mentat/MentatCopilot'
 import { bukOrganization, formatBukSyncDateLabel } from '../lib/buk'
+import { clima, findDivision, findUnit } from '../lib/clima'
+import { formatPercent, toneOf, type Tone } from '../lib/format'
+import { useStoredFlag } from '../lib/hooks'
 
-interface AppShellProps {
-  children: ReactNode
-  activeUnit?: string
-  activeDivision?: string
+interface Crumb {
+  label: string
+  href: string
+  tone: Tone
+  value?: number
 }
 
-const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
+const crumbTone: Record<Tone, string> = {
+  green: 'bg-fav-soft text-fav-ink',
+  yellow: 'bg-att-soft text-att-ink',
+  red: 'bg-crit-soft text-crit-ink',
+  neutral: 'bg-brand-soft text-brand-deep',
+}
 
-export function AppShell({ children, activeUnit, activeDivision }: AppShellProps) {
+function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
+  return (
+    <nav aria-label="Ruta actual" className="scrollbar-none min-w-0 overflow-x-auto">
+      <ol className="flex items-center gap-1.5 text-sm font-semibold">
+        {crumbs.map((crumb, index) => {
+          const current = index === crumbs.length - 1
+          return (
+            <li key={crumb.href + crumb.label} className="flex min-w-0 shrink-0 items-center gap-1.5 last:shrink">
+              {index > 0 ? <Icon name="chev" className="h-3.5 w-3.5 shrink-0 text-ink-faint" /> : null}
+              <Link
+                to={crumb.href}
+                aria-current={current ? 'page' : undefined}
+                title={crumb.label}
+                className={`inline-flex min-w-0 max-w-[260px] items-center gap-2 rounded-[10px] px-3 py-1.5 transition ${current ? `${crumbTone[crumb.tone]} font-bold` : 'text-ink-soft hover:bg-sunken hover:text-ink'}`}
+              >
+                <Icon name={toneIcon[crumb.tone]} className={`h-[15px] w-[15px] shrink-0 ${current ? '' : 'text-ink-faint'}`} />
+                <span className="truncate">{crumb.label}</span>
+                {crumb.value !== undefined ? <span className="shrink-0 tabular-nums">{formatPercent(crumb.value)}</span> : null}
+              </Link>
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
+}
+
+export function AppShell() {
   const location = useLocation()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [animFlip, setAnimFlip] = useState(false)
+  const divisionMatch = useMatch('/unidad/:nombre/division/:division')
+  const unitMatch = useMatch('/unidad/:nombre')
+  const [collapsed, setCollapsed] = useStoredFlag('emaresa-clima:sidebar-collapsed', false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+
+  const activeUnit = divisionMatch?.params.nombre ?? unitMatch?.params.nombre
+  const activeDivision = divisionMatch?.params.division
 
   useEffect(() => {
-    setMenuOpen(false)
-    setAnimFlip((current) => !current)
+    setDrawerOpen(false)
   }, [location.pathname])
 
-  const crumbs = useMemo(() => {
-    const base = [{ label: 'Resumen ejecutivo', href: '/' }]
-    if (activeDivision === 'corporativo') return [...base, { label: 'Gestión Corporativa', href: '/gestion-corporativa' }]
-    if (activeDivision === 'organizacion') return [...base, { label: 'Organización BUK', href: '/organizacion' }]
-    if (activeDivision === 'manual') return [...base, { label: 'Manual de usuario', href: '/manual' }]
-    if (!activeUnit) return base
-    const unitHref = `/unidad/${encodeURIComponent(activeUnit)}`
-    const result = [...base, { label: activeUnit, href: unitHref }]
-    if (activeDivision) result.push({ label: activeDivision, href: location.pathname })
-    return result
-  }, [activeDivision, activeUnit, location.pathname])
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setPaletteOpen((current) => !current)
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [])
 
-  const levelLabel = activeDivision === 'corporativo'
-    ? 'Indicador separado'
-    : activeDivision === 'organizacion'
-      ? 'Snapshot BUK'
-      : activeDivision === 'manual'
-        ? 'Guía de uso'
-        : activeDivision
-          ? 'Nivel 3 de 3'
-          : activeUnit
-            ? 'Nivel 2 de 3'
-            : 'Nivel 1 de 3'
+  const crumbs = useMemo<Crumb[]>(() => {
+    const group: Crumb = { label: 'Grupo Emaresa', href: '/', tone: toneOf(clima.global.resultado_global), value: clima.global.resultado_global }
+    const path = location.pathname
+    if (path === '/gestion-corporativa') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Gestión Corporativa', href: path, tone: toneOf(clima.global.resultado_gestion_corporativa), value: clima.global.resultado_gestion_corporativa }]
+    if (path === '/organizacion') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Organización BUK', href: path, tone: 'neutral' }]
+    if (path === '/manual') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Manual de usuario', href: path, tone: 'neutral' }]
+    const unit = findUnit(activeUnit)
+    if (!unit) return [group]
+    const unitCrumb: Crumb = { label: unit.unidad, href: `/unidad/${encodeURIComponent(unit.unidad)}`, tone: toneOf(unit.resultado_global), value: unit.resultado_global }
+    const division = findDivision(activeUnit, activeDivision)
+    const base: Crumb[] = [{ ...group, value: undefined, tone: 'neutral' }, unitCrumb]
+    if (!division) return base
+    return [...base, { label: division.nombre, href: path, tone: toneOf(division.resultado), value: typeof division.resultado === 'number' ? division.resultado : undefined }]
+  }, [location.pathname, activeUnit, activeDivision])
+
+  const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
 
   return (
-    <div className="now-ui min-h-screen bg-canvas text-ink">
-      <IconSprite />
-      {menuOpen && <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-30 bg-navy/40 lg:hidden" onClick={() => setMenuOpen(false)} />}
+    <div className="min-h-screen bg-canvas text-ink">
+      <a href="#contenido" className="skip-link">Saltar al contenido</a>
+      {drawerOpen ? <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-30 animate-fade bg-[var(--scrim)] lg:hidden" onClick={() => setDrawerOpen(false)} /> : null}
 
-      <div className="flex min-h-[calc(100vh-28px)] items-start gap-[14px]">
-        <aside className={`now-sidebar fixed inset-y-0 left-0 z-40 flex w-[250px] -translate-x-[calc(100%+16px)] flex-none flex-col rounded-sidebar bg-navy text-white shadow-sidebar transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${menuOpen ? 'translate-x-0' : ''}`}>
-          <div className="flex-none p-[18px_16px_16px]">
-            <div className="flex items-start justify-between gap-3">
-              <Link to="/" className="block min-w-0 flex-1" onClick={() => setMenuOpen(false)}>
-                <span className="flex items-center justify-start rounded-[14px] bg-[#EAF6FC] px-3.5 py-3">
-                  <img src={assetUrl('emaresa-logo.png')} alt="Grupo Emaresa" className="block h-auto w-full max-w-[175px]" />
-                </span>
-                <span className="mt-3 block pl-1 text-[9.5px] font-bold uppercase tracking-[0.2em] text-teal-light">Clima organizacional</span>
-                <span className="mt-1 block pl-1 text-[11px] font-medium text-white/45">Semestre 1 · 2026</span>
-              </Link>
-              <button type="button" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white/70 hover:bg-white/10 hover:text-white lg:hidden" aria-label="Cerrar navegación" onClick={() => setMenuOpen(false)}>
-                <Icon name="close" className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-1">
-            <HierarchyNav activeUnit={activeUnit} activeDivision={activeDivision} onNavigate={() => setMenuOpen(false)} />
-          </div>
-
-          <div className="flex flex-none flex-col gap-[9px] p-[0_12px_14px]">
-            <div className="rounded-[14px] bg-white/[0.07] px-3.5 py-3">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-300" />
-                <span className="text-[11.5px] font-semibold text-white/[0.82]">Fuente sincronizada</span>
-              </div>
-              <p className="mt-1.5 text-[10.5px] leading-4 text-white/45">BUK + informes DO · S1 2026</p>
-            </div>
-            <div className="flex items-center gap-2.5 rounded-[14px] bg-[#2B3239] px-3 py-[9px]">
-              <span className="text-[8.5px] font-semibold uppercase tracking-[0.18em] text-white/45">Powered by</span>
-              <img src={assetUrl('npr-logo.jpg')} alt="NPR" className="h-5 w-auto rounded-[3px]" />
-            </div>
-          </div>
+      <div className="flex min-h-screen items-start">
+        <aside
+          id="navegacion"
+          className={`fixed inset-y-0 left-0 z-40 flex w-[290px] max-w-[86vw] flex-col border-r border-line bg-surface transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:max-w-none lg:translate-x-0 lg:transition-[width] ${drawerOpen ? 'translate-x-0' : '-translate-x-full'} ${collapsed ? 'lg:w-[76px]' : 'lg:w-[264px]'}`}
+        >
+          <HierarchyNav collapsed={collapsed} activeUnit={activeUnit} activeDivision={activeDivision} onNavigate={() => setDrawerOpen(false)} onClose={() => setDrawerOpen(false)} />
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-[14px]">
-          <header className="now-topbar flex min-h-[104px] flex-col justify-center gap-3 rounded-panel bg-surface px-4 py-4 shadow-card lg:px-5">
-            <div className="flex min-w-0 items-start justify-between gap-4">
-              <div className="flex min-w-0 items-start gap-3">
-                <button type="button" aria-label="Abrir menú" aria-expanded={menuOpen} className="now-menu-button flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-xl border border-line bg-[#F7FBFF] text-navy hover:border-teal lg:hidden" onClick={() => setMenuOpen(true)}>
-                  <span aria-hidden="true" className="block h-[9px] w-3.5 border-y-[1.6px] border-navy" />
-                </button>
-                <div className="min-w-0">
-                  <p className="now-eyebrow">Emaresa · encuesta pulso de clima</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <h1 className="now-topbar__title truncate font-display text-[22px] font-bold leading-none text-navy-ink">{crumbs[crumbs.length - 1]?.label}</h1>
-                    <span className="now-sync text-[11px] font-medium tabular-nums text-ink-faint">Sinc: {formatBukSyncDateLabel(bukOrganization.generatedAt)}</span>
-                  </div>
-                  <p className="mt-2 text-[12px] text-ink-soft">Monitoreo ejecutivo de clima organizacional y estructura BUK</p>
-                </div>
-              </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <span className="hidden items-center gap-1.5 rounded-full bg-[#EFFAF3] px-3 py-1.5 text-[11px] font-semibold text-tone-green lg:flex"><span className="h-1.5 w-1.5 rounded-full bg-tone-green-dot" />{levelLabel}</span>
-                <span className="now-period hidden rounded-xl border border-line bg-[#F7FBFF] px-3 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-ink-soft sm:block">Período <strong className="ml-1 text-navy-ink">S1 · 2026</strong></span>
-              </div>
-            </div>
-            <nav aria-label="Ruta actual" className="now-breadcrumbs flex min-w-0 items-center gap-[7px] overflow-x-auto border-t border-line-soft pt-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {crumbs.map((crumb, index) => (
-                <span key={`${crumb.href}-${crumb.label}`} className="flex shrink-0 items-center gap-[7px]">
-                  {index > 0 && <Icon name="chev" className="h-[11px] w-[11px] text-[#B9CBD9]" />}
-                  <Link to={crumb.href} className={`max-w-[230px] truncate text-[11px] font-semibold transition hover:text-teal ${index === crumbs.length - 1 ? 'text-teal' : 'text-ink-faint'}`}>
-                    {crumb.label}
-                  </Link>
-                </span>
-              ))}
-            </nav>
+        <div className="flex min-w-0 flex-1 flex-col">
+          <header className="sticky top-0 z-20 flex min-h-[72px] items-center gap-3 bg-canvas px-4 py-3 sm:px-8">
+            <button type="button" aria-label="Abrir menú" aria-expanded={drawerOpen} aria-controls="navegacion" onClick={() => setDrawerOpen(true)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-ctl bg-surface text-ink-soft shadow-card transition hover:text-ink lg:hidden">
+              <Icon name="panel" className="h-5 w-5" />
+            </button>
+            <button type="button" aria-label={collapsed ? 'Expandir menú lateral' : 'Contraer menú lateral'} onClick={() => setCollapsed(!collapsed)} className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-ctl bg-surface text-ink-soft shadow-card transition hover:text-ink lg:flex">
+              <Icon name="panel" className="h-5 w-5" />
+            </button>
+            <Breadcrumb crumbs={crumbs} />
+            <div className="min-w-2 flex-1" />
+            <button type="button" onClick={() => setPaletteOpen(true)} aria-label="Buscar unidad, división o vista" className="flex h-11 shrink-0 items-center gap-2.5 rounded-ctl bg-surface px-3.5 text-sm text-ink-soft shadow-card transition hover:text-ink sm:w-[300px]">
+              <Icon name="search" className="h-[18px] w-[18px]" />
+              <span className="hidden flex-1 text-left sm:block">Buscar unidad, división o vista</span>
+              <kbd className="hidden rounded-[7px] bg-sunken px-2 py-0.5 text-xs font-semibold sm:block">{isMac ? '⌘ K' : 'Ctrl K'}</kbd>
+            </button>
+            <span className="hidden h-11 shrink-0 items-center gap-2 rounded-ctl bg-surface px-3.5 text-sm font-semibold shadow-card md:flex"><Icon name="calendar" className="h-[18px] w-[18px] text-ink-soft" />S1 · 2026</span>
+            <span className="hidden shrink-0 items-center gap-2 text-[12.5px] text-ink-soft xl:flex"><span className="h-2 w-2 rounded-full bg-fav" />Sinc. {formatBukSyncDateLabel(bukOrganization.generatedAt)}</span>
           </header>
 
-          <div className="lg:hidden">
+          <div className="px-4 sm:px-8 lg:hidden">
             <SiblingStrip activeUnit={activeUnit} activeDivision={activeDivision} />
           </div>
 
-          <main key={location.pathname} className="now-content flex min-w-0 flex-col gap-[14px] pb-[26px]" style={{ animationName: animFlip ? 'om-in-a' : 'om-in-b', animationDuration: '.44s', animationTimingFunction: 'cubic-bezier(.2,.7,.3,1)', animationFillMode: 'both' }}>
-            {children}
+          <main id="contenido" key={location.pathname} tabIndex={-1} className="flex min-w-0 flex-col gap-5 px-4 pb-[120px] pt-2 outline-none sm:px-8">
+            <Outlet />
           </main>
         </div>
       </div>
+
       <MentatCopilot context={{ activeUnit, activeDivision, pathname: location.pathname }} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
     </div>
   )
 }

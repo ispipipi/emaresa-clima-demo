@@ -1,87 +1,120 @@
-import { useEffect, useMemo, useState } from 'react'
-import { formatPercent, formatPlain, toneLabel, toneMeta, toneOf } from '../lib/format'
+import { useState, type ReactNode } from 'react'
+import { Drawer } from './Drawer'
 import { Icon, type IconName } from './IconSprite'
+import { CountUp, Ring, StatusChip } from './ui'
+import { formatPercent, formatPlain, toneOf, type Tone } from '../lib/format'
 
-interface DetailRow {
+export interface DetailRow {
   label: string
   value: string
+}
+
+function DetailBody({ displayValue, tone, chipLabel, explanation, rows, extra }: { displayValue: string; tone: Tone; chipLabel?: string; explanation: string; rows: DetailRow[]; extra?: ReactNode }) {
+  return (
+    <>
+      <div className="flex items-center justify-between gap-3 rounded-card bg-sunken px-5 py-[18px]">
+        <p className="text-[44px] font-extrabold leading-none tracking-[-0.045em] tabular-nums">{displayValue}</p>
+        <StatusChip tone={tone} label={chipLabel} size="lg" />
+      </div>
+      <p className="text-sm leading-[22px] text-ink-soft">{explanation}</p>
+      {rows.length > 0 ? (
+        <dl className="flex flex-col gap-0.5">
+          {rows.map((row) => (
+            <div key={row.label} className="flex items-center justify-between gap-4 rounded-ctl bg-sunken px-3.5 py-[11px] text-[13.5px]">
+              <dt className="text-ink-soft">{row.label}</dt>
+              <dd className="text-right font-bold">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+      {extra}
+    </>
+  )
 }
 
 interface KpiCardProps {
   label: string
   value: number | string
-  detail: string
+  detail: ReactNode
   asPercent?: boolean
   neutral?: boolean
+  tone?: Tone
+  chipLabel?: string
   explanation?: string
   rows?: DetailRow[]
-  sparkline?: number[]
   icon?: IconName
+  /** Línea de variación (▲▼) bajo el detalle. */
+  delta?: ReactNode
+  /** Visual breve (barra, puntos) al pie de la tarjeta. */
+  visual?: ReactNode
+  /** Contenido adicional del panel de detalle. */
+  extra?: ReactNode
 }
 
-export function KpiCard({ label, value, detail, asPercent = true, neutral = false, explanation = 'Este indicador está disponible en el resumen del periodo seleccionado.', rows = [], sparkline, icon = 'ring' }: KpiCardProps) {
+/** Cada KPI es un botón con flecha visible que abre su panel de detalle. */
+export function KpiCard({ label, value, detail, asPercent = true, neutral = false, tone: toneProp, chipLabel, explanation = 'Este indicador está disponible en el resumen del período seleccionado.', rows = [], icon = 'ring', delta, visual, extra }: KpiCardProps) {
   const [open, setOpen] = useState(false)
-  const tone = neutral ? 'neutral' : toneOf(value)
-  const meta = toneMeta[tone]
-  const displayValue = asPercent ? formatPercent(value) : formatPlain(value)
-  const bars = useMemo(() => buildSparkline(sparkline ?? (typeof value === 'number' ? [value - 5, value - 2, value, value + 1, value - 1, value] : [])), [sparkline, value])
-  const titleId = `kpi-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
-
-  useEffect(() => {
-    if (!open) return undefined
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false) }
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [open])
-
+  const numeric = typeof value === 'number' && Number.isFinite(value)
+  const tone: Tone = toneProp ?? (neutral || !numeric ? 'neutral' : toneOf(value))
+  const format = (n: number) => (asPercent ? formatPercent(n) : formatPlain(n))
+  const displayValue = numeric ? format(value as number) : '—'
   return (
     <>
-      <button type="button" aria-haspopup="dialog" aria-label={`Ver detalle de ${label}`} className="group flex min-h-[142px] w-full flex-col justify-between gap-[18px] rounded-panel border-0 bg-surface p-5 text-left shadow-card transition duration-200 hover:-translate-y-[3px] hover:shadow-card-hover" onClick={() => setOpen(true)}>
-        <span className="flex items-start justify-between gap-3.5">
-          <span className="min-w-0 text-[13px] leading-[1.4] font-medium text-ink-soft">{label}</span>
-          <span aria-hidden="true" className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#E1EBF5] text-teal transition group-hover:border-teal"><Icon name="arrow" className="h-[13px] w-[13px]" /></span>
+      <button type="button" aria-haspopup="dialog" aria-label={`Ver detalle de ${label}`} onClick={() => setOpen(true)} className="group flex w-full animate-rise flex-col gap-3 rounded-card bg-surface p-5 text-left shadow-card transition duration-200 hover:-translate-y-[3px] hover:shadow-lift">
+        <span className="flex items-center justify-between gap-3">
+          <span className="text-[15px] font-bold">{label}</span>
+          <span aria-hidden="true" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand-deep transition group-hover:bg-brand group-hover:text-white"><Icon name="arrow" className="h-4 w-4" /></span>
         </span>
-        <span className="flex items-end justify-between gap-3.5">
-          <span className="min-w-0">
-            <span className="block font-display text-[31px] font-bold leading-none tracking-[-0.032em] tabular-nums text-navy-ink">{displayValue}</span>
-            <span className="mt-[9px] block text-[11.5px] leading-[1.45] text-ink-faint">{detail}</span>
-          </span>
-          <span aria-hidden="true" className="flex h-[30px] shrink-0 items-end gap-0.5">
-            {bars.map((bar, index) => <span key={index} className="w-[2.5px] rounded-[1.5px]" style={{ height: `${bar.height}px`, backgroundColor: bar.active ? '#0B7180' : '#D2E1EF' }} />)}
-          </span>
+        <span className="flex flex-wrap items-center gap-2.5">
+          <span className={`text-[38px] font-extrabold leading-none tracking-[-0.04em] tabular-nums ${numeric ? '' : 'text-ink-faint'}`}>{numeric ? <CountUp value={value as number} format={format} /> : '—'}</span>
+          <StatusChip tone={tone} label={chipLabel} />
         </span>
+        <span className="text-[13.5px] font-semibold leading-snug">{detail}</span>
+        {delta ? <span className="text-[13.5px]">{delta}</span> : null}
+        {visual}
       </button>
-
-      {open && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-navy/40 p-[18px] backdrop-blur-[3px]" role="presentation" onMouseDown={() => setOpen(false)}>
-          <section role="dialog" aria-modal="true" aria-labelledby={`${titleId}-title`} className="max-h-[86vh] w-full max-w-[520px] overflow-y-auto rounded-[22px] bg-surface px-7 pb-6 pt-[26px] shadow-modal" onMouseDown={(event) => event.stopPropagation()}>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex min-w-0 items-start gap-3">
-                <span className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[13px] bg-surface-accent text-teal"><Icon name={icon} className="h-[19px] w-[19px]" /></span>
-                <div className="min-w-0">
-                  <p className="text-[9.5px] font-bold uppercase tracking-[0.19em] text-teal">Detalle del indicador</p>
-                  <h2 id={`${titleId}-title`} className="mt-1 font-display text-[21px] font-bold leading-tight text-navy-ink">{label}</h2>
-                </div>
-              </div>
-              <button type="button" aria-label="Cerrar detalle" className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-xl bg-surface-sunken text-ink-soft hover:text-teal" onClick={() => setOpen(false)}><Icon name="close" className="h-4 w-4" /></button>
-            </div>
-            <div className="mt-[18px] flex items-center justify-between gap-4 rounded-2xl bg-surface-sunken px-5 py-[18px]">
-              <p className="font-display text-[42px] font-bold leading-none tracking-[-0.045em] tabular-nums text-navy-ink">{displayValue}</p>
-              <span className="flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[10.5px] font-bold" style={{ color: meta.text, backgroundColor: meta.background }}><span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: meta.dot }} />{neutral ? 'Conteo' : toneLabel[tone]}</span>
-            </div>
-            <p className="mt-4 text-[13px] leading-[1.7] text-ink-soft">{explanation}</p>
-            {rows.length > 0 && <dl className="mt-[18px] flex flex-col gap-0.5">{rows.map((row) => <div key={row.label} className="flex items-center justify-between gap-4 rounded-xl bg-surface-sunken px-3 py-[11px] text-[12.5px]"><dt className="text-ink-soft">{row.label}</dt><dd className="font-bold text-ink">{row.value}</dd></div>)}</dl>}
-            <button type="button" className="mt-[18px] w-full rounded-[14px] bg-navy px-4 py-[13px] text-[13px] font-bold text-white transition hover:bg-teal" onClick={() => setOpen(false)}>Cerrar detalle</button>
-          </section>
-        </div>
-      )}
+      <Drawer open={open} onClose={() => setOpen(false)} title={label} icon={icon}>
+        <DetailBody displayValue={displayValue} tone={tone} chipLabel={chipLabel} explanation={explanation} rows={rows} extra={extra} />
+      </Drawer>
     </>
   )
 }
 
-function buildSparkline(values: number[]) {
-  return values.slice(-8).map((value) => ({
-    height: 8 + Math.max(0, Math.min(1, (value - 48) / 47)) * 22,
-    active: value >= 80,
-  }))
+interface ScoreCardProps {
+  title: string
+  value: number
+  comparisons: { label: string; value: ReactNode }[]
+  explanation: string
+  rows?: DetailRow[]
+  icon?: IconName
+}
+
+/** Resultado protagonista: anillo con zonas, comparaciones y panel de detalle. */
+export function ScoreCard({ title, value, comparisons, explanation, rows = [], icon = 'ring' }: ScoreCardProps) {
+  const [open, setOpen] = useState(false)
+  const tone = toneOf(value)
+  return (
+    <>
+      <button type="button" aria-haspopup="dialog" aria-label={`Ver detalle de ${title}`} onClick={() => setOpen(true)} className="group flex w-full animate-rise items-center gap-5 rounded-card bg-surface p-5 text-left shadow-lift transition duration-200 hover:-translate-y-[3px] hover:shadow-float">
+        <Ring value={value}>
+          <span className="text-[30px] font-extrabold leading-none tracking-[-0.04em] tabular-nums"><CountUp value={value} format={(n) => formatPercent(Math.round(n * 10) / 10).replace('%', '')} /><span className="text-[17px] tracking-normal">%</span></span>
+        </Ring>
+        <span className="flex min-w-0 flex-1 flex-col gap-2.5">
+          <span className="flex items-center justify-between gap-2">
+            <span className="text-[14.5px] font-bold">{title}</span>
+            <span aria-hidden="true" className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-soft text-brand-deep transition group-hover:bg-brand group-hover:text-white"><Icon name="arrow" className="h-[15px] w-[15px]" /></span>
+          </span>
+          {comparisons.map((item) => (
+            <span key={item.label} className="flex items-center justify-between gap-3 text-[13px] text-ink-soft">
+              <span>{item.label}</span>
+              <span className="text-[13.5px] font-bold text-ink">{item.value}</span>
+            </span>
+          ))}
+        </span>
+      </button>
+      <Drawer open={open} onClose={() => setOpen(false)} title={title} icon={icon}>
+        <DetailBody displayValue={formatPercent(value)} tone={tone} explanation={explanation} rows={rows} />
+      </Drawer>
+    </>
+  )
 }

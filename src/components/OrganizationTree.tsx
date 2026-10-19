@@ -1,46 +1,110 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { BukAreaNode, BukCompany } from '../types/buk'
-import { formatPlain } from '../lib/format'
+import { Icon } from './IconSprite'
+import { formatPercent, formatPlain } from '../lib/format'
 
-function ToggleGlyph({ open, leaf = false }: { open: boolean; leaf?: boolean }) {
-  return <span aria-hidden="true" className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[9px] text-[15px] font-semibold leading-none ${leaf ? 'text-[#C2D6E9]' : 'border border-[#D8E5F2] bg-white text-teal'}`}>{leaf ? '·' : open ? '−' : '+'}</span>
+interface FlatRow {
+  key: string
+  name: string
+  count: number
+  share: number
+  depth: number
+  isCompany: boolean
+  hasKids: boolean
 }
 
-function AreaBranch({ area }: { area: BukAreaNode }) {
-  const [open, setOpen] = useState(area.depth < 1)
-  const hasChildren = area.children.length > 0
-  const contentId = `buk-area-${area.id}`
-
-  return (
-    <div>
-      <button type="button" aria-expanded={hasChildren ? open : undefined} aria-controls={hasChildren ? contentId : undefined} className="flex w-full items-center gap-2 rounded-xl py-2 text-left hover:bg-surface-accent" style={{ paddingLeft: `${10 + area.depth * 20}px` }} onClick={() => hasChildren && setOpen((current) => !current)}>
-        <ToggleGlyph open={open} leaf={!hasChildren} />
-        <span className={`min-w-0 flex-1 truncate text-[12px] ${area.depth === 0 ? 'font-semibold' : 'font-medium'} text-ink`}>{area.name}</span>
-        <span className="shrink-0 pr-2 text-[11.5px] font-semibold tabular-nums text-ink-soft">{formatPlain(area.employeeCount)} personas</span>
-      </button>
-      {hasChildren && open && <div id={contentId}>{area.children.map((child) => <AreaBranch key={child.id} area={child} />)}</div>}
-    </div>
-  )
+/** La raíz del área que repite el nombre de la empresa se omite: empresa → área → subárea. */
+function areasOf(company: BukCompany): BukAreaNode[] {
+  const only = company.areas.length === 1 ? company.areas[0] : undefined
+  return only && only.employeeCount === company.employeeCount ? only.children : company.areas
 }
 
-function CompanyBranch({ company }: { company: BukCompany }) {
-  const [open, setOpen] = useState(true)
-  const contentId = `buk-company-${company.id}`
-  return (
-    <section className="overflow-hidden rounded-2xl border border-line-soft bg-surface-sunken">
-      <button type="button" aria-expanded={open} aria-controls={contentId} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-surface-accent" onClick={() => setOpen((current) => !current)}>
-        <ToggleGlyph open={open} />
-        <span className="min-w-0 flex-1">
-          <span className="block text-[9px] font-bold uppercase tracking-[0.17em] text-ink-ghost">Empresa</span>
-          <span className="mt-1 block truncate font-display text-[14.5px] font-bold text-navy-ink">{company.name}</span>
-        </span>
-        <span className="shrink-0 text-right"><span className="block font-display text-[19px] font-extrabold leading-none tracking-[-0.03em] text-navy-ink">{formatPlain(company.employeeCount)}</span><span className="mt-1 block text-[10px] font-semibold text-ink-faint">personas</span></span>
-      </button>
-      {open && <div id={contentId} className="border-t border-[#E8F1F9] bg-white px-2 pb-2 pt-1">{company.areas.length > 0 ? company.areas.map((area) => <AreaBranch key={area.id} area={area} />) : <p className="px-3 py-4 text-sm text-ink-faint">Sin áreas con personas activas.</p>}</div>}
-    </section>
-  )
+function allKeys(companies: BukCompany[]): Record<string, boolean> {
+  const keys: Record<string, boolean> = {}
+  const walk = (area: BukAreaNode) => {
+    if (area.children.length > 0) {
+      keys[`a${area.id}`] = true
+      area.children.forEach(walk)
+    }
+  }
+  companies.forEach((company) => {
+    keys[`c${company.id}`] = true
+    areasOf(company).forEach(walk)
+  })
+  return keys
 }
 
 export function OrganizationTree({ companies }: { companies: BukCompany[] }) {
-  return <div className="flex flex-col gap-[10px]">{companies.map((company) => <CompanyBranch key={company.id} company={company} />)}</div>
+  const total = companies.reduce((sum, company) => sum + company.employeeCount, 0)
+  const [open, setOpen] = useState<Record<string, boolean>>(() => {
+    const biggest = [...companies].sort((a, b) => b.employeeCount - a.employeeCount)[0]
+    if (!biggest) return {}
+    const topArea = [...areasOf(biggest)].sort((a, b) => b.employeeCount - a.employeeCount)[0]
+    return { [`c${biggest.id}`]: true, ...(topArea && topArea.children.length > 0 ? { [`a${topArea.id}`]: true } : {}) }
+  })
+
+  const rows = useMemo(() => {
+    const out: FlatRow[] = []
+    const addArea = (area: BukAreaNode, companyTotal: number, depth: number) => {
+      out.push({ key: `a${area.id}`, name: area.name, count: area.employeeCount, share: area.employeeCount / companyTotal, depth, isCompany: false, hasKids: area.children.length > 0 })
+      if (area.children.length > 0 && open[`a${area.id}`]) area.children.forEach((child) => addArea(child, companyTotal, depth + 1))
+    }
+    companies.forEach((company) => {
+      out.push({ key: `c${company.id}`, name: company.name, count: company.employeeCount, share: company.employeeCount / total, depth: 0, isCompany: true, hasKids: true })
+      if (open[`c${company.id}`]) areasOf(company).forEach((area) => addArea(area, company.employeeCount, 1))
+    })
+    return out
+  }, [companies, open, total])
+
+  const toggle = (key: string) => setOpen((current) => ({ ...current, [key]: !current[key] }))
+  const outline = 'h-10 rounded-ctl bg-surface px-4 text-[13px] font-bold shadow-[inset_0_0_0_1.5px_var(--line)] transition hover:bg-sunken'
+
+  return (
+    <div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-[13.5px] text-ink-soft">{rows.length} filas visibles</p>
+        <div className="flex gap-2">
+          <button type="button" className={outline} onClick={() => setOpen(allKeys(companies))}>Expandir todo</button>
+          <button type="button" className={outline} onClick={() => setOpen({})}>Contraer todo</button>
+        </div>
+      </div>
+      <div className="mt-3 hidden grid-cols-[minmax(0,1fr)_210px_130px] gap-4 px-3.5 pb-2 text-[12.5px] font-bold text-ink-soft md:grid">
+        <span>Empresa y áreas</span><span>Peso dentro del nivel superior</span><span className="text-right">Personas</span>
+      </div>
+      <ul className="flex flex-col gap-1">
+        {rows.map((row) => {
+          const content = (
+            <>
+              <span className="flex min-w-0 items-center gap-2.5" style={{ paddingLeft: Math.max(0, row.depth - 1) * 22 }}>
+                {row.hasKids ? (
+                  <span aria-hidden="true" className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-lg bg-surface text-brand-deep shadow-[inset_0_0_0_1.5px_var(--line)]"><Icon name="chev" className={`h-3.5 w-3.5 transition-transform ${open[row.key] ? 'rotate-90' : ''}`} /></span>
+                ) : (
+                  <span aria-hidden="true" className="flex h-[26px] w-[26px] shrink-0 items-center justify-center"><span className="h-1.5 w-1.5 rounded-full bg-ink-faint" /></span>
+                )}
+                <span className="min-w-0">
+                  {row.isCompany ? <span className="block text-xs font-semibold text-ink-soft">Empresa</span> : null}
+                  <span className={`block truncate leading-snug ${row.isCompany ? 'text-[15.5px] font-extrabold' : row.depth <= 1 ? 'text-[14.5px] font-bold' : row.depth === 2 ? 'text-sm font-semibold' : 'text-[13.5px] font-medium'}`}>{row.name}</span>
+                </span>
+              </span>
+              <span className="hidden items-center gap-2.5 md:flex">
+                <span aria-hidden="true" className="h-2 flex-1 overflow-hidden rounded-full bg-sunken shadow-[inset_0_0_0_1px_var(--line-soft)]"><span className="block h-full rounded-full" style={{ width: `${Math.max(1.5, row.share * 100)}%`, background: row.isCompany ? 'var(--brand-mid)' : 'var(--ink-3)' }} /></span>
+                <span className="w-[46px] text-right text-[12.5px] font-semibold tabular-nums text-ink-soft">{formatPercent(row.share * 100)}</span>
+              </span>
+              <span className="text-right text-sm font-bold tabular-nums">{formatPlain(row.count)} {row.count === 1 ? 'persona' : 'personas'}</span>
+            </>
+          )
+          const base = `grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-ctl px-3.5 md:grid-cols-[minmax(0,1fr)_210px_130px] ${row.isCompany ? 'min-h-[60px] bg-sunken' : 'min-h-[46px]'}`
+          return (
+            <li key={row.key}>
+              {row.hasKids ? (
+                <button type="button" aria-expanded={Boolean(open[row.key])} onClick={() => toggle(row.key)} className={`${base} w-full text-left transition hover:bg-brand-wash`}>{content}</button>
+              ) : (
+                <div className={base}>{content}</div>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
 }
