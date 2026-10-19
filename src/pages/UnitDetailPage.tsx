@@ -38,7 +38,10 @@ export function UnitDetailPage() {
     <>
       <PageHeader
         tone={tone}
-        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="unit" className="h-[17px] w-[17px]" />Unidad de negocio · Semestre 1 · 2026</span>}
+        eyebrow={<>
+          <span className="inline-flex items-center gap-2"><Icon name="unit" className="h-[17px] w-[17px]" />Unidad de negocio · Semestre 1 · 2026</span>
+          {reports.some((report) => report.current) ? <span className="inline-flex h-7 items-center rounded-full bg-fav-soft px-3 text-[12px] font-bold text-fav-ink">Informe S2 2026 disponible</span> : null}
+        </>}
         title={unidad.unidad}
         subtitle={`${formatPlain(unidad.enviadas)} personas invitadas · ${unidad.divisiones.length === 1 ? '1 división legal' : `${unidad.divisiones.length} divisiones legales`}`}
         actions={
@@ -46,7 +49,7 @@ export function UnitDetailPage() {
             {reports.map((report, index) => (
               <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} title={report.description} className={index === 0 ? `${btnPrimary} h-[46px]` : `${btnOutline} h-[46px]`}>
                 <Icon name="down" className="h-[19px] w-[19px]" />
-                {index === 0 ? `Descargar ${report.label.toLowerCase().replace('informe', 'informe')}` : report.label}
+                {index === 0 ? `Descargar ${report.label}` : report.label}
                 <span className="border-l border-current pl-2.5 text-xs font-semibold opacity-80">PDF</span>
               </a>
             ))}

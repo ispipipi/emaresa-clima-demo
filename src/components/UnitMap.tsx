@@ -25,7 +25,7 @@ function ReportButton({ name, compact = false }: { name: string; compact?: boole
   return (
     <a href={report.href} download={report.file} title={`Descargar ${report.label}`} aria-label={`Descargar ${report.label} de ${name}`} className={compact ? 'flex h-8 w-8 items-center justify-center rounded-[10px] text-ink shadow-[inset_0_0_0_1.5px_var(--line)] transition hover:bg-sunken' : `${btnOutline} px-3.5`}>
       <Icon name="doc" className="h-4 w-4" />
-      {compact ? null : 'Informe PDF'}
+      {compact ? null : report.label}
     </a>
   )
 }
@@ -103,7 +103,7 @@ function SelectedPanel({ row, priorities, onSelect }: { row: UnitRow; priorities
       ) : null}
       <div className="flex gap-2.5">
         <Link to={unitPath(row.name)} className={`${btnPrimary} flex-1`}>Ver unidad<Icon name="go" className="h-4 w-4" /></Link>
-        <a href={report.href} download={report.file} className={`${btnOutline} px-3.5`}><Icon name="doc" className="h-4 w-4" />Informe PDF</a>
+        <a href={report.href} download={report.file} className={`${btnOutline} px-3.5`}><Icon name="doc" className="h-4 w-4" />{report.label}</a>
       </div>
       {others.length > 0 ? (
         <div className="border-t border-line-soft pt-4">

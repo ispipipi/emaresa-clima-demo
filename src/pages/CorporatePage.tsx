@@ -8,7 +8,7 @@ import { corporateMonths, corporateQuestions } from '../data/corporativo'
 import { clima } from '../lib/clima'
 import { formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
 import { FAVORABLE_THRESHOLD } from '../lib/insights'
-import { reportDefinitions } from '../lib/reports'
+import { reportDefinitions, unitReportsForUnit } from '../lib/reports'
 
 export function CorporatePage() {
   const result = clima.global.resultado_gestion_corporativa
@@ -18,6 +18,7 @@ export function CorporatePage() {
   const opportunity = [...teams].sort((a, b) => a.resultado - b.resultado)[0]
   const questions = [...corporateQuestions].sort((a, b) => a.resultado - b.resultado)
   const diff = result - climate
+  const constructionS2Report = unitReportsForUnit('Construcción').find((report) => report.current)
 
   return (
     <>
@@ -31,6 +32,9 @@ export function CorporatePage() {
             <a href={`${import.meta.env.BASE_URL}reportes/${reportDefinitions.corporate.file}`} download={reportDefinitions.corporate.file} className={`${btnPrimary} h-[46px]`}>
               <Icon name="down" className="h-[19px] w-[19px]" />Descargar informe PDF<span className="border-l border-white/45 pl-2.5 text-xs font-semibold">S1 2026</span>
             </a>
+            {constructionS2Report ? <a href={`${import.meta.env.BASE_URL}reportes/unidades/${constructionS2Report.file}`} download={constructionS2Report.file} title="El informe S2 2026 disponible corresponde a Construcción." className={`${btnOutline} h-[46px]`}>
+              <Icon name="doc" className="h-[18px] w-[18px] text-brand-deep" />Descargar {constructionS2Report.label} · Construcción
+            </a> : null}
             <Link to="/" className={`${btnOutline} h-[46px]`}><Icon name="grid" className="h-[18px] w-[18px]" />Ver el clima global</Link>
           </>
         }
