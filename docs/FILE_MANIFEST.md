@@ -99,7 +99,7 @@ npm run dev
 - Repositorio: `https://github.com/ispipipi/emaresa-clima-demo`
 - URL: `https://ispipipi.github.io/emaresa-clima-demo/`
 - Rama publicada: `main`
-- Commit: `aba127e`
+- Commit: `8bc63dc`
 
 ## Seguridad
 
