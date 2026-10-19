@@ -94,7 +94,7 @@ summary:focus-visible {
 
 .now-ui .now-sidebar > div:first-child a > span:first-child {
   border-radius: 12px;
-  background: #eaf6fc;
+  background: #0b6da8;
   padding: 12px 14px;
 }
 
@@ -108,7 +108,7 @@ summary:focus-visible {
 .now-ui .now-sidebar .text-teal-light { color: #087eb6 !important; }
 .now-ui .now-sidebar [class*="text-white/"] { color: #6a7b8d !important; }
 .now-ui .now-sidebar .text-white { color: var(--now-ink) !important; }
-.now-ui .now-sidebar [class*="bg-white/"] { background: #f5f9fc !important; }
+.now-ui .now-sidebar [class*="bg-white/["] { background: #f5f9fc !important; }
 
 .now-ui .now-sidebar > div:nth-child(2) {
   padding: 18px 16px 16px !important;
