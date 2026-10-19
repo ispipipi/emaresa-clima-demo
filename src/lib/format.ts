@@ -32,10 +32,10 @@ export const toneLabel: Record<Tone, string> = {
 }
 
 export const toneMeta: Record<Tone, { text: string; background: string; dot: string; fill: string }> = {
-  green: { text: '#15803D', background: '#EFFAF3', dot: '#16A34A', fill: '#0B7180' },
-  yellow: { text: '#A16207', background: '#FFF8E5', dot: '#CA8A04', fill: '#5D9BA5' },
-  red: { text: '#B91C1C', background: '#FDEEEE', dot: '#DC2626', fill: '#C0524D' },
-  neutral: { text: '#526480', background: '#F1F6FB', dot: '#94A7BE', fill: '#A7BACE' },
+  green: { text: '#07558A', background: '#EAF4FB', dot: '#73C438', fill: '#1768B2' },
+  yellow: { text: '#8A6000', background: '#FFF4D6', dot: '#FFC845', fill: '#FFC845' },
+  red: { text: '#A72C2C', background: '#FBECEC', dot: '#C94C4C', fill: '#C94C4C' },
+  neutral: { text: '#4B5B68', background: '#F1F1EF', dot: '#9EA7AC', fill: '#9EA7AC' },
 }
 
 export function toneClasses(tone: Tone) {

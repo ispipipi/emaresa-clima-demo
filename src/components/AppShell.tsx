@@ -49,7 +49,7 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
             : 'Nivel 1 de 3'
 
   return (
-    <div className="min-h-screen bg-canvas p-3 text-ink lg:p-[14px]">
+    <div className="report-ui min-h-screen bg-canvas p-3 text-ink lg:p-[14px]">
       <IconSprite />
       {menuOpen && <button type="button" aria-label="Cerrar menú" className="fixed inset-0 z-30 bg-navy/40 lg:hidden" onClick={() => setMenuOpen(false)} />}
 
@@ -90,8 +90,14 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col gap-[14px]">
-          <header className="flex min-h-[62px] items-center justify-between gap-4 rounded-panel bg-surface px-4 py-[11px] shadow-card">
-            <div className="flex min-w-0 items-center gap-2.5">
+          <header className="report-masthead flex min-h-[62px] flex-col justify-center gap-3 rounded-panel bg-surface px-4 py-[11px] shadow-card">
+            <div className="report-masthead__brandline flex items-center justify-between gap-4 px-1">
+              <span>ENCUESTA PULSO DE CLIMA</span>
+              <span>GRUPO EMARESA</span>
+            </div>
+            <div className="report-masthead__divider" />
+            <div className="flex min-w-0 items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center gap-2.5">
               <button type="button" aria-label="Abrir menú" aria-expanded={menuOpen} className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-xl border border-line bg-[#F7FBFF] text-navy hover:border-teal lg:hidden" onClick={() => setMenuOpen(true)}>
                 <span aria-hidden="true" className="block h-[9px] w-3.5 border-y-[1.6px] border-navy" />
               </button>
@@ -105,10 +111,11 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
                   </span>
                 ))}
               </nav>
-            </div>
-            <div className="flex shrink-0 items-center gap-2">
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
               <span className="hidden items-center gap-1.5 rounded-full bg-[#F1FAF3] px-3 py-1.5 text-[11px] font-semibold text-tone-green lg:flex"><span className="h-1.5 w-1.5 rounded-full bg-tone-green-dot" />{levelLabel}</span>
               <span title="Última sincronización de BUK" className="rounded-full bg-surface-muted px-3 py-1.5 text-[11.5px] font-semibold tabular-nums text-ink-soft">{formatBukSyncDateLabel(bukOrganization.generatedAt)}</span>
+              </div>
             </div>
           </header>
 
@@ -116,7 +123,7 @@ export function AppShell({ children, activeUnit, activeDivision }: AppShellProps
             <SiblingStrip activeUnit={activeUnit} activeDivision={activeDivision} />
           </div>
 
-          <main key={location.pathname} className="flex min-w-0 flex-col gap-[14px] pb-[26px]" style={{ animationName: animFlip ? 'om-in-a' : 'om-in-b', animationDuration: '.44s', animationTimingFunction: 'cubic-bezier(.2,.7,.3,1)', animationFillMode: 'both' }}>
+          <main key={location.pathname} className="report-content flex min-w-0 flex-col gap-[14px] pb-[26px]" style={{ animationName: animFlip ? 'om-in-a' : 'om-in-b', animationDuration: '.44s', animationTimingFunction: 'cubic-bezier(.2,.7,.3,1)', animationFillMode: 'both' }}>
             {children}
           </main>
         </div>
