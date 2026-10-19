@@ -2,6 +2,7 @@
 
 ## Entrada principal
 
+- `docs/design/CLAUDE_DESIGN_COMPLETE_REDESIGN.md`: brief actualizado para un rediseño completo inspirado en NOW Vendedores, con pantallas, restricciones, criterios y prompt de trabajo.
 - `docs/design/CLAUDE_DESIGN_HANDOFF.md`: documento maestro con contexto, objetivos, reglas, rutas, datos, interacciones y criterios de aceptación.
 
 ## Referencias visuales
@@ -99,7 +100,7 @@ npm run dev
 - Repositorio: `https://github.com/ispipipi/emaresa-clima-demo`
 - URL: `https://ispipipi.github.io/emaresa-clima-demo/`
 - Rama publicada: `main`
-- Commit: `8bc63dc`
+- Commit base de la interfaz NOW: `62ec959`
 
 ## Seguridad
 
