@@ -25,11 +25,6 @@ export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate
   const hideLabel = collapsed ? 'lg:hidden' : ''
   const itemBase = `flex h-11 items-center gap-3 rounded-ctl px-3 text-sm font-semibold transition ${collapsed ? 'lg:justify-center lg:px-0' : ''}`
   const itemClass = (active: boolean) => `${itemBase} ${active ? 'bg-brand-soft font-bold text-brand-deep' : 'text-ink hover:bg-sunken'}`
-  const openMentat = () => {
-    onNavigate()
-    window.dispatchEvent(new CustomEvent('mentat:open'))
-  }
-
   return (
     <nav aria-label="Navegación principal" className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-3.5 pb-4 pt-5">
       <div>
@@ -60,12 +55,6 @@ export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate
               </NavLink>
             </li>
           ))}
-          <li>
-            <button type="button" onClick={openMentat} title="Mentat" className={`${itemClass(false)} w-full text-left`}>
-              <Icon name="spark" className="h-5 w-5 shrink-0" />
-              <span className={`min-w-0 flex-1 truncate ${hideLabel}`}>Mentat</span>
-            </button>
-          </li>
           <li>
             <NavLink to="/manual" onClick={onNavigate} title="Manual de usuario" className={({ isActive }) => itemClass(isActive)}>
               <Icon name="book" className="h-5 w-5 shrink-0" />
