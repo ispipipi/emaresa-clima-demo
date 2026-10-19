@@ -3,12 +3,15 @@ import { Link, Outlet, useLocation, useMatch } from 'react-router-dom'
 import { CommandPalette } from './CommandPalette'
 import { HierarchyNav } from './HierarchyNav'
 import { Icon, toneIcon } from './IconSprite'
+import { PeriodSelector } from './PeriodSelector'
 import { SiblingStrip } from './SiblingStrip'
 import { MentatCopilot } from '../features/mentat/MentatCopilot'
 import { bukOrganization, formatBukSyncDateLabel } from '../lib/buk'
 import { clima, findDivision, findUnit } from '../lib/clima'
 import { formatPercent, toneOf, type Tone } from '../lib/format'
 import { useStoredFlag } from '../lib/hooks'
+import { usePeriod } from '../lib/period'
+import { periodUnitData } from '../lib/periodData'
 
 interface Crumb {
   label: string
@@ -53,6 +56,7 @@ function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
 
 export function AppShell() {
   const location = useLocation()
+  const { period } = usePeriod()
   const divisionMatch = useMatch('/unidad/:nombre/division/:division')
   const unitMatch = useMatch('/unidad/:nombre')
   const [collapsed, setCollapsed] = useStoredFlag('emaresa-clima:sidebar-collapsed', false)
@@ -78,19 +82,22 @@ export function AppShell() {
   }, [])
 
   const crumbs = useMemo<Crumb[]>(() => {
-    const group: Crumb = { label: 'Grupo Emaresa', href: '/', tone: toneOf(clima.global.resultado_global), value: clima.global.resultado_global }
+    const groupData = period === 'S1-2026' ? clima.global : undefined
+    const group: Crumb = { label: 'Grupo Emaresa', href: '/', tone: groupData ? toneOf(groupData.resultado_global) : 'neutral', value: groupData?.resultado_global }
     const path = location.pathname
-    if (path === '/gestion-corporativa') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Gestión Corporativa', href: path, tone: toneOf(clima.global.resultado_gestion_corporativa), value: clima.global.resultado_gestion_corporativa }]
+    if (path === '/gestion-corporativa') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Gestión Corporativa', href: path, tone: period === 'S1-2026' ? toneOf(clima.global.resultado_gestion_corporativa) : 'neutral', value: period === 'S1-2026' ? clima.global.resultado_gestion_corporativa : undefined }]
     if (path === '/organizacion') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Organización BUK', href: path, tone: 'neutral' }]
     if (path === '/manual') return [{ ...group, value: undefined, tone: 'neutral' }, { label: 'Manual de usuario', href: path, tone: 'neutral' }]
     const unit = findUnit(activeUnit)
     if (!unit) return [group]
-    const unitCrumb: Crumb = { label: unit.unidad, href: `/unidad/${encodeURIComponent(unit.unidad)}`, tone: toneOf(unit.resultado_global), value: unit.resultado_global }
+    const unitPeriodData = periodUnitData(activeUnit, period)
+    const unitValue = unitPeriodData?.hasData ? unitPeriodData.unit.resultado_global : undefined
+    const unitCrumb: Crumb = { label: unit.unidad, href: `/unidad/${encodeURIComponent(unit.unidad)}`, tone: unitValue === undefined ? 'neutral' : toneOf(unitValue), value: unitValue }
     const division = findDivision(activeUnit, activeDivision)
     const base: Crumb[] = [{ ...group, value: undefined, tone: 'neutral' }, unitCrumb]
     if (!division) return base
     return [...base, { label: division.nombre, href: path, tone: toneOf(division.resultado), value: typeof division.resultado === 'number' ? division.resultado : undefined }]
-  }, [location.pathname, activeUnit, activeDivision])
+  }, [location.pathname, activeUnit, activeDivision, period])
 
   const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
 
@@ -122,7 +129,7 @@ export function AppShell() {
               <span className="hidden flex-1 text-left sm:block">Buscar unidad, división o vista</span>
               <kbd className="hidden rounded-[7px] bg-sunken px-2 py-0.5 text-xs font-semibold sm:block">{isMac ? '⌘ K' : 'Ctrl K'}</kbd>
             </button>
-            <span className="hidden h-11 shrink-0 items-center gap-2 rounded-ctl bg-surface px-3.5 text-sm font-semibold shadow-card md:flex"><Icon name="calendar" className="h-[18px] w-[18px] text-ink-soft" />S1 · 2026</span>
+            <PeriodSelector />
             <span className="hidden shrink-0 items-center gap-2 text-[12.5px] text-ink-soft xl:flex"><span className="h-2 w-2 rounded-full bg-fav" />Sinc. {formatBukSyncDateLabel(bukOrganization.generatedAt)}</span>
           </header>
 

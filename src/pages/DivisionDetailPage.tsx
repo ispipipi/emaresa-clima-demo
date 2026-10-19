@@ -3,14 +3,18 @@ import { DivisionCompare } from '../components/DivisionCompare'
 import { Icon } from '../components/IconSprite'
 import { KpiCard, ScoreCard } from '../components/KpiCard'
 import { PageHeader } from '../components/PageHeader'
+import { PeriodUnavailableState } from '../components/PeriodState'
 import { Card, Delta, EmptyState, ErrorState, Meter, StatusChip, btnBrandOutline, btnOutline, btnPrimary } from '../components/ui'
 import { clima, findDivision, findUnit, unitPath } from '../lib/clima'
 import { formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
 import { FAVORABLE_THRESHOLD, GROUP_RESULT, unitRows } from '../lib/insights'
 import { unitReportsForUnit } from '../lib/reports'
+import { periodLabel, usePeriod } from '../lib/period'
+import { periodUnitData } from '../lib/periodData'
 
 export function DivisionDetailPage() {
   const { nombre, division } = useParams()
+  const { period } = usePeriod()
   const unidad = findUnit(nombre)
   const data = findDivision(nombre, division)
 
@@ -22,19 +26,24 @@ export function DivisionDetailPage() {
     )
   }
 
+  const periodData = periodUnitData(nombre, period)
+  if (!periodData?.hasDivisionData) {
+    return <PeriodUnavailableState title={`No hay detalle de división para ${periodLabel(period)}`}>La ficha de {unidad.unidad} sí puede tener resultados agregados para el período seleccionado, pero todavía no existe información S2 por razón social para mostrar en este nivel.</PeriodUnavailableState>
+  }
+
   const result = typeof data.resultado === 'number' ? data.resultado : undefined
   const tone = toneOf(result)
   const participation = typeof data.respondidos === 'number' && data.enviados > 0 ? (data.respondidos / data.enviados) * 100 : undefined
   const siblings = [...unidad.divisiones].sort((a, b) => (typeof b.resultado === 'number' ? b.resultado : -1) - (typeof a.resultado === 'number' ? a.resultado : -1))
   const unitRank = unitRows.find((item) => item.name === unidad.unidad)?.rank
-  const report = unitReportsForUnit(unidad.unidad)[0]
+  const report = unitReportsForUnit(unidad.unidad, period)[0]
 
   return (
     <>
       <PageHeader
         tone={tone}
         chipLabel={result === undefined ? 'Sin datos' : undefined}
-        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="layer" className="h-[17px] w-[17px]" />División legal · Tercer nivel · Semestre 1 · 2026</span>}
+        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="layer" className="h-[17px] w-[17px]" />División legal · Tercer nivel · {periodLabel(period)}</span>}
         title={data.nombre}
         subtitle={<>Unidad <Link to={unitPath(unidad.unidad)} className="font-bold text-brand-deep hover:underline">{unidad.unidad}</Link> · {formatPlain(data.enviados)} personas invitadas · {formatPlain(data.respondidos)} respondieron</>}
         actions={

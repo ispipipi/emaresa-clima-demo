@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon, type IconName } from '../components/IconSprite'
 import { Card, StatusChip, btnBrandOutline, btnPrimary } from '../components/ui'
+import { periodShortLabel, usePeriod } from '../lib/period'
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 
@@ -61,16 +62,18 @@ function ScopeColumn({ title, items, positive }: { title: string; items: string[
 }
 
 export function ManualPage() {
+  const { period } = usePeriod()
+
   return (
     <>
       <section className="animate-rise overflow-hidden rounded-card shadow-card" style={{ background: 'radial-gradient(640px 280px at 0% 0%, var(--brand-soft), transparent 70%), var(--surface)' }}>
         <div className="grid gap-9 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_430px] lg:items-center">
           <div>
-            <p className="text-[13px] font-bold text-brand-deep">Guía de uso · S1 2026</p>
+            <p className="text-[13px] font-bold text-brand-deep">Guía de uso · S1 / S2 2026</p>
             <h1 className="mt-2.5 max-w-[18ch] text-[clamp(28px,4vw,42px)] font-extrabold leading-[1.14] tracking-[-0.04em]">Cómo usar el reporte de Clima Organizacional</h1>
             <p className="mt-3.5 max-w-[50ch] text-base leading-[25px] text-ink-soft">Una guía breve para leer resultados, abrir indicadores, recorrer la jerarquía organizacional y descargar los informes oficiales.</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              {([['eye', 'Solo lectura'], ['calendar', 'Semestre 1 · 2026'], ['lock', 'Sin datos personales']] as [IconName, string][]).map(([icon, label]) => (
+              {([['eye', 'Solo lectura'], ['calendar', `Período elegido · ${periodShortLabel(period)}`], ['lock', 'Sin datos personales']] as [IconName, string][]).map(([icon, label]) => (
                 <span key={label} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-surface px-3 text-[13px] font-semibold text-ink-soft shadow-[inset_0_0_0_1px_var(--line)]"><Icon name={icon} className="h-[15px] w-[15px]" />{label}</span>
               ))}
             </div>

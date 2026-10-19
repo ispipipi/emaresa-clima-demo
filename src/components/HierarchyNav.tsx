@@ -3,6 +3,8 @@ import { Icon, toneIcon, type IconName } from './IconSprite'
 import { bukOrganization, formatBukSyncDateLabel } from '../lib/buk'
 import { clima, divisionPath, findUnit, unitPath } from '../lib/clima'
 import { formatPercent, toneMeta, toneOf } from '../lib/format'
+import { periodShortLabel, usePeriod } from '../lib/period'
+import { periodUnitData } from '../lib/periodData'
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path}`
 
@@ -14,13 +16,14 @@ interface HierarchyNavProps {
   onClose: () => void
 }
 
-const navItems: { label: string; to: string; icon: IconName; value?: string }[] = [
-  { label: 'Resumen ejecutivo', to: '/', icon: 'grid', value: formatPercent(clima.global.resultado_global) },
-  { label: 'Gestión Corporativa', to: '/gestion-corporativa', icon: 'bars', value: formatPercent(clima.global.resultado_gestion_corporativa) },
+const navItems: { label: string; to: string; icon: IconName }[] = [
+  { label: 'Resumen ejecutivo', to: '/', icon: 'grid' },
+  { label: 'Gestión Corporativa', to: '/gestion-corporativa', icon: 'bars' },
   { label: 'Organización BUK', to: '/organizacion', icon: 'org' },
 ]
 
 export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate, onClose }: HierarchyNavProps) {
+  const { period } = usePeriod()
   // En escritorio el modo compacto oculta etiquetas; en el drawer móvil siempre se ven.
   const hideLabel = collapsed ? 'lg:hidden' : ''
   const itemBase = `flex h-11 items-center gap-3 rounded-ctl px-3 text-sm font-semibold transition ${collapsed ? 'lg:justify-center lg:px-0' : ''}`
@@ -39,7 +42,7 @@ export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate
         </div>
         <div className={`flex justify-between px-1.5 pt-2.5 text-[12.5px] font-semibold text-ink-soft ${hideLabel}`}>
           <span>Clima organizacional</span>
-          <span>S1 · 2026</span>
+          <span>{periodShortLabel(period)}</span>
         </div>
       </div>
 
@@ -51,7 +54,8 @@ export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate
               <NavLink to={item.to} end onClick={onNavigate} title={item.label} className={({ isActive }) => itemClass(isActive)}>
                 <Icon name={item.icon} className="h-5 w-5 shrink-0" />
                 <span className={`min-w-0 flex-1 truncate ${hideLabel}`}>{item.label}</span>
-                {item.value ? <span className={`text-[12.5px] tabular-nums text-ink-soft ${hideLabel}`}>{item.value}</span> : null}
+                {period === 'S1-2026' && item.to === '/' ? <span className={`text-[12.5px] tabular-nums text-ink-soft ${hideLabel}`}>{formatPercent(clima.global.resultado_global)}</span> : null}
+                {period === 'S1-2026' && item.to === '/gestion-corporativa' ? <span className={`text-[12.5px] tabular-nums text-ink-soft ${hideLabel}`}>{formatPercent(clima.global.resultado_gestion_corporativa)}</span> : null}
               </NavLink>
             </li>
           ))}
@@ -70,13 +74,15 @@ export function HierarchyNav({ collapsed, activeUnit, activeDivision, onNavigate
           {clima.global.ranking_unidades.map((ranking) => {
             const unit = findUnit(ranking.unidad)
             const active = activeUnit === ranking.unidad
-            const tone = toneOf(ranking.resultado)
+            const periodData = periodUnitData(ranking.unidad, period)
+            const result = periodData?.hasData ? periodData.unit.resultado_global : period === 'S1-2026' ? ranking.resultado : undefined
+            const tone = result === undefined ? 'neutral' : toneOf(result)
             return (
               <li key={ranking.unidad}>
                 <Link to={unitPath(ranking.unidad)} onClick={onNavigate} aria-current={active && !activeDivision ? 'page' : undefined} className={`flex h-[34px] items-center gap-2.5 rounded-[10px] px-3 text-[13.5px] transition ${active ? 'bg-brand-soft font-bold text-brand-deep' : 'text-ink hover:bg-sunken'}`}>
                   <Icon name={toneIcon[tone]} className="h-3.5 w-3.5 shrink-0" />
                   <span className="min-w-0 flex-1 truncate">{ranking.unidad}</span>
-                  <span className={`text-[12.5px] font-semibold tabular-nums ${active ? '' : 'text-ink-soft'}`}>{formatPercent(ranking.resultado)}</span>
+                  {result !== undefined ? <span className={`text-[12.5px] font-semibold tabular-nums ${active ? '' : 'text-ink-soft'}`}>{formatPercent(result)}</span> : null}
                 </Link>
                 {active && unit ? (
                   <ul className="ml-[22px] flex flex-col py-0.5">

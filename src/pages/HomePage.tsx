@@ -4,12 +4,20 @@ import { KpiCard, ScoreCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
 import { StripPlot } from '../components/StripPlot'
 import { UnitMap } from '../components/UnitMap'
+import { PeriodUnavailableState } from '../components/PeriodState'
 import { Card, Delta, Meter, SectionHeader, StatusChip } from '../components/ui'
 import { clima } from '../lib/clima'
 import { formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
 import { FAVORABLE_THRESHOLD, statusCounts, unitRows } from '../lib/insights'
+import { hasGroupPeriodData } from '../lib/periodData'
+import { usePeriod } from '../lib/period'
 
 export function HomePage() {
+  const { period } = usePeriod()
+  if (!hasGroupPeriodData(period)) {
+    return <PeriodUnavailableState title="El consolidado del Grupo para S2 aún no está cargado">El período S2 está seleccionado, pero todavía no existe un dataset consolidado para las 15 unidades. La información S2 disponible hoy corresponde a Construcción y se puede revisar desde su ficha.</PeriodUnavailableState>
+  }
+
   const { global } = clima
   const tone = toneOf(global.resultado_global)
   const counts = statusCounts()

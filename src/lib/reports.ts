@@ -1,3 +1,5 @@
+import type { ClimatePeriod } from './period'
+
 export interface ReportDefinition {
   id: string
   title: string
@@ -59,7 +61,18 @@ export function unitReportUrl(unidad: string) {
   return `${import.meta.env.BASE_URL}reportes/unidades/${unitReportFile(unidad)}`
 }
 
-export function unitReportsForUnit(unidad: string): UnitReportDefinition[] {
+const s2ReportsByUnit: Record<string, UnitReportDefinition> = {
+  Construcción: {
+    id: 'construccion-s2-2026',
+    label: 'Informe S2 2026',
+    period: 'S2-2026',
+    file: 'construccion-s2-2026.pdf',
+    description: 'Formato oficial comparativo S1, S2 y Global 2026.',
+    current: true,
+  },
+}
+
+export function unitReportsForUnit(unidad: string, period: ClimatePeriod = 'S1-2026'): UnitReportDefinition[] {
   const historical: UnitReportDefinition = {
     id: `${unitReportFile(unidad).replace('.pdf', '')}`,
     label: 'Informe S1 2026',
@@ -68,19 +81,5 @@ export function unitReportsForUnit(unidad: string): UnitReportDefinition[] {
     description: 'Informe histórico del primer semestre.',
   }
 
-  if (unidad === 'Construcción') {
-    return [
-      {
-        id: 'construccion-s2-2026',
-        label: 'Informe S2 2026',
-        period: 'S2-2026',
-        file: 'construccion-s2-2026.pdf',
-        description: 'Formato oficial comparativo S1, S2 y Global 2026.',
-        current: true,
-      },
-      historical,
-    ]
-  }
-
-  return [historical]
+  return period === 'S2-2026' ? (s2ReportsByUnit[unidad] ? [s2ReportsByUnit[unidad]] : []) : [historical]
 }

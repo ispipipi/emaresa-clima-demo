@@ -5,31 +5,41 @@ import { Icon } from '../components/IconSprite'
 import { KpiCard, ScoreCard } from '../components/KpiCard'
 import { PageHeader } from '../components/PageHeader'
 import { QuestionList } from '../components/QuestionList'
+import { PeriodUnavailableState } from '../components/PeriodState'
 import { StripPlot } from '../components/StripPlot'
 import { Card, Delta, ErrorState, Meter, SectionHeader, StatusChip, btnOutline, btnPrimary } from '../components/ui'
 import { clima, divisionPath, findUnit } from '../lib/clima'
 import { formatParticipation, formatPercent, formatPlain, toneMeta, toneOf } from '../lib/format'
 import { FAVORABLE_THRESHOLD, GROUP_RESULT, unitRows } from '../lib/insights'
+import { periodLabel, usePeriod } from '../lib/period'
+import { periodUnitData } from '../lib/periodData'
 import { unitReportsForUnit } from '../lib/reports'
 import { getResponseDistribution, getResponseDistributionPeriod, getResponseDistributionSource } from '../lib/responseDistribution'
 
 export function UnitDetailPage() {
   const { nombre } = useParams()
-  const unidad = findUnit(nombre)
+  const { period } = usePeriod()
+  const baseUnidad = findUnit(nombre)
 
-  if (!unidad) {
+  if (!baseUnidad) {
     return (
       <ErrorState title="No encontramos esa unidad" actions={<Link to="/" className={btnPrimary}>Volver al resumen</Link>}>
-        La dirección no corresponde a una unidad del S1 2026. Revisa el nombre o búscala con el buscador de la barra superior.
+        La dirección no corresponde a una unidad disponible. Revisa el nombre o búscala con el buscador de la barra superior.
       </ErrorState>
     )
   }
 
+  const periodData = periodUnitData(nombre, period)
+  if (!periodData?.hasData) {
+    return <PeriodUnavailableState title={`No hay datos ${periodLabel(period)} para ${baseUnidad.unidad}`}>El selector de período funciona para toda la aplicación, pero todavía no existe una carga de resultados {periodLabel(period)} para esta unidad. No mostramos el S1 como si fuera S2.</PeriodUnavailableState>
+  }
+
+  const unidad = periodData.unit
   const row = unitRows.find((item) => item.name === unidad.unidad)
-  const reports = unitReportsForUnit(unidad.unidad)
-  const distribution = getResponseDistribution(unidad.unidad)
+  const reports = unitReportsForUnit(unidad.unidad, period)
+  const distribution = periodData.responseDistribution ?? getResponseDistribution(unidad.unidad)
   const source = getResponseDistributionSource()
-  const period = getResponseDistributionPeriod()
+  const distributionPeriod = period === 'S2-2026' ? period : getResponseDistributionPeriod()
   const tone = toneOf(unidad.resultado_global)
   const noData = (value?: number) => value === undefined
   const missingText = 'Porcentaje informado por la fuente oficial. Si no aparece una cifra, debe incorporarse en la próxima carga de datos.'
@@ -38,12 +48,9 @@ export function UnitDetailPage() {
     <>
       <PageHeader
         tone={tone}
-        eyebrow={<>
-          <span className="inline-flex items-center gap-2"><Icon name="unit" className="h-[17px] w-[17px]" />Unidad de negocio · Semestre 1 · 2026</span>
-          {reports.some((report) => report.current) ? <span className="inline-flex h-7 items-center rounded-full bg-fav-soft px-3 text-[12px] font-bold text-fav-ink">Informe S2 2026 disponible</span> : null}
-        </>}
+        eyebrow={<span className="inline-flex items-center gap-2"><Icon name="unit" className="h-[17px] w-[17px]" />Unidad de negocio · {periodLabel(period)}</span>}
         title={unidad.unidad}
-        subtitle={`${formatPlain(unidad.enviadas)} personas invitadas · ${unidad.divisiones.length === 1 ? '1 división legal' : `${unidad.divisiones.length} divisiones legales`}`}
+        subtitle={periodData.hasDivisionData ? `${formatPlain(unidad.enviadas)} personas invitadas · ${unidad.divisiones.length === 1 ? '1 división legal' : `${unidad.divisiones.length} divisiones legales`}` : `${formatPlain(unidad.enviadas)} personas invitadas · resultados agregados de la unidad`}
         actions={
           <>
             {reports.map((report, index) => (
@@ -62,23 +69,31 @@ export function UnitDetailPage() {
           <ScoreCard
             title="Resultado de la unidad"
             value={unidad.resultado_global}
-            comparisons={[
+            comparisons={period === 'S1-2026' ? [
               { label: `vs. Grupo (${formatPercent(GROUP_RESULT)})`, value: <Delta value={unidad.resultado_global - GROUP_RESULT} /> },
               { label: 'vs. Favorable (80)', value: <Delta value={unidad.resultado_global - FAVORABLE_THRESHOLD} /> },
               { label: 'Puesto', value: `${row?.rank ?? '—'} de ${unitRows.length}` },
+            ] : [
+              { label: 'vs. Favorable (80)', value: <Delta value={unidad.resultado_global - FAVORABLE_THRESHOLD} /> },
+              { label: 'Participación', value: formatPercent(unidad.participacion) },
+              { label: 'Período', value: 'S2 · 2026' },
             ]}
-            explanation={`Resultado de clima de ${unidad.unidad} en el semestre 1 de 2026.`}
-            rows={[
+            explanation={`Resultado de clima de ${unidad.unidad} en ${periodLabel(period)}.`}
+            rows={period === 'S1-2026' ? [
               { label: 'Resultado', value: formatPercent(unidad.resultado_global) },
               { label: 'Grupo', value: formatPercent(GROUP_RESULT) },
               { label: 'Divisiones', value: formatPlain(unidad.divisiones.length) },
+            ] : [
+              { label: 'Resultado', value: formatPercent(unidad.resultado_global) },
+              { label: 'Participación', value: formatPercent(unidad.participacion) },
+              { label: 'Período', value: 'S2 · 2026' },
             ]}
           />
         }
       />
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard
+        {periodData.hasCorporateData ? <KpiCard
           label="Gestión Corporativa"
           value={unidad.resultado_gestion_corporativa}
           detail="Indicador separado del clima"
@@ -87,16 +102,16 @@ export function UnitDetailPage() {
           rows={[
             { label: 'Clima de la unidad', value: formatPercent(unidad.resultado_global) },
             { label: 'Diferencia', value: `${formatPlain(Math.round((unidad.resultado_gestion_corporativa - unidad.resultado_global) * 10) / 10)} pts` },
-            { label: 'Período', value: 'S1 · 2026' },
+            { label: 'Período', value: periodLabel(period) },
           ]}
           explanation="Percepción de la gestión corporativa reportada para esta unidad."
-        />
+        /> : null}
         <KpiCard
           label="Participación"
           value={unidad.participacion}
           detail={`${formatPlain(unidad.respondidas)} de ${formatPlain(unidad.enviadas)} respuestas`}
           icon="people"
-          delta={<Delta value={unidad.participacion - clima.global.participacion} suffix=" pts vs. Grupo" />}
+          delta={period === 'S1-2026' ? <Delta value={unidad.participacion - clima.global.participacion} suffix=" pts vs. Grupo" /> : <span className="text-ink-soft">S2 · unidad seleccionada</span>}
           visual={<Meter value={unidad.participacion} color={toneMeta[toneOf(unidad.participacion)].fill} marks />}
           rows={[
             { label: 'Respondidas', value: formatPlain(unidad.respondidas) },
@@ -104,7 +119,7 @@ export function UnitDetailPage() {
             { label: 'Cobertura', value: unidad.unidad },
           ]}
           explanation="Cobertura de respuestas de la unidad respecto del universo invitado."
-          extra={
+          extra={periodData.hasDivisionData ? (
             <div>
               <p className="mb-2 text-[13px] font-bold text-ink-soft">Por división legal</p>
               <ul className="flex flex-col gap-2.5">
@@ -116,7 +131,7 @@ export function UnitDetailPage() {
                 ))}
               </ul>
             </div>
-          }
+          ) : <p className="text-[13px] leading-5 text-ink-soft">El informe {periodLabel(period)} disponible informa la unidad. El desglose por división se incorporará cuando se cargue el detalle S2.</p>}
         />
         <KpiCard
           label="Respuestas neutrales"
@@ -126,11 +141,11 @@ export function UnitDetailPage() {
           detail={noData(distribution.neutrales) ? 'No disponible en el snapshot' : 'Ni de acuerdo ni en desacuerdo'}
           icon="people"
           visual={noData(distribution.neutrales) ? <span aria-hidden="true" className="block h-2 rounded-full" style={{ background: 'repeating-linear-gradient(90deg,var(--line-soft) 0 8px,var(--sunken) 8px 16px)' }} /> : <Meter value={distribution.neutrales as number} color="var(--ink-3)" />}
-          delta={<span className="text-ink-soft">{noData(distribution.neutrales) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${period}`}</span>}
+          delta={<span className="text-ink-soft">{noData(distribution.neutrales) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${distributionPeriod}`}</span>}
           rows={[
             { label: 'Definición', value: 'Ni de acuerdo ni en desacuerdo' },
             { label: 'Fuente', value: noData(distribution.neutrales) ? 'No informada' : source },
-            { label: 'Período', value: period },
+            { label: 'Período', value: distributionPeriod },
           ]}
           explanation={missingText}
         />
@@ -142,27 +157,27 @@ export function UnitDetailPage() {
           detail={noData(distribution.detractores) ? 'No disponible en el snapshot' : 'En desacuerdo o totalmente en desacuerdo'}
           icon="bars"
           visual={noData(distribution.detractores) ? <span aria-hidden="true" className="block h-2 rounded-full" style={{ background: 'repeating-linear-gradient(90deg,var(--line-soft) 0 8px,var(--sunken) 8px 16px)' }} /> : <Meter value={distribution.detractores as number} color="var(--ink-3)" />}
-          delta={<span className="text-ink-soft">{noData(distribution.detractores) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${period}`}</span>}
+          delta={<span className="text-ink-soft">{noData(distribution.detractores) ? 'Se incorpora en la próxima carga del informe oficial' : `${source} · ${distributionPeriod}`}</span>}
           rows={[
             { label: 'Definición', value: 'En desacuerdo o totalmente en desacuerdo' },
             { label: 'Fuente', value: noData(distribution.detractores) ? 'No informada' : source },
-            { label: 'Período', value: period },
+            { label: 'Período', value: distributionPeriod },
           ]}
           explanation={missingText}
         />
       </div>
 
-      <Card className="p-6">
+      {period === 'S1-2026' ? <Card className="p-6">
         <SectionHeader title="Frente al Grupo y a las demás unidades" subtitle="Cada punto es una unidad de negocio · S1 2026 · pasa el cursor para ver el nombre" />
         <StripPlot highlight={unidad.unidad} />
-      </Card>
+      </Card> : <Card className="p-6"><SectionHeader title="Comparación del período" subtitle="La comparación S2 del Grupo se habilitará cuando exista el consolidado de todas las unidades." /><p className="mt-4 text-sm leading-6 text-ink-soft">La ficha muestra los resultados S2 de {unidad.unidad} sin compararlos contra un ranking parcial.</p></Card>}
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <CategoryBars categorias={unidad.categorias} benchmark={clima.global.categorias} />
+        <CategoryBars categorias={unidad.categorias} benchmark={period === 'S1-2026' ? clima.global.categorias : undefined} />
         <QuestionList title="Preguntas" subtitle={undefined} preguntas={unidad.top10} alternatePreguntas={unidad.bottom10} />
       </div>
 
-      <Card className="p-6">
+      {periodData.hasDivisionData ? <Card className="p-6">
         <SectionHeader title="Divisiones legales" subtitle="Abre una razón social para ver el tercer nivel" action={<span className="inline-flex h-[30px] items-center rounded-full bg-sunken px-3 text-[12.5px] font-semibold text-ink-soft">Tercer nivel</span>} />
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left">
@@ -187,7 +202,7 @@ export function UnitDetailPage() {
             </tbody>
           </table>
         </div>
-      </Card>
+      </Card> : <Card className="p-6"><SectionHeader title="Divisiones legales" subtitle="El detalle del período seleccionado aún no está disponible en este nivel." /><p className="mt-4 text-sm leading-6 text-ink-soft">Este informe {periodLabel(period)} presenta el resultado agregado de {unidad.unidad}. La tabla de divisiones se habilitará cuando se incorpore el detalle S2 por razón social.</p></Card>}
 
       <ActionPlanSuggestions preguntas={unidad.bottom10} />
     </>
