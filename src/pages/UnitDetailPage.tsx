@@ -7,7 +7,6 @@ import { Icon } from '../components/IconSprite'
 import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
 import { SectionHeader } from '../components/SectionHeader'
-import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
 import { divisionPath, findUnit } from '../lib/clima'
 import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
@@ -41,25 +40,24 @@ export function UnitDetailPage() {
 
   return (
     <AppShell activeUnit={unidad.unidad}>
-      <Card className="grid min-w-0 gap-7 p-6 lg:grid-cols-[1.06fr_1fr] lg:p-7">
+      <Card className="now-detail-header flex min-w-0 flex-wrap items-center justify-between gap-6 p-5 lg:p-6">
         <div className="min-w-0">
-          <p className="text-xs font-medium tracking-[0.02em] text-teal">Unidad de negocio · Semestre 1 · 2026</p>
-          <h1 className="mt-2.5 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
-          <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Resultado de clima con {divisionSummary}.</p>
-          <div className="mt-5">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-ghost">Informes de clima</p>
-            <div className="flex flex-wrap gap-2">
-              {unitReports.map((report) => (
-                <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-bold transition ${report.current ? 'bg-navy text-white hover:bg-teal' : 'bg-surface-accent text-teal hover:bg-[#EAF6F7]'}`} title={report.description}>
-                  <Icon name="doc" className="h-[15px] w-[15px]" />{report.label}
-                </a>
-              ))}
-            </div>
-          </div>
+          <p className="now-eyebrow">Unidad de negocio · Semestre 1 · 2026</p>
+          <h1 className="mt-2 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
+          <p className="mt-2 max-w-[48ch] text-[13px] leading-[1.6] text-ink-soft">Resultado de clima con {divisionSummary}.</p>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
-          <SegmentedGauge value={unidad.resultado_global} label="Resultado de la unidad" />
-          <div><StatusPill tone={tone} /><p className="mt-3 max-w-[22ch] text-[13px] leading-6 text-ink-soft">El resultado global excluye el indicador separado de Gestión Corporativa.</p></div>
+        <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
+          <div className="flex items-center gap-3 rounded-xl bg-surface-sunken px-4 py-3">
+            <div><p className="text-[9px] font-bold uppercase tracking-[0.14em] text-ink-faint">Resultado</p><p className="mt-1 font-display text-[28px] font-extrabold leading-none tabular-nums text-navy-ink">{formatPercent(unidad.resultado_global)}</p></div>
+            <StatusPill tone={tone} />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {unitReports.map((report) => (
+              <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-bold transition ${report.current ? 'bg-navy text-white hover:bg-teal' : 'bg-surface-accent text-teal hover:bg-[#EAF6F7]'}`} title={report.description}>
+                <Icon name="doc" className="h-[15px] w-[15px]" />{report.label}
+              </a>
+            ))}
+          </div>
         </div>
       </Card>
 

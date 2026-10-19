@@ -3,90 +3,86 @@ import { Card } from '../components/Card'
 import { CategoryBars } from '../components/CategoryBars'
 import { KpiCard } from '../components/KpiCard'
 import { QuestionList } from '../components/QuestionList'
-import { SegmentedGauge } from '../components/SegmentedGauge'
-import { formatPercent, formatPlain, toneLabel, toneMeta, toneOf } from '../lib/format'
+import { formatPercent, formatPlain, toneLabel, toneOf } from '../lib/format'
 import { clima } from '../lib/clima'
 
 export function HomePage() {
   const { global } = clima
   const favorableUnits = global.ranking_unidades.filter((unit) => unit.resultado >= 80).length
   const heroTone = toneOf(global.resultado_global)
-  const heroMeta = toneMeta[heroTone]
 
   return (
     <AppShell>
-      <div className="grid min-w-0 gap-[14px] xl:grid-cols-[1.06fr_1fr]">
-        <Card className="flex min-w-0 flex-col gap-5 p-6 lg:p-7" animationDelay={0}>
+      <Card className="now-filterbar flex flex-wrap items-center justify-between gap-4 px-4 py-3.5" animationDelay={0}>
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="now-focus-pill">★ Foco ejecutivo</span>
           <div className="min-w-0">
-            <p className="text-xs font-medium tracking-[0.02em] text-teal">Encuesta Pulso de Clima · Semestre 1 · 2026</p>
-            <h1 className="mt-2.5 max-w-[24ch] font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">Clima organizacional del Grupo Emaresa</h1>
+            <p className="truncate text-[13px] font-semibold text-navy-ink">Clima organizacional del Grupo Emaresa</p>
+            <p className="mt-0.5 text-[11px] text-ink-soft">Resultado global · {toneLabel[heroTone]}</p>
           </div>
-          <div className="flex flex-wrap items-center gap-7">
-            <SegmentedGauge value={global.resultado_global} label="Global" />
-            <div className="min-w-[190px] flex-1">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold" style={{ color: heroMeta.text, backgroundColor: heroMeta.background }}>
-                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: heroMeta.dot }} />
-                {toneLabel[heroTone]}
-              </span>
-              <p className="mt-3.5 max-w-[46ch] text-[13.5px] leading-[1.65] text-ink-soft">Una lectura ejecutiva del pulso de clima, con navegación desde la compañía hasta la división legal disponible.</p>
-            </div>
-          </div>
-        </Card>
-
-        <div className="grid grid-cols-2 gap-[14px]">
-          <KpiCard
-            label="Gestión Corporativa"
-            value={global.resultado_gestion_corporativa}
-            detail="Indicador separado"
-            sparkline={[74, 78, 79, 80, 79, global.resultado_gestion_corporativa]}
-            icon="bars"
-            rows={[
-              { label: 'Resultado clima', value: formatPercent(global.resultado_global) },
-              { label: 'Diferencia', value: formatPercent(global.resultado_gestion_corporativa - global.resultado_global) },
-              { label: 'Fuente', value: 'Informe corporativo' },
-            ]}
-            explanation="Percepción de la gestión de la organización, mostrada fuera del resultado de clima global."
-          />
-          <KpiCard
-            label="Participación"
-            value={global.participacion}
-            detail={`${formatPlain(global.respondidas)} de ${formatPlain(global.enviadas)} respuestas`}
-            sparkline={[70, 74, 78, 82, 84, global.participacion]}
-            icon="people"
-            rows={[
-              { label: 'Respondidas', value: formatPlain(global.respondidas) },
-              { label: 'Enviadas', value: formatPlain(global.enviadas) },
-              { label: 'Cobertura', value: 'Grupo Emaresa' },
-            ]}
-            explanation="Porcentaje de personas que respondieron la encuesta respecto del universo invitado."
-          />
-          <KpiCard
-            label="Unidades de negocio"
-            value={global.ranking_unidades.length}
-            detail="Con resultado agregado"
-            asPercent={false}
-            neutral
-            sparkline={[11, 12, 13, 14, 15]}
-            icon="unit"
-            rows={[
-              { label: 'Unidades', value: formatPlain(global.ranking_unidades.length) },
-              { label: 'Favorables', value: `${favorableUnits} unidades` },
-              { label: 'Nivel siguiente', value: 'División legal' },
-            ]}
-            explanation="Unidades de negocio con resultado disponible en el dataset de clima."
-          />
-          <KpiCard
-            label="Categorías medidas"
-            value={global.categorias.length}
-            detail="Lectura temática"
-            asPercent={false}
-            neutral
-            sparkline={[3, 4, 4, 5, 5]}
-            icon="layer"
-            rows={global.categorias.map((category) => ({ label: category.categoria, value: formatPercent(category.resultado) }))}
-            explanation="Categorías que componen el resultado de clima organizacional."
-          />
         </div>
+        <div className="flex shrink-0 items-center gap-2 text-[11px]">
+          <span className="now-filter-label">PERÍODO:</span>
+          <span className="now-filter-value">S1 · 2026</span>
+          <span className="now-filter-status"><span /> BUK conectado</span>
+        </div>
+      </Card>
+
+      <div className="grid min-w-0 grid-cols-2 gap-[14px] xl:grid-cols-4">
+        <KpiCard
+          label="Resultado global"
+          value={global.resultado_global}
+          detail="Clima consolidado del grupo"
+          sparkline={[72, 75, 77, 79, 78, global.resultado_global]}
+          icon="ring"
+          rows={[
+            { label: 'Resultado', value: formatPercent(global.resultado_global) },
+            { label: 'Estado', value: toneLabel[heroTone] },
+            { label: 'Periodo', value: 'S1 - 2026' },
+          ]}
+          explanation="Resultado global de clima organizacional, calculado sobre las unidades de negocio disponibles."
+        />
+        <KpiCard
+          label="Gestión Corporativa"
+          value={global.resultado_gestion_corporativa}
+          detail="Indicador separado"
+          sparkline={[74, 78, 79, 80, 79, global.resultado_gestion_corporativa]}
+          icon="bars"
+          rows={[
+            { label: 'Resultado clima', value: formatPercent(global.resultado_global) },
+            { label: 'Diferencia', value: formatPercent(global.resultado_gestion_corporativa - global.resultado_global) },
+            { label: 'Fuente', value: 'Informe corporativo' },
+          ]}
+          explanation="Percepción de la gestión de la organización, mostrada fuera del resultado de clima global."
+        />
+        <KpiCard
+          label="Participación"
+          value={global.participacion}
+          detail={`${formatPlain(global.respondidas)} de ${formatPlain(global.enviadas)} respuestas`}
+          sparkline={[70, 74, 78, 82, 84, global.participacion]}
+          icon="people"
+          rows={[
+            { label: 'Respondidas', value: formatPlain(global.respondidas) },
+            { label: 'Enviadas', value: formatPlain(global.enviadas) },
+            { label: 'Cobertura', value: 'Grupo Emaresa' },
+          ]}
+          explanation="Porcentaje de personas que respondieron la encuesta respecto del universo invitado."
+        />
+        <KpiCard
+          label="Unidades de negocio"
+          value={global.ranking_unidades.length}
+          detail="Con resultado agregado"
+          asPercent={false}
+          neutral
+          sparkline={[11, 12, 13, 14, 15]}
+          icon="unit"
+          rows={[
+            { label: 'Unidades', value: formatPlain(global.ranking_unidades.length) },
+            { label: 'Favorables', value: `${favorableUnits} unidades` },
+            { label: 'Nivel siguiente', value: 'División legal' },
+          ]}
+          explanation="Unidades de negocio con resultado disponible en el dataset de clima."
+        />
       </div>
 
       <div className="grid min-w-0 gap-[14px] xl:grid-cols-[1fr_1.04fr]">

@@ -9,7 +9,7 @@ interface HierarchyNavProps {
   onNavigate?: () => void
 }
 
-const primaryLink = 'flex items-center gap-[11px] rounded-xl px-3 py-2.5 text-[13px] font-semibold transition hover:bg-white/10'
+const primaryLink = 'now-nav-link flex items-center gap-[11px] rounded-xl px-3 py-2.5 text-[13px] font-semibold transition hover:bg-white/10'
 
 export function HierarchyNav({ activeUnit, activeDivision, onNavigate }: HierarchyNavProps) {
   const primary = [
@@ -21,6 +21,7 @@ export function HierarchyNav({ activeUnit, activeDivision, onNavigate }: Hierarc
 
   return (
     <nav aria-label="Navegación principal">
+      <p className="now-nav-section mx-3 mb-2 mt-1">Análisis & clima</p>
       <div className="flex flex-col gap-[3px]">
         {primary.map((item) => (
           <Link key={item.href} to={item.href} onClick={onNavigate} className={`${primaryLink} ${item.active ? 'bg-white/[0.12] text-white' : 'text-white/[0.66]'}`}>
@@ -31,7 +32,7 @@ export function HierarchyNav({ activeUnit, activeDivision, onNavigate }: Hierarc
         ))}
       </div>
 
-      <p className="mx-3 mb-2 mt-6 text-[9.5px] font-bold uppercase tracking-[0.2em] text-white/[0.36]">Unidades de negocio</p>
+      <p className="now-nav-section mx-3 mb-2 mt-6">Unidades de negocio</p>
       <div className="flex flex-col gap-px">
         {clima.global.ranking_unidades.map((ranking) => {
           const unit = findUnit(ranking.unidad)
