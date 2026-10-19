@@ -32,6 +32,8 @@ La documentación funcional, el handoff de diseño y los archivos de referencia 
 
 La aplicación navega desde Grupo Emaresa hasta la unidad de negocio y la división legal disponible en el dataset. Los PDF originales entregados para esta demo están publicados en `public/reportes/` y se descargan sin transformación desde las vistas correspondientes.
 
+Construcción incorpora además el informe oficial **S2 2026**, con el mismo formato del documento entregado: comparación S1/S2/Global, categorías, eNPS, ranking de preguntas y planes de acción. Se puede regenerar con `npm run report:s2:construccion`.
+
 ## Integración BUK
 
 La organización se sincroniza durante el build desde `https://emaresa.buk.cl/api/v1/chile` usando `BUK_API_TOKEN` como secreto de GitHub Actions. El snapshot publicado contiene solo empresas, áreas, subáreas y conteos agregados de personas activas; no contiene nombres, RUT, correos ni fichas personales. La API Key no se guarda en el repositorio ni se expone como variable `VITE_*`.

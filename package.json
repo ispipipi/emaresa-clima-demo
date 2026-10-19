@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "tsc -b --noEmit",
     "sync:buk": "node scripts/buk/sync-buk.mjs",
+    "report:s2:construccion": "python3 scripts/reports/generate-construction-s2-report.py",
     "preview": "vite preview"
   },
   "dependencies": {

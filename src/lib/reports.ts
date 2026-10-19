@@ -7,6 +7,15 @@ export interface ReportDefinition {
   cover: string
 }
 
+export interface UnitReportDefinition {
+  id: string
+  label: string
+  period: string
+  file: string
+  description: string
+  current?: boolean
+}
+
 export const reportDefinitions = {
   corporate: {
     id: 'gestion-corporativa-s1-2026',
@@ -48,4 +57,30 @@ export function unitReportFile(unidad: string) {
 
 export function unitReportUrl(unidad: string) {
   return `${import.meta.env.BASE_URL}reportes/unidades/${unitReportFile(unidad)}`
+}
+
+export function unitReportsForUnit(unidad: string): UnitReportDefinition[] {
+  const historical: UnitReportDefinition = {
+    id: `${unitReportFile(unidad).replace('.pdf', '')}`,
+    label: 'Informe S1 2026',
+    period: 'S1-2026',
+    file: unitReportFile(unidad),
+    description: 'Informe histórico del primer semestre.',
+  }
+
+  if (unidad === 'Construcción') {
+    return [
+      {
+        id: 'construccion-s2-2026',
+        label: 'Informe S2 2026',
+        period: 'S2-2026',
+        file: 'construccion-s2-2026.pdf',
+        description: 'Formato oficial comparativo S1, S2 y Global 2026.',
+        current: true,
+      },
+      historical,
+    ]
+  }
+
+  return [historical]
 }

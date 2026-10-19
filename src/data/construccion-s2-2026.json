@@ -1,0 +1,94 @@
+{
+  "period": "S2-2026",
+  "unit": "Construcción",
+  "applicationDate": "1 al 30 de agosto",
+  "author": "Equipo de Desarrollo Organizacional",
+  "global2026": {
+    "promoters": 85.1,
+    "participation": 80,
+    "neutrals": 10.65,
+    "detractors": 4.26
+  },
+  "semester1": {
+    "promoters": 88.82,
+    "participation": 77.27,
+    "neutrals": 7.65,
+    "detractors": 3.53
+  },
+  "semester2": {
+    "promoters": 81.75,
+    "participation": 82.61,
+    "neutrals": 13.33,
+    "detractors": 4.91
+  },
+  "categories": [
+    { "name": "Bienestar y equilibrio", "semester1": 93.14, "semester2": 83.33, "global2026": 88.24 },
+    { "name": "Colaboración", "semester1": 84.32, "semester2": 77.19, "global2026": 80.76 },
+    { "name": "Equidad y reconocimiento", "semester1": 85.3, "semester2": 73.69, "global2026": 79.5 },
+    { "name": "Liderazgo y comunicación", "semester1": 88.97, "semester2": 83.56, "global2026": 86.27 },
+    { "name": "Orgullo y propósito", "semester1": 94.12, "semester2": 94.74, "global2026": 94.43 }
+  ],
+  "enps": {
+    "score": 55,
+    "promotersPercent": 65.79,
+    "neutralPercent": 23.68,
+    "detractorsPercent": 10.53,
+    "distribution": { "0": 0, "1": 0, "2": 1, "3": 0, "4": 0, "5": 1, "6": 2, "7": 3, "8": 6, "9": 8, "10": 17 }
+  },
+  "top10": [
+    { "question": "Me identifico con los valores y el propósito de la empresa", "category": "Orgullo y propósito", "semester1": 94.12, "semester2": 100, "global2026": 97.06 },
+    { "question": "Cuento con flexibilidad razonable para responder a imprevistos personales", "category": "Bienestar y equilibrio", "semester1": 97.06, "semester2": 92.11, "global2026": 94.59 },
+    { "question": "Soy tratado/a con respeto independientemente de mi cargo o función", "category": "Equidad y reconocimiento", "semester1": 94.12, "semester2": 92.11, "global2026": 93.12 },
+    { "question": "Mi jefatura confía en el equipo para hacer bien su trabajo sin supervisión excesiva", "category": "Liderazgo y comunicación", "semester1": 94.12, "semester2": 92.11, "global2026": 93.12 },
+    { "question": "Me siento orgulloso cuando veo los logros de mi trabajo y de mi equipo", "category": "Orgullo y propósito", "semester1": 94.12, "semester2": 89.47, "global2026": 91.8 },
+    { "question": "Puedo mantener un equilibrio saludable entre mi vida personal y laboral", "category": "Bienestar y equilibrio", "semester1": 91.18, "semester2": 84.21, "global2026": 87.7 },
+    { "question": "Confío en que los líderes de mi unidad de negocio actúan de manera ética", "category": "Liderazgo y comunicación", "semester1": 94.12, "semester2": 81.58, "global2026": 87.5 },
+    { "question": "En mi equipo existe colaboración y apoyo mutuo", "category": "Colaboración", "semester1": 91.18, "semester2": 81.58, "global2026": 86.38 },
+    { "question": "Me siento cómodo/a planteando ideas y preocupaciones en mi equipo", "category": "Colaboración", "semester1": 91.18, "semester2": 81.58, "global2026": 86.38 },
+    { "question": "Mi jefatura comunica claramente cuáles son las prioridades y expectativas de mi trabajo", "category": "Liderazgo y comunicación", "semester1": 88.24, "semester2": 81.58, "global2026": 84.91 }
+  ],
+  "bottom5": [
+    { "question": "Mi jefatura reconoce el buen trabajo y el esfuerzo", "category": "Equidad y reconocimiento", "semester1": 91.18, "semester2": 76.32, "global2026": 83.75 },
+    { "question": "Mi carga de trabajo es sostenible en el tiempo", "category": "Bienestar y equilibrio", "semester1": 91.18, "semester2": 73.68, "global2026": 82.43 },
+    { "question": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo", "category": "Liderazgo y comunicación", "semester1": 79.41, "semester2": 78.95, "global2026": 79.18 },
+    { "question": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos", "category": "Colaboración", "semester1": 70.59, "semester2": 68.42, "global2026": 69.51 },
+    { "question": "Considero que mi compensación es justa en relación con mis responsabilidades", "category": "Equidad y reconocimiento", "semester1": 70.59, "semester2": 52.63, "global2026": 61.61 }
+  ],
+  "actionPlans": [
+    {
+      "question": "Mi jefatura reconoce el buen trabajo y el esfuerzo",
+      "plans": [
+        "Incorporar espacios formales de reconocimiento en reuniones de equipo, destacando logros específicos y comportamientos alineados a valores.",
+        "Entregar retroalimentación positiva individual de manera oportuna cuando se observen esfuerzos o resultados destacados."
+      ]
+    },
+    {
+      "question": "Mi carga de trabajo es sostenible en el tiempo",
+      "plans": [
+        "Analizar periódicamente volumen de tareas y responsabilidades del equipo, identificando sobrecargas estructurales.",
+        "Priorizar actividades estratégicas y eliminar o postergar tareas de bajo impacto para equilibrar exigencia operativa."
+      ]
+    },
+    {
+      "question": "Mi jefatura comunica oportunamente el desempeño de la empresa y los cambios que pueden afectar mi trabajo",
+      "plans": [
+        "Incorporar un espacio fijo en las reuniones de equipo para informar resultados relevantes del negocio y explicar de manera directa cómo estos impactan la operación del área.",
+        "Generar comunicados breves y periódicos que resuman cambios organizacionales, decisiones estratégicas o ajustes operativos que puedan influir en el trabajo diario."
+      ]
+    },
+    {
+      "question": "Las áreas colaboran entre sí para facilitar el cumplimiento de los compromisos con clientes internos y externos",
+      "plans": [
+        "Coordinar reuniones interáreas para revisar procesos críticos, identificar fricciones y acordar mejoras conjuntas.",
+        "Definir acuerdos de servicio internos claros que establezcan responsabilidades y tiempos de respuesta entre áreas."
+      ]
+    },
+    {
+      "question": "Considero que mi compensación es justa en relación con mis responsabilidades",
+      "plans": [
+        "Explicar de manera transparente los criterios que determinan estructura salarial, incrementos o bonos, vinculándolos a responsabilidades y resultados.",
+        "Revisar periódicamente la coherencia entre responsabilidades reales del cargo y su compensación, levantando ajustes cuando corresponda."
+      ]
+    }
+  ]
+}

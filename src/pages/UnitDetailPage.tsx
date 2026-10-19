@@ -11,7 +11,7 @@ import { SegmentedGauge } from '../components/SegmentedGauge'
 import { StatusPill } from '../components/StatusPill'
 import { divisionPath, findUnit } from '../lib/clima'
 import { formatParticipation, formatPercent, formatPlain, resultTone } from '../lib/format'
-import { unitReportFile, unitReportUrl } from '../lib/reports'
+import { unitReportsForUnit } from '../lib/reports'
 import { getResponseDistribution, getResponseDistributionPeriod, getResponseDistributionSource } from '../lib/responseDistribution'
 
 export function UnitDetailPage() {
@@ -30,7 +30,7 @@ export function UnitDetailPage() {
     )
   }
 
-  const reportFile = unitReportFile(unidad.unidad)
+  const unitReports = unitReportsForUnit(unidad.unidad)
   const tone = resultTone(unidad.resultado_global)
   const responseDistribution = getResponseDistribution(unidad.unidad)
   const distributionPeriod = getResponseDistributionPeriod()
@@ -46,7 +46,16 @@ export function UnitDetailPage() {
           <p className="text-xs font-medium tracking-[0.02em] text-teal">Unidad de negocio · Semestre 1 · 2026</p>
           <h1 className="mt-2.5 break-words font-display text-[clamp(24px,2.5vw,32px)] font-bold leading-[1.14] tracking-[-0.026em] text-navy-ink">{unidad.unidad}</h1>
           <p className="mt-3 max-w-[48ch] text-[13.5px] leading-[1.65] text-ink-soft">Resultado de clima con {divisionSummary}.</p>
-          <a href={unitReportUrl(unidad.unidad)} download={reportFile} className="mt-5 inline-flex items-center gap-2.5 rounded-xl bg-navy px-4 py-2.5 text-[12.5px] font-bold text-white transition hover:bg-teal"><Icon name="doc" className="h-[15px] w-[15px]" />Generar informe de clima</a>
+          <div className="mt-5">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-ghost">Informes de clima</p>
+            <div className="flex flex-wrap gap-2">
+              {unitReports.map((report) => (
+                <a key={report.id} href={`${import.meta.env.BASE_URL}reportes/unidades/${report.file}`} download={report.file} className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-[12px] font-bold transition ${report.current ? 'bg-navy text-white hover:bg-teal' : 'bg-surface-accent text-teal hover:bg-[#EAF6F7]'}`} title={report.description}>
+                  <Icon name="doc" className="h-[15px] w-[15px]" />{report.label}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-7 rounded-2xl bg-surface-sunken p-5 sm:justify-start">
           <SegmentedGauge value={unidad.resultado_global} label="Resultado de la unidad" />

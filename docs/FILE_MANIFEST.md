@@ -22,6 +22,7 @@
 - `src/data/clima.json`: dataset canónico consumido actualmente por la app.
 - `src/data/response-distribution.json`: distribución versionada de respuestas neutrales y detractoras por unidad y período.
 - `src/data/action-plans.json`: biblioteca oficial de 15 preguntas y 30 acciones estandarizadas para 2026.
+- `src/data/construccion-s2-2026.json`: datos oficiales de Construcción para el informe comparativo S2 2026.
 - `src/data/corporativo.ts`: resultados de Gestión Corporativa.
 - `src/data/generated/buk-organization.json`: snapshot agregado de BUK, generado por la sincronización.
 
@@ -29,6 +30,7 @@
 
 - `docs/reference/action-plans/Base Planes de acción 2026.pdf`: fuente entregada por EMARESA.
 - `docs/reference/reports/A&J S1-2026.pdf`: informe oficial usado para validar el desglose de neutrales y detractores.
+- `docs/reference/reports/Construccion S2-2026.pdf`: informe oficial de referencia para el formato S2 2026.
 - `src/components/ActionPlanSuggestions.tsx`: asociación automática de planes a las cinco preguntas con menor resultado.
 
 ## Informes oficiales para descarga
@@ -70,7 +72,9 @@
 ## Generación de informes por unidad
 
 - `scripts/reports/generate-unit-reports.py`: genera los 15 informes S1 2026, incluyendo la quinta prioridad y sus planes oficiales.
+- `scripts/reports/generate-construction-s2-report.py`: genera el informe de Construcción S2 2026 con comparación S1/S2/Global, eNPS y planes de acción.
 - `public/reportes/unidades/*.pdf`: informes descargables por unidad de negocio.
+- `public/reportes/unidades/construccion-s2-2026.pdf`: informe S2 2026 disponible desde la unidad Construcción.
 
 ## Estilos y build
 
